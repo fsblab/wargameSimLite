@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://dv1mxdgg8rq55"]
+
+[ext_resource type="PackedScene" uid="uid://bi2u1tmqsvm6x" path="res://assets/models/civilianCar.dae" id="1_lbmqs"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_qipqb"]
+size = Vector3(2.10626, 1.98384, 5.85549)
+
+[node name="CivilianCarUnit" type="Node3D"]
+
+[node name="CivilianCarModel" parent="." instance=ExtResource("1_lbmqs")]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+
+[node name="RigidBody3D" type="RigidBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.922483, 0.0593565)
+shape = SubResource("BoxShape3D_qipqb")

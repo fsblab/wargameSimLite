@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://p2s0psumeapt"]
+
+[ext_resource type="PackedScene" uid="uid://c36xiwgk0t08q" path="res://assets/models/infantry.dae" id="1_fy4qm"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_djem6"]
+size = Vector3(0.73567, 1.82274, 0.4946)
+
+[node name="InfantryUnit" type="Node3D"]
+
+[node name="InfantryModel" parent="." instance=ExtResource("1_fy4qm")]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+
+[node name="RigidBody3D" type="RigidBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.932464, 0.0726156)
+shape = SubResource("BoxShape3D_djem6")

@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://bpjv04uveq3i"]
+
+[ext_resource type="PackedScene" uid="uid://chfsd60ggdjw" path="res://assets/models/mortar.dae" id="1_u8kdc"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_t6nyn"]
+size = Vector3(2.12446, 1.40621, 4.05626)
+
+[node name="MortarUnit" type="Node3D"]
+
+[node name="MortarModel" parent="." instance=ExtResource("1_u8kdc")]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+
+[node name="RigidBody3D" type="RigidBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.562807, 0.349058)
+shape = SubResource("BoxShape3D_t6nyn")

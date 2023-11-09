@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://uro5ihl0imn6"]
+
+[ext_resource type="PackedScene" uid="uid://cy7nvng6i7o0h" path="res://assets/models/plane.dae" id="1_om1s0"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_tkhbw"]
+size = Vector3(11.6909, 1, 18.8481)
+
+[node name="PlaneUnit" type="Node3D"]
+
+[node name="PlaneModel" parent="." instance=ExtResource("1_om1s0")]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+
+[node name="RigidBody3D" type="RigidBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.664134, 0.729233)
+shape = SubResource("BoxShape3D_tkhbw")

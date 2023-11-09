@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://bq204l4dwxplj"]
+
+[ext_resource type="PackedScene" uid="uid://cmtowdxk03tqv" path="res://assets/models/logistics.dae" id="1_lbqa8"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_if3sx"]
+size = Vector3(2.00599, 2.75822, 6.51706)
+
+[node name="LogisticsUnit" type="Node3D"]
+
+[node name="LogisticsModel" parent="." instance=ExtResource("1_lbqa8")]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+
+[node name="RigidBody3D" type="RigidBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0)
+shape = SubResource("BoxShape3D_if3sx")

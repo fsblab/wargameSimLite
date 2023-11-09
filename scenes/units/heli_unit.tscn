@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://b5aq1v3dcif1i"]
+
+[ext_resource type="PackedScene" uid="uid://djkroaip1ukmx" path="res://assets/models/helicopter.dae" id="1_0krtx"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_pngtf"]
+size = Vector3(2.06918, 5.75534, 17.0456)
+
+[node name="HeliUnit" type="Node3D"]
+
+[node name="HelicopterModel" parent="." instance=ExtResource("1_0krtx")]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+
+[node name="RigidBody3D" type="RigidBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.87192, 1.73197)
+shape = SubResource("BoxShape3D_pngtf")
