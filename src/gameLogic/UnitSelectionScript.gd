@@ -24,7 +24,7 @@ func selectUnit(unit : Node3D):
 
 func selectMultipleUnitsThroughRigidBody(unitsRB : Array):
 	for u in unitsRB:
-		selectUnit(u.get_parent().get_parent())
+		selectUnit(u.get_parent())
 
 
 func deselectUnit(unit : Node3D):

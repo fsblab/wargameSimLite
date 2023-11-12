@@ -3,8 +3,9 @@
 [ext_resource type="Script" path="res://src/camera/CameraScript.gd" id="1_ax1wl"]
 [ext_resource type="Script" path="res://src/camera/ZoomInOutScript.gd" id="2_3e58m"]
 [ext_resource type="Script" path="res://src/camera/RotationScript.gd" id="3_msccp"]
-[ext_resource type="Script" path="res://src/camera/DrawSelectionRectangleSelect.gd" id="4_fnijy"]
+[ext_resource type="Script" path="res://src/camera/DrawSelectionRectangleScript.gd" id="4_fnijy"]
 [ext_resource type="Script" path="res://src/camera/RightClickToMoveUnitScript.gd" id="5_kmv6q"]
+
 
 [node name="Camera" type="Node3D"]
 script = ExtResource("1_ax1wl")

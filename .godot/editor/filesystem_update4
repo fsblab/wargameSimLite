@@ -1,0 +1,5 @@
+res://scenes/units/tank_unit.tscn
+res://src/units/Unit.gd
+res://scenes/root.tscn
+res://scenes/functionality_test.tscn
+res://src/units/TankBaseScript.gd

@@ -11,35 +11,37 @@ size = Vector3(2.00048, 1.35567, 5.77985)
 [node name="TankUnit" type="Node3D"]
 script = ExtResource("1_8aeab")
 
-[node name="Model" parent="." instance=ExtResource("2_qwhd3")]
+[node name="RB" type="RigidBody3D" parent="."]
+collision_mask = 3
+axis_lock_angular_z = true
 
-[node name="Tag" type="MeshInstance3D" parent="Model"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RB"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.744508, -0.114756)
+shape = SubResource("BoxShape3D_hxlk4")
+
+[node name="Model" parent="RB" instance=ExtResource("2_qwhd3")]
+
+[node name="Tag" type="MeshInstance3D" parent="RB/Model"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.5, 0, 2, 0)
-skeleton = NodePath("../..")
+skeleton = NodePath("../../..")
 
-[node name="Board" type="Sprite3D" parent="Model/Tag"]
+[node name="Board" type="Sprite3D" parent="RB/Model/Tag"]
 transform = Transform3D(5, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 modulate = Color(1, 1, 1, 0.501961)
 billboard = 1
 texture = ExtResource("2_1dmes")
 
-[node name="Symbol" type="Sprite3D" parent="Model/Tag/Board"]
+[node name="Symbol" type="Sprite3D" parent="RB/Model/Tag/Board"]
 transform = Transform3D(0.2, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 offset = Vector2(-50, 0)
 billboard = 1
 transparent = false
 texture = ExtResource("3_fa0bn")
 
-[node name="Label" type="Label3D" parent="Model/Tag/Board"]
+[node name="Label" type="Label3D" parent="RB/Model/Tag/Board"]
 transform = Transform3D(0.2, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 billboard = 1
 text = "TANK"
-
-[node name="RigidBody3D" type="RigidBody3D" parent="Model"]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Model/RigidBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.744508, -0.114756)
-shape = SubResource("BoxShape3D_hxlk4")
 
 [node name="MoveToMarker" type="Marker3D" parent="."]
 

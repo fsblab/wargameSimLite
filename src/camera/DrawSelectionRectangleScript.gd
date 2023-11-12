@@ -38,14 +38,9 @@ func _ready():
 	colliderShape = ConvexPolygonShape3D.new()
 	
 	ar = Area3D.new()
-	rb = RigidBody3D.new()
-	#rb.contact_monitor = true
-	#rb.max_contacts_reported = 100
-	#rb.collision_layer = 1
-	add_child(rb)
+	add_child(ar)
 	cs = CollisionShape3D.new()
 	cs.shape = colliderShape
-	rb.add_child(ar)
 	ar.add_child(cs)
 	
 	rayLength = 100
@@ -64,7 +59,7 @@ func _draw():
 func _physics_process(_delta):
 	if skip:
 		var results = ar.get_overlapping_bodies()
-		print(results)
+		
 		if !results.is_empty():
 			UnitSelectionScript.selectMultipleUnitsThroughRigidBody(results)
 		
