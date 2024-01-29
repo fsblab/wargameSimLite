@@ -1,0 +1,61 @@
+[gd_scene format=3 uid="uid://bhdfvvpsojuun"]
+
+[node name="Settings" type="Control"]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="CenterContainer"]
+custom_minimum_size = Vector2(512, 256)
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="ScrollContainer" type="ScrollContainer" parent="CenterContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 8
+
+[node name="SettingsLabel" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 32
+text = "Settings"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="VSync" type="CheckButton" parent="CenterContainer/PanelContainer/MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "VSync"
+
+[node name="BackButton" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 10
+text = "Back"

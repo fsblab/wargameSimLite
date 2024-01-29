@@ -1,8 +1,8 @@
 extends Node3D
 
 
-var rotationScalar
-var rootNode
+var rotationScalar: int
+var rootNode: Node3D
 
 func _ready():
 	rotationScalar = 2

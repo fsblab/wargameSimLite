@@ -7,6 +7,12 @@ func _ready():
 
 
 func _physics_process(delta):
-	if (marker.position - unitrb.position).length() > .1:
-		if rotateToTarget(delta):
-			moveToTarget(delta)
+	if self in UnitSelectionScript.selectedUnits and Input.is_key_pressed(KEY_E):
+		taskHandler.clearTaskQueue()
+		marker.global_position = model.global_position
+	
+	if taskHandler.taskFinished:
+		if taskHandler.taskQueue.is_empty():
+			return
+		taskHandler.pop(delta)
+	taskHandler.callTask()

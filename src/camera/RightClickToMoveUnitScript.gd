@@ -1,15 +1,17 @@
 extends Node3D
 
 
-var mousePosition : Vector2
-var viewport : Viewport
-var cam : Camera3D
-var spaceState
+var mousePosition: Vector2
+var viewport: Viewport
+var cam: Camera3D
+var spaceState: PhysicsDirectSpaceState3D
 
-var origin : Vector3
-var targetPosition : Vector3
-var query : PhysicsRayQueryParameters3D
-var result
+var origin: Vector3
+var targetPosition: Vector3
+var query: PhysicsRayQueryParameters3D
+var result: Dictionary
+
+var task: TaskHandler
 
 
 # Called when the node enters the scene tree for the first time.
@@ -34,6 +36,7 @@ func _physics_process(_delta):
 		query = PhysicsRayQueryParameters3D.create(origin, targetPosition, 2, [self])
 		result = spaceState.intersect_ray(query)
 		
-		#NOTE: get_child(1) always has to be the marker
 		for unit in UnitSelectionScript.selectedUnits:
-			unit.get_child(1).position = result.position
+			var tSetTarget = Task.new(Callable(unit, "setTarget"), [result.position], false)
+			var tRotateAndMove = Task.new(Callable(unit, "rotateAndMove"), [], true)
+			unit.taskHandler.pushMultipleTasks([tSetTarget, tRotateAndMove])

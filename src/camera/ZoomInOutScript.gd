@@ -1,13 +1,12 @@
 extends Node3D
 
-var viewport
-var mousePosition
-var cam
-var rootNode
+var viewport: Viewport
+var mousePosition: Vector2
+var cam: Camera3D
+var rootNode: Node3D
 
-var origin
-var direction
-var zoomScalar
+var direction: Vector3
+var zoomScalar: int
 
 
 # Called when the node enters the scene tree for the first time.

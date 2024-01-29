@@ -13,7 +13,7 @@ dest_files=["res://.godot/imported/tank.glb-76f82d6558c0a3a4a1c3aff1a8d57a88.scn
 
 [params]
 
-nodes/root_type="Node3D"
+nodes/root_type="CharacterBody3D"
 nodes/root_name="Scene Root"
 nodes/apply_root_scale=true
 nodes/root_scale=1.0

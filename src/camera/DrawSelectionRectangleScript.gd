@@ -1,26 +1,26 @@
 extends Control
 
-var from : Vector2
-var to : Vector2
-var xfromyto : Vector2
-var xtoyfrom : Vector2
-var viewport : Viewport
-var cam : Camera3D
+var from: Vector2
+var to: Vector2
+var xfromyto: Vector2
+var xtoyfrom: Vector2
+var viewport: Viewport
+var cam: Camera3D
 
-var origin : Vector3
-var pointA : Vector3
-var pointB : Vector3
-var pointC : Vector3
-var pointD : Vector3
+var origin: Vector3
+var pointA: Vector3
+var pointB: Vector3
+var pointC: Vector3
+var pointD: Vector3
 
-var colliderShape : ConvexPolygonShape3D
+var colliderShape: ConvexPolygonShape3D
 
-var rb : RigidBody3D
-var cs : CollisionShape3D
-var ar : Area3D
+var rb: RigidBody3D
+var cs: CollisionShape3D
+var ar: Area3D
 
-var rayLength : int
-var skip : bool
+var rayLength: int
+var skip: bool
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

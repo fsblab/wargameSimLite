@@ -1,48 +1,59 @@
-[gd_scene load_steps=6 format=3 uid="uid://c5uu0vftn204q"]
+[gd_scene load_steps=9 format=3 uid="uid://c5uu0vftn204q"]
 
 [ext_resource type="Script" path="res://src/units/TankBaseScript.gd" id="1_8aeab"]
 [ext_resource type="Texture2D" uid="uid://dcjhvaexk3ivd" path="res://assets/sprites/unitsymbols/board.png" id="2_1dmes"]
 [ext_resource type="PackedScene" uid="uid://dytfodmumhva7" path="res://assets/models/tank.glb" id="2_qwhd3"]
 [ext_resource type="Texture2D" uid="uid://dg580l05f63wm" path="res://assets/sprites/unitsymbols/tank.png" id="3_fa0bn"]
+[ext_resource type="Script" path="res://src/units/ModelScript.gd" id="3_s46ic"]
+[ext_resource type="Script" path="res://src/units/MarkerScript.gd" id="6_sao7d"]
+[ext_resource type="Texture2D" uid="uid://ccxrod55siap2" path="res://assets/sprites/unitsymbols/marker.png" id="7_w2eke"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_hxlk4"]
 size = Vector3(2.00048, 1.35567, 5.77985)
 
 [node name="TankUnit" type="Node3D"]
+process_mode = 1
 script = ExtResource("1_8aeab")
 
-[node name="RB" type="RigidBody3D" parent="."]
+[node name="Model" parent="." instance=ExtResource("2_qwhd3")]
 collision_mask = 3
-axis_lock_angular_z = true
+script = ExtResource("3_s46ic")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="RB"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.744508, -0.114756)
-shape = SubResource("BoxShape3D_hxlk4")
-
-[node name="Model" parent="RB" instance=ExtResource("2_qwhd3")]
-
-[node name="Tag" type="MeshInstance3D" parent="RB/Model"]
+[node name="Tag" type="MeshInstance3D" parent="Model"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.5, 0, 2, 0)
+cast_shadow = 0
 skeleton = NodePath("../../..")
 
-[node name="Board" type="Sprite3D" parent="RB/Model/Tag"]
-transform = Transform3D(5, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+[node name="Board" type="Sprite3D" parent="Model/Tag"]
+transform = Transform3D(3, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 modulate = Color(1, 1, 1, 0.501961)
 billboard = 1
+render_priority = -3
 texture = ExtResource("2_1dmes")
 
-[node name="Symbol" type="Sprite3D" parent="RB/Model/Tag/Board"]
-transform = Transform3D(0.2, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
-offset = Vector2(-50, 0)
-billboard = 1
-transparent = false
-texture = ExtResource("3_fa0bn")
-
-[node name="Label" type="Label3D" parent="RB/Model/Tag/Board"]
+[node name="Label" type="Label3D" parent="Model/Tag/Board"]
 transform = Transform3D(0.2, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 billboard = 1
 text = "TANK"
 
+[node name="Symbol" type="Sprite3D" parent="Model/Tag"]
+offset = Vector2(-56, 0)
+billboard = 1
+texture = ExtResource("3_fa0bn")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Model"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.744508, -0.114756)
+shape = SubResource("BoxShape3D_hxlk4")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="Model"]
+navigation_layers = 8
+avoidance_enabled = true
+avoidance_mask = 3
+
 [node name="MoveToMarker" type="Marker3D" parent="."]
 
-[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+[node name="Marker" type="Decal" parent="MoveToMarker"]
+size = Vector3(1, 1, 1)
+texture_albedo = ExtResource("7_w2eke")
+emission_energy = 35.0
+script = ExtResource("6_sao7d")

@@ -1,7 +1,7 @@
 extends Node3D
 
 
-var movementVelocity
+var movementVelocity: int
 
 
 # Called when the node enters the scene tree for the first time.

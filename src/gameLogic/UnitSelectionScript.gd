@@ -1,11 +1,11 @@
 extends Control
 
 
-var selectedUnits : Array:
+var selectedUnits: Array:
 	get: return selectedUnits
-var unitNotSelectedMaterial : StandardMaterial3D:
+var unitNotSelectedMaterial: StandardMaterial3D:
 	get: return unitNotSelectedMaterial
-var unitSelectedMaterial : StandardMaterial3D:
+var unitSelectedMaterial: StandardMaterial3D:
 	get: return unitSelectedMaterial
 
 
@@ -18,16 +18,16 @@ func _ready():
 	unitSelectedMaterial.vertex_color_use_as_albedo = true
 
 
-func selectUnit(unit : Node3D):
+func selectUnit(unit: Node3D):
 	selectedUnits.append(unit)
 
 
-func selectMultipleUnitsThroughRigidBody(unitsRB : Array):
-	for u in unitsRB:
-		selectUnit(u.get_parent())
+func selectMultipleUnitsThroughRigidBody(unitsCB: Array):
+	for unit in unitsCB:
+		selectUnit(unit.get_parent())
 
 
-func deselectUnit(unit : Node3D):
+func deselectUnit(unit: Node3D):
 	selectedUnits.erase(unit)
 
 
