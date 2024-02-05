@@ -1,7 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://ce3p6w0r0d5sb"]
+[gd_scene load_steps=4 format=3 uid="uid://cobt3qumr1gs2"]
 
 [ext_resource type="Script" path="res://src/menu/PauseMenuScript.gd" id="1_ihpp7"]
-[ext_resource type="Script" path="res://src/menu/MenuCanvasScript.gd" id="2_neykd"]
+[ext_resource type="Script" path="res://src/menu/PauseMenuCanvasScript.gd" id="2_uo5hj"]
 [ext_resource type="Script" path="res://src/menu/SettingsScript.gd" id="3_l2x8q"]
 
 [node name="PauseMenu" type="Control"]
@@ -21,7 +21,7 @@ grow_vertical = 2
 expand_mode = 1
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
-script = ExtResource("2_neykd")
+script = ExtResource("2_uo5hj")
 
 [node name="Pause" type="Control" parent="CanvasLayer"]
 layout_mode = 3
@@ -180,12 +180,18 @@ text = "Show FPS: "
 
 [node name="FPS" type="OptionButton" parent="CanvasLayer/Settings/CenterContainer/PanelContainer/MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
-item_count = 2
+item_count = 5
 selected = 0
-popup/item_0/text = "OFF"
+popup/item_0/text = "Off"
 popup/item_0/id = 0
-popup/item_1/text = "ON"
+popup/item_1/text = "Top Left"
 popup/item_1/id = 1
+popup/item_2/text = "Top Right"
+popup/item_2/id = 2
+popup/item_3/text = "Bottom Left"
+popup/item_3/id = 3
+popup/item_4/text = "Bottom Right"
+popup/item_4/id = 4
 
 [node name="BackButton" type="Button" parent="CanvasLayer/Settings/CenterContainer/PanelContainer/MarginContainer/ScrollContainer/VBoxContainer"]
 custom_minimum_size = Vector2(128, 0)

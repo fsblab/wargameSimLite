@@ -23,7 +23,21 @@ func goBackFromSettings():
 
 
 func backToMainMenu():
-	pass
+	get_tree().paused = false
+	
+	var root = get_tree().get_root()
+	var current: Node
+	
+	for i in range(1, root.get_child_count()):
+		current = root.get_child(i)
+		current.queue_free()
+	
+	var back = ResourceLoader.load("res://scenes/root.tscn")
+	
+	current = back.instantiate()
+	root.add_child(current)
+	
+	get_tree().set_current_scene(current)
 
 
 func quitToDesktop():
