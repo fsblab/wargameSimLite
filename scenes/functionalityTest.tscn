@@ -1,5 +1,6 @@
-[gd_scene load_steps=23 format=3 uid="uid://du1okd6qb4ckx"]
+[gd_scene load_steps=24 format=3 uid="uid://du1okd6qb4ckx"]
 
+[ext_resource type="Script" path="res://src/misc/lightsScript.gd" id="1_1vjc6"]
 [ext_resource type="PackedScene" uid="uid://c5uu0vftn204q" path="res://scenes/units/tank_unit.tscn" id="1_kjtia"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_a7q1h"]
@@ -76,9 +77,10 @@ points = PackedVector3Array(0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, -0.5, 0.5, 0.5,
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_edudr")
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." groups=["Lights"]]
 transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
 shadow_enabled = true
+script = ExtResource("1_1vjc6")
 
 [node name="TankUnit" parent="." instance=ExtResource("1_kjtia")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.066673, 0)

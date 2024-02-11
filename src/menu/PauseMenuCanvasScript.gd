@@ -19,7 +19,6 @@ func toSettings():
 
 func goBackFromSettings():
 	main.visible = true
-	settings.visible = false
 
 
 func backToMainMenu():
@@ -28,11 +27,11 @@ func backToMainMenu():
 	var root = get_tree().get_root()
 	var current: Node
 	
-	for i in range(1, root.get_child_count()):
+	for i in range(2, root.get_child_count()):
 		current = root.get_child(i)
 		current.queue_free()
 	
-	var back = ResourceLoader.load("res://scenes/root.tscn")
+	var back = ResourceLoader.load("res://scenes/start.tscn")
 	
 	current = back.instantiate()
 	root.add_child(current)

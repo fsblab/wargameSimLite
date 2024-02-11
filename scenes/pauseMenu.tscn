@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://src/menu/PauseMenuScript.gd" id="1_ihpp7"]
 [ext_resource type="Script" path="res://src/menu/PauseMenuCanvasScript.gd" id="2_uo5hj"]
-[ext_resource type="Script" path="res://src/menu/SettingsScript.gd" id="3_l2x8q"]
+[ext_resource type="PackedScene" uid="uid://b63mipdhbgvn2" path="res://scenes/settings.tscn" id="3_q1ugs"]
 
 [node name="PauseMenu" type="Control"]
 layout_mode = 3
@@ -84,127 +84,11 @@ layout_mode = 2
 size_flags_vertical = 3
 text = "Quit to Desktop"
 
-[node name="Settings" type="Control" parent="CanvasLayer"]
+[node name="Settings" parent="CanvasLayer" instance=ExtResource("3_q1ugs")]
 visible = false
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-script = ExtResource("3_l2x8q")
-
-[node name="CenterContainer" type="CenterContainer" parent="CanvasLayer/Settings"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/Settings/CenterContainer"]
-custom_minimum_size = Vector2(512, 256)
-layout_mode = 2
-
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Settings/CenterContainer/PanelContainer"]
-layout_mode = 2
-theme_override_constants/margin_left = 16
-theme_override_constants/margin_top = 16
-theme_override_constants/margin_right = 16
-theme_override_constants/margin_bottom = 16
-
-[node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/Settings/CenterContainer/PanelContainer/MarginContainer"]
-layout_mode = 2
-
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Settings/CenterContainer/PanelContainer/MarginContainer/ScrollContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-theme_override_constants/separation = 8
-
-[node name="SettingsLabel" type="Label" parent="CanvasLayer/Settings/CenterContainer/PanelContainer/MarginContainer/ScrollContainer/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-theme_override_font_sizes/font_size = 32
-text = "Settings"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="VSyncHBox" type="HBoxContainer" parent="CanvasLayer/Settings/CenterContainer/PanelContainer/MarginContainer/ScrollContainer/VBoxContainer"]
-layout_mode = 2
-theme_override_constants/separation = 8
-
-[node name="VSyncLabel" type="Label" parent="CanvasLayer/Settings/CenterContainer/PanelContainer/MarginContainer/ScrollContainer/VBoxContainer/VSyncHBox"]
-layout_mode = 2
-text = "VSync: "
-
-[node name="VSync" type="OptionButton" parent="CanvasLayer/Settings/CenterContainer/PanelContainer/MarginContainer/ScrollContainer/VBoxContainer/VSyncHBox"]
-layout_mode = 2
-item_count = 4
-selected = 0
-popup/item_0/text = "Disabled"
-popup/item_0/id = 0
-popup/item_1/text = "Adaptive"
-popup/item_1/id = 1
-popup/item_2/text = "Enabled"
-popup/item_2/id = 2
-popup/item_3/text = "Mailbox"
-popup/item_3/id = 3
-
-[node name="HBoxContainer2" type="HBoxContainer" parent="CanvasLayer/Settings/CenterContainer/PanelContainer/MarginContainer/ScrollContainer/VBoxContainer"]
-layout_mode = 2
-
-[node name="AALabel" type="Label" parent="CanvasLayer/Settings/CenterContainer/PanelContainer/MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer2"]
-layout_mode = 2
-text = "Anti-Aliasing: "
-
-[node name="AA" type="OptionButton" parent="CanvasLayer/Settings/CenterContainer/PanelContainer/MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer2"]
-layout_mode = 2
-item_count = 4
-selected = 0
-popup/item_0/text = "Disabled"
-popup/item_0/id = 0
-popup/item_1/text = "2x MSAA"
-popup/item_1/id = 1
-popup/item_2/text = "4x MSAA"
-popup/item_2/id = 2
-popup/item_3/text = "8x MSAA"
-popup/item_3/id = 3
-
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Settings/CenterContainer/PanelContainer/MarginContainer/ScrollContainer/VBoxContainer"]
-layout_mode = 2
-
-[node name="FPSLabel" type="Label" parent="CanvasLayer/Settings/CenterContainer/PanelContainer/MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-text = "Show FPS: "
-
-[node name="FPS" type="OptionButton" parent="CanvasLayer/Settings/CenterContainer/PanelContainer/MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-item_count = 5
-selected = 0
-popup/item_0/text = "Off"
-popup/item_0/id = 0
-popup/item_1/text = "Top Left"
-popup/item_1/id = 1
-popup/item_2/text = "Top Right"
-popup/item_2/id = 2
-popup/item_3/text = "Bottom Left"
-popup/item_3/id = 3
-popup/item_4/text = "Bottom Right"
-popup/item_4/id = 4
-
-[node name="BackButton" type="Button" parent="CanvasLayer/Settings/CenterContainer/PanelContainer/MarginContainer/ScrollContainer/VBoxContainer"]
-custom_minimum_size = Vector2(128, 0)
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 10
-text = "Back"
 
 [connection signal="pressed" from="CanvasLayer/Pause/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/ContinueButton" to="CanvasLayer" method="cont"]
 [connection signal="pressed" from="CanvasLayer/Pause/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/SettingsButton" to="CanvasLayer" method="toSettings"]
 [connection signal="pressed" from="CanvasLayer/Pause/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/MainMenuButton" to="CanvasLayer" method="backToMainMenu"]
 [connection signal="pressed" from="CanvasLayer/Pause/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/QuitButton" to="CanvasLayer" method="quitToDesktop"]
-[connection signal="item_selected" from="CanvasLayer/Settings/CenterContainer/PanelContainer/MarginContainer/ScrollContainer/VBoxContainer/VSyncHBox/VSync" to="CanvasLayer/Settings" method="vsnyc"]
-[connection signal="item_selected" from="CanvasLayer/Settings/CenterContainer/PanelContainer/MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer2/AA" to="CanvasLayer/Settings" method="antiAliasing"]
-[connection signal="item_selected" from="CanvasLayer/Settings/CenterContainer/PanelContainer/MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/FPS" to="CanvasLayer/Settings" method="fps"]
-[connection signal="pressed" from="CanvasLayer/Settings/CenterContainer/PanelContainer/MarginContainer/ScrollContainer/VBoxContainer/BackButton" to="CanvasLayer" method="goBackFromSettings"]
+[connection signal="hidden" from="CanvasLayer/Settings" to="CanvasLayer" method="goBackFromSettings"]

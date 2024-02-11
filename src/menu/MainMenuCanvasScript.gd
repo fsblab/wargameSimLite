@@ -7,7 +7,7 @@ extends CanvasLayer
 
 func sp():
 	var root = get_tree().get_root()
-	var current = root.get_child(1)
+	var current = root.get_child(2)
 	
 	current.queue_free()
 	
@@ -36,7 +36,6 @@ func toSettings():
 
 func goBackFromSettings():
 	main.visible = true
-	settings.visible = false
 
 
 func quitToDesktop():

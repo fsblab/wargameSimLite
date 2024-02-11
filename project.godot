@@ -11,18 +11,21 @@ config_version=5
 [application]
 
 config/name="wargameLikeRTSGame"
-run/main_scene="res://scenes/root.tscn"
+run/main_scene="res://scenes/start.tscn"
 config/features=PackedStringArray("4.1", "Forward Plus")
 config/icon="res://icon.svg"
 
 [autoload]
 
-UnitSelectionScript="*res://src/gameLogic/UnitSelectionScript.gd"
+UnitSelectionScript="*res://src/autoload/UnitSelectionScript.gd"
+SettingsConfigScript="*res://src/autoload/SettingsConfigScript.gd"
 
 [display]
 
+window/size/viewport_width=1920
+window/size/viewport_height=1080
 window/size/mode=3
-window/size/borderless=true
+window/stretch/mode="viewport"
 window/vsync/vsync_mode=0
 
 [input]
