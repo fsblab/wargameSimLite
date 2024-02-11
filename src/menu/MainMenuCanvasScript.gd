@@ -5,7 +5,7 @@ extends CanvasLayer
 @onready var settings: Control = $Settings
 
 
-func sp():
+func sp() -> void:
 	var root = get_tree().get_root()
 	var current = root.get_child(2)
 	
@@ -29,14 +29,14 @@ func sp():
 	get_tree().set_current_scene(current)
 
 
-func toSettings():
+func toSettings() -> void:
 	main.visible = false
 	settings.visible = true
 
 
-func goBackFromSettings():
+func goBackFromSettings() -> void:
 	main.visible = true
 
 
-func quitToDesktop():
+func quitToDesktop() -> void:
 	get_tree().quit()

@@ -18,18 +18,18 @@ func _ready():
 	unitSelectedMaterial.vertex_color_use_as_albedo = true
 
 
-func selectUnit(unit: Node3D):
+func selectUnit(unit: Node3D) -> void:
 	selectedUnits.append(unit)
 
 
-func selectMultipleUnitsThroughRigidBody(unitsCB: Array):
+func selectMultipleUnitsThroughRigidBody(unitsCB: Array) -> void:
 	for unit in unitsCB:
 		selectUnit(unit.get_parent())
 
 
-func deselectUnit(unit: Node3D):
+func deselectUnit(unit: Node3D) -> void:
 	selectedUnits.erase(unit)
 
 
-func deselectAll():
+func deselectAll() -> void:
 	selectedUnits.clear()

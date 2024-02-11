@@ -6,22 +6,22 @@ extends CanvasLayer
 @onready var menu: Node = get_parent()
 
 
-func cont():
+func cont() -> void:
 	menu.visible = false
 	visible = false
 	get_tree().paused = false
 
 
-func toSettings():
+func toSettings() -> void:
 	main.visible = false
 	settings.visible = true
 
 
-func goBackFromSettings():
+func goBackFromSettings() -> void:
 	main.visible = true
 
 
-func backToMainMenu():
+func backToMainMenu() -> void:
 	get_tree().paused = false
 	
 	var root = get_tree().get_root()
@@ -39,5 +39,5 @@ func backToMainMenu():
 	get_tree().set_current_scene(current)
 
 
-func quitToDesktop():
+func quitToDesktop() -> void:
 	get_tree().quit()

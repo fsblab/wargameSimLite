@@ -4,7 +4,6 @@ class_name Unit extends Node3D
 @onready var model: CharacterBody3D = $Model
 @onready var marker: Marker3D = $MoveToMarker
 @onready var meshNode: MeshInstance3D = model.get_child(0)
-
 @onready var taskHandler: TaskHandler
 
 var maxVelocity: int

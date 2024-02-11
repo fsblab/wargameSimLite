@@ -1,8 +1,11 @@
-res://scenes/settings.tscn
+res://scenes/mainMenu.tscn
 res://src/menu/SettingsScript.gd
-res://src/autoload/SettingsConfigScript.gd
+res://src/menu/PauseMenuCanvasScript.gd
+res://src/menu/MainMenuCanvasScript.gd
+res://src/units/GroundUnit.gd
+res://src/units/Unit.gd
+res://src/autoload/UnitSelectionScript.gd
 res://scenes/start.tscn
 res://scenes/units/tank_unit.tscn
 res://scenes/functionalityTest.tscn
 res://scenes/pauseMenu.tscn
-res://scenes/mainMenu.tscn
