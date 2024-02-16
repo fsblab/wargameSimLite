@@ -1,5 +1,5 @@
 extends HSlider
 
 
-func selectVolume(value: int) -> void:
-	self.value = value
+func selectVolume(val: int) -> void:
+	self.value = val

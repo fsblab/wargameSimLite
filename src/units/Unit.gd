@@ -1,29 +1,24 @@
 class_name Unit extends Node3D
 
 @onready var nav: NavigationAgent3D = $Model/NavigationAgent3D
-@onready var model: CharacterBody3D = $Model
+@onready var model: VehicleBody3D = $Model
+@onready var wheel: VehicleWheel3D = $Model/VehicleWheel3D
 @onready var marker: Marker3D = $MoveToMarker
 @onready var meshNode: MeshInstance3D = model.get_child(0)
 @onready var taskHandler: TaskHandler
 
-var maxVelocity: int
-var accel: int
-var breakingFactor: int
+var engineForce: float
 var rotationVelocity: int
-var motion: Vector3
 
 
-func setup(v: int, a: int, breakF: int, omega: int) -> void:
+func setup(F: float, omega: int) -> void:
 	add_to_group("units")
 	meshNode.set_surface_override_material(0, UnitSelectionScript.unitNotSelectedMaterial)
 	
 	taskHandler = TaskHandler.new()
 	
-	maxVelocity = v
-	accel = a
-	breakingFactor = breakF
+	engineForce = F
 	rotationVelocity = omega
-	motion = Vector3(0, 0, 0)
 	
 	marker.global_position = model.global_position
 
@@ -37,27 +32,13 @@ func checkIfSelected() -> bool:
 		return false
 
 
-func moveToTarget(d) -> bool:
-	nav.target_position = marker.global_position
+func driveToTarget() -> bool:	
+	var distanceSquared = (marker.global_position - model.global_position).length_squared()
 	
-	if !nav.is_target_reachable():
-		#marker.global_position = marker.global_position - (marker.global_position - model.global_position).normalized()
-		#nav.target_position = marker.global_position
-		setTarget(model.global_position)
-		return true
+	model.engine_force = engineForce if model.engine_force == 0. else model.engine_force
 	
-	#var direction = (nav.get_next_path_position() - model.global_position).normalized()
-	var distance = (marker.global_position - model.global_position).length_squared()
-	
-	#motion = direction * maxVelocity * d
-	model.velocity = model.velocity.lerp(maxVelocity * model.basis.z, accel * d)
-	
-	model.move_and_slide()
-	#model.global_position += motion
-	
-	if abs(distance) < 2:
-		marker.global_position = model.global_position
-		model.velocity = Vector3(0, 0, 0)
+	if distanceSquared < model.linear_velocity.length_squared() / 2.:
+		model.engine_force = 0.
 		return true
 	return false
 
@@ -78,24 +59,38 @@ func rotateToTarget(d) -> bool:
 		return true
 	if abs(angle) < .05:
 		get_child(0).rotate_y(-angle)
+		model.engine_force = engineForce
 		return true
 	elif angle > 0:
 		get_child(0).rotate_y(-rotationVelocity * d)
-		model.velocity = model.velocity - (model.velocity.normalized() * breakingFactor * d)
-		return false
 	elif angle < 0:
 		get_child(0).rotate_y(rotationVelocity * d)
-		model.velocity = model.velocity - (model.velocity.normalized() * breakingFactor * d)
-		return false
+	model.engine_force = 8. * model.mass
 	return false
 
 
 func rotateAndMove(d) -> bool:
 	var rtt = rotateToTarget(d)
-	var mtt = moveToTarget(d)
+	var mtt = driveToTarget()
 	return rtt and mtt
 
 
 func setTarget(pos: Vector3) -> bool:
 	marker.global_position = pos
+	nav.target_position = pos
+	getReachablePosition()
 	return true
+
+
+func getReachablePosition():
+	var navPath: PackedVector3Array
+	
+	if nav.is_target_reachable():
+		return true
+	
+	navPath = nav.get_current_navigation_path()
+	for step in range(len(navPath)):
+		nav.target_position = navPath[-step - 1]
+		if nav.is_target_reachable():
+			marker.global_position = nav.target_position
+			return true

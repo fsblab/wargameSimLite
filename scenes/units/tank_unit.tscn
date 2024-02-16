@@ -1,10 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://c5uu0vftn204q"]
+[gd_scene load_steps=8 format=3 uid="uid://c5uu0vftn204q"]
 
 [ext_resource type="Script" path="res://src/units/TankBaseScript.gd" id="1_8aeab"]
 [ext_resource type="Texture2D" uid="uid://dcjhvaexk3ivd" path="res://assets/sprites/unitsymbols/board.png" id="2_1dmes"]
 [ext_resource type="PackedScene" uid="uid://dytfodmumhva7" path="res://assets/models/tank.glb" id="2_qwhd3"]
 [ext_resource type="Texture2D" uid="uid://dg580l05f63wm" path="res://assets/sprites/unitsymbols/tank.png" id="3_fa0bn"]
-[ext_resource type="Script" path="res://src/units/ModelScript.gd" id="3_s46ic"]
 [ext_resource type="Script" path="res://src/units/MarkerScript.gd" id="6_sao7d"]
 [ext_resource type="Texture2D" uid="uid://ccxrod55siap2" path="res://assets/sprites/unitsymbols/marker.png" id="7_w2eke"]
 
@@ -17,7 +16,7 @@ script = ExtResource("1_8aeab")
 
 [node name="Model" parent="." instance=ExtResource("2_qwhd3")]
 collision_mask = 3
-script = ExtResource("3_s46ic")
+mass = 1.0
 
 [node name="Tag" type="MeshInstance3D" parent="Model"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.5, 0, 2, 0)
@@ -49,6 +48,9 @@ shape = SubResource("BoxShape3D_hxlk4")
 navigation_layers = 8
 avoidance_enabled = true
 avoidance_mask = 3
+
+[node name="VehicleWheel3D" type="VehicleWheel3D" parent="Model"]
+use_as_traction = true
 
 [node name="MoveToMarker" type="Marker3D" parent="."]
 

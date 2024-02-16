@@ -6,4 +6,4 @@ func setShadow(enable: bool) -> void:
 
 
 func setDirectionalShadowMode(index: int) -> void:
-	directional_shadow_mode = index
+	directional_shadow_mode = SettingsConfigScript.shadowOptions[index]
