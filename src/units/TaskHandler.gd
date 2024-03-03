@@ -44,19 +44,21 @@ func pushMultipleTasks(tasks: Array) -> Array:
 	return tasks
 
 
-func pop(d = null) -> Task:
+func pop() -> Task:
 	nextTask = taskQueue.pop_front()
 	currentTask = nextTask.task
 	args = nextTask.args
 	hasDelta = nextTask.hasDelta
 	taskFinished = false
-	if hasDelta:
-		args.push_back(d)
 	return nextTask
 
 
-func callTask() -> bool:
+func callTask(d = null) -> bool:
+	if hasDelta:
+		args.push_back(d)
 	taskFinished = currentTask.callv(args)
+	if hasDelta:
+		args.pop_back()
 	return taskFinished
 
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://c5uu0vftn204q"]
+[gd_scene load_steps=9 format=3 uid="uid://c5uu0vftn204q"]
 
 [ext_resource type="Script" path="res://src/units/TankBaseScript.gd" id="1_8aeab"]
 [ext_resource type="Texture2D" uid="uid://dcjhvaexk3ivd" path="res://assets/sprites/unitsymbols/board.png" id="2_1dmes"]
@@ -9,6 +9,20 @@
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_hxlk4"]
 size = Vector3(2.00048, 1.35567, 5.77985)
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_q1e51"]
+properties/0/path = NodePath("Model:position")
+properties/0/spawn = true
+properties/0/sync = true
+properties/0/watch = false
+properties/1/path = NodePath("Model:rotation")
+properties/1/spawn = true
+properties/1/sync = true
+properties/1/watch = false
+properties/2/path = NodePath("Model:engine_force")
+properties/2/spawn = true
+properties/2/sync = true
+properties/2/watch = false
 
 [node name="TankUnit" type="Node3D"]
 process_mode = 1
@@ -59,3 +73,6 @@ size = Vector3(1, 1, 1)
 texture_albedo = ExtResource("7_w2eke")
 emission_energy = 35.0
 script = ExtResource("6_sao7d")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_q1e51")

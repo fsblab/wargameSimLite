@@ -1,0 +1,347 @@
+[gd_scene load_steps=5 format=3 uid="uid://clp7n16ypmd8y"]
+
+[ext_resource type="Script" path="res://src/menu/SkirmishMenuScript.gd" id="1_to3ks"]
+[ext_resource type="PackedScene" uid="uid://djwmgw835k35h" path="res://scenes/multiplayerPlayerInfo.tscn" id="2_p3rr2"]
+[ext_resource type="PackedScene" uid="uid://db58lpfhwwdb5" path="res://scenes/singleplayerPlayerInfo.tscn" id="3_iyg52"]
+
+[sub_resource type="ImageTexture" id="ImageTexture_v4god"]
+
+[node name="SkirmishMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_to3ks")
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer"]
+custom_minimum_size = Vector2(1820, 980)
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="MapSettingsContainer" type="MarginContainer" parent="CenterContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/MarginContainer/VBoxContainer/MapSettingsContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="MapContainer" type="PanelContainer" parent="CenterContainer/MarginContainer/VBoxContainer/MapSettingsContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/MarginContainer/VBoxContainer/MapSettingsContainer/HBoxContainer/MapContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/MarginContainer/VBoxContainer/MapSettingsContainer/HBoxContainer/MapContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="MapLabel" type="Label" parent="CenterContainer/MarginContainer/VBoxContainer/MapSettingsContainer/HBoxContainer/MapContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+text = "MAP"
+
+[node name="HSeparator" type="HSeparator" parent="CenterContainer/MarginContainer/VBoxContainer/MapSettingsContainer/HBoxContainer/MapContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/MarginContainer/VBoxContainer/MapSettingsContainer/HBoxContainer/MapContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="mapImage" type="TextureButton" parent="CenterContainer/MarginContainer/VBoxContainer/MapSettingsContainer/HBoxContainer/MapContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(400, 400)
+layout_mode = 2
+size_flags_horizontal = 0
+texture_normal = SubResource("ImageTexture_v4god")
+
+[node name="VSeparator" type="VSeparator" parent="CenterContainer/MarginContainer/VBoxContainer/MapSettingsContainer/HBoxContainer/MapContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="GridContainer" type="GridContainer" parent="CenterContainer/MarginContainer/VBoxContainer/MapSettingsContainer/HBoxContainer/MapContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/h_separation = 8
+theme_override_constants/v_separation = 8
+columns = 2
+
+[node name="MapSizeLabel" type="Label" parent="CenterContainer/MarginContainer/VBoxContainer/MapSettingsContainer/HBoxContainer/MapContainer/MarginContainer/VBoxContainer/HBoxContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "MAP SIZE:"
+
+[node name="MapSize" type="Label" parent="CenterContainer/MarginContainer/VBoxContainer/MapSettingsContainer/HBoxContainer/MapContainer/MarginContainer/VBoxContainer/HBoxContainer/GridContainer"]
+layout_mode = 2
+text = "TINY"
+
+[node name="MaxNoTeamsLabel2" type="Label" parent="CenterContainer/MarginContainer/VBoxContainer/MapSettingsContainer/HBoxContainer/MapContainer/MarginContainer/VBoxContainer/HBoxContainer/GridContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+text = "MAX TEAMS:"
+
+[node name="MaxNoTeams" type="Label" parent="CenterContainer/MarginContainer/VBoxContainer/MapSettingsContainer/HBoxContainer/MapContainer/MarginContainer/VBoxContainer/HBoxContainer/GridContainer"]
+layout_mode = 2
+text = "1"
+
+[node name="VSeparator2" type="VSeparator" parent="CenterContainer/MarginContainer/VBoxContainer/MapSettingsContainer/HBoxContainer/MapContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="GridContainer2" type="GridContainer" parent="CenterContainer/MarginContainer/VBoxContainer/MapSettingsContainer/HBoxContainer/MapContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/h_separation = 8
+theme_override_constants/v_separation = 8
+columns = 2
+
+[node name="MapNameLabel" type="Label" parent="CenterContainer/MarginContainer/VBoxContainer/MapSettingsContainer/HBoxContainer/MapContainer/MarginContainer/VBoxContainer/HBoxContainer/GridContainer2"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+text = "MAP:"
+
+[node name="MapNameOptionButton" type="OptionButton" parent="CenterContainer/MarginContainer/VBoxContainer/MapSettingsContainer/HBoxContainer/MapContainer/MarginContainer/VBoxContainer/HBoxContainer/GridContainer2"]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+size_flags_horizontal = 10
+size_flags_vertical = 0
+clip_text = true
+fit_to_longest_item = false
+
+[node name="SettingsContainer" type="PanelContainer" parent="CenterContainer/MarginContainer/VBoxContainer/MapSettingsContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/MarginContainer/VBoxContainer/MapSettingsContainer/HBoxContainer/SettingsContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/MarginContainer/VBoxContainer/MapSettingsContainer/HBoxContainer/SettingsContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="SettingsLabel" type="Label" parent="CenterContainer/MarginContainer/VBoxContainer/MapSettingsContainer/HBoxContainer/SettingsContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 0
+text = "SETTINGS"
+horizontal_alignment = 2
+
+[node name="HSeparator" type="HSeparator" parent="CenterContainer/MarginContainer/VBoxContainer/MapSettingsContainer/HBoxContainer/SettingsContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="PlayerInfoChatContainer" type="HBoxContainer" parent="CenterContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 8
+
+[node name="PlayerInfoContainer" type="PanelContainer" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer"]
+custom_minimum_size = Vector2(0, 400)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="Multiplayer" type="VBoxContainer" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = -1
+
+[node name="MultiplayerTable" type="HBoxContainer" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/Multiplayer"]
+layout_mode = 2
+
+[node name="VSeparator8" type="VSeparator" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/Multiplayer/MultiplayerTable"]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/Multiplayer/MultiplayerTable"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="VSeparator6" type="VSeparator" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/Multiplayer/MultiplayerTable"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/Multiplayer/MultiplayerTable"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="VSeparator" type="VSeparator" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/Multiplayer/MultiplayerTable"]
+layout_mode = 2
+
+[node name="PlayerNameLabel" type="Label" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/Multiplayer/MultiplayerTable"]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "NAME"
+
+[node name="VSeparator2" type="VSeparator" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/Multiplayer/MultiplayerTable"]
+layout_mode = 2
+
+[node name="FactionLabel" type="Label" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/Multiplayer/MultiplayerTable"]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "FACTION"
+
+[node name="VSeparator3" type="VSeparator" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/Multiplayer/MultiplayerTable"]
+layout_mode = 2
+
+[node name="TeamLabel" type="Label" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/Multiplayer/MultiplayerTable"]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "TEAM"
+
+[node name="VSeparator7" type="VSeparator" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/Multiplayer/MultiplayerTable"]
+layout_mode = 2
+
+[node name="PingLabel" type="Label" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/Multiplayer/MultiplayerTable"]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "PING"
+
+[node name="VSeparator4" type="VSeparator" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/Multiplayer/MultiplayerTable"]
+layout_mode = 2
+
+[node name="ReadyLabel" type="Label" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/Multiplayer/MultiplayerTable"]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "READY"
+
+[node name="VSeparator5" type="VSeparator" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/Multiplayer/MultiplayerTable"]
+layout_mode = 2
+
+[node name="HSeparator" type="HSeparator" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/Multiplayer"]
+layout_mode = 2
+
+[node name="MultiplayerPlayerInfo" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/Multiplayer" instance=ExtResource("2_p3rr2")]
+layout_mode = 2
+
+[node name="HSeparator2" type="HSeparator" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/Multiplayer"]
+layout_mode = 2
+
+[node name="Singleplayer" type="VBoxContainer" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = -1
+
+[node name="SingleplayerTable" type="HBoxContainer" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/Singleplayer"]
+layout_mode = 2
+
+[node name="VSeparator" type="VSeparator" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/Singleplayer/SingleplayerTable"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/Singleplayer/SingleplayerTable"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="VSeparator2" type="VSeparator" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/Singleplayer/SingleplayerTable"]
+layout_mode = 2
+
+[node name="PlayerNameLabel" type="Label" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/Singleplayer/SingleplayerTable"]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "NAME"
+
+[node name="VSeparator3" type="VSeparator" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/Singleplayer/SingleplayerTable"]
+layout_mode = 2
+
+[node name="FactionLabel" type="Label" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/Singleplayer/SingleplayerTable"]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "FACTION"
+
+[node name="VSeparator4" type="VSeparator" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/Singleplayer/SingleplayerTable"]
+layout_mode = 2
+
+[node name="TeamLabel" type="Label" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/Singleplayer/SingleplayerTable"]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "TEAM"
+
+[node name="VSeparator5" type="VSeparator" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/Singleplayer/SingleplayerTable"]
+layout_mode = 2
+
+[node name="HSeparator" type="HSeparator" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/Singleplayer"]
+layout_mode = 2
+
+[node name="SingleplayerPlayerInfo" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/Singleplayer" instance=ExtResource("3_iyg52")]
+layout_mode = 2
+
+[node name="HSeparator2" type="HSeparator" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/Singleplayer"]
+layout_mode = 2
+
+[node name="ChatContainer" type="PanelContainer" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/ChatContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/ChatContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="TextEdit" type="TextEdit" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/ChatContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/background_color = Color(0.128906, 0.128906, 0.128906, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_readonly_color = Color(1, 1, 1, 1)
+editable = false
+context_menu_enabled = false
+shortcut_keys_enabled = false
+drag_and_drop_selection_enabled = false
+middle_mouse_paste_enabled = false
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/ChatContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Label" type="Label" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/ChatContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "CHAT:"
+
+[node name="LineEdit" type="LineEdit" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/ChatContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 8
+
+[node name="BottomButtonsContainer" type="HBoxContainer" parent="CenterContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="BackButton" type="Button" parent="CenterContainer/MarginContainer/VBoxContainer/BottomButtonsContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "BACK"
+
+[node name="ReadyButton" type="Button" parent="CenterContainer/MarginContainer/VBoxContainer/BottomButtonsContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "GO"
+
+[connection signal="item_selected" from="CenterContainer/MarginContainer/VBoxContainer/MapSettingsContainer/HBoxContainer/MapContainer/MarginContainer/VBoxContainer/HBoxContainer/GridContainer2/MapNameOptionButton" to="." method="setMapImage"]
+[connection signal="pressed" from="CenterContainer/MarginContainer/VBoxContainer/BottomButtonsContainer/BackButton" to="." method="back"]
+[connection signal="pressed" from="CenterContainer/MarginContainer/VBoxContainer/BottomButtonsContainer/ReadyButton" to="." method="go"]

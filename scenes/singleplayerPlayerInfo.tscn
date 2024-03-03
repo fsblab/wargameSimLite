@@ -1,0 +1,84 @@
+[gd_scene load_steps=2 format=3 uid="uid://db58lpfhwwdb5"]
+
+[ext_resource type="Script" path="res://src/server/PlayerInfoScript.gd" id="1_wnhra"]
+
+[node name="SingleplayerPlayerInfo" type="HBoxContainer"]
+custom_minimum_size = Vector2(800, 40)
+offset_right = 444.0
+offset_bottom = 31.0
+script = ExtResource("1_wnhra")
+
+[node name="VSeparator0" type="VSeparator" parent="."]
+layout_mode = 2
+
+[node name="OptionButton" type="OptionButton" parent="."]
+clip_contents = true
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+item_count = 3
+selected = 0
+fit_to_longest_item = false
+popup/item_0/text = "NONE"
+popup/item_0/id = 0
+popup/item_1/text = "PLAYER"
+popup/item_1/id = 1
+popup/item_2/text = "AI"
+popup/item_2/id = 2
+
+[node name="VSeparator1" type="VSeparator" parent="."]
+layout_mode = 2
+
+[node name="PlayerNameLabel" type="Label" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+horizontal_alignment = 1
+vertical_alignment = 1
+clip_text = true
+
+[node name="VSeparator2" type="VSeparator" parent="."]
+layout_mode = 2
+
+[node name="Faction" type="OptionButton" parent="."]
+clip_contents = true
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+item_count = 6
+selected = 0
+fit_to_longest_item = false
+popup/item_0/text = "BLACK"
+popup/item_0/id = 1
+popup/item_1/text = "BLUE"
+popup/item_1/id = 2
+popup/item_2/text = "GREEN"
+popup/item_2/id = 3
+popup/item_3/text = "RED"
+popup/item_3/id = 4
+popup/item_4/text = "YELLOW"
+popup/item_4/id = 5
+popup/item_5/text = "NONE"
+popup/item_5/id = 0
+
+[node name="VSeparator3" type="VSeparator" parent="."]
+layout_mode = 2
+
+[node name="Team" type="SpinBox" parent="."]
+clip_contents = true
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = 1.0
+max_value = 10.0
+value = 1.0
+alignment = 1
+
+[node name="VSeparator4" type="VSeparator" parent="."]
+layout_mode = 2
+
+[node name="Ready" type="Button" parent="."]
+visible = false
+layout_mode = 2
+
+[node name="Kick" type="Button" parent="."]
+visible = false
+layout_mode = 2

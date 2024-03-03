@@ -12,6 +12,7 @@ func _ready():
 func _unhandled_input(event):
 	if event is InputEventKey:
 		if event.pressed and event.keycode == KEY_ESCAPE:
-			get_tree().paused = !get_tree().paused
+			if GameMetaDataScript.currentPlayMode == GameMetaDataScript.playMode.SINGLEPLAYER:
+				get_tree().paused = !get_tree().paused
 			visible = !visible
 			canvas.visible = !canvas.visible

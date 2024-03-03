@@ -65,21 +65,25 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="ContinueButton" type="Button" parent="CanvasLayer/Pause/CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(200, 50)
 layout_mode = 2
 size_flags_vertical = 3
 text = "Continue"
 
 [node name="SettingsButton" type="Button" parent="CanvasLayer/Pause/CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(200, 50)
 layout_mode = 2
 size_flags_vertical = 3
 text = "Settings"
 
 [node name="MainMenuButton" type="Button" parent="CanvasLayer/Pause/CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(200, 50)
 layout_mode = 2
 size_flags_vertical = 3
 text = "Main Menu"
 
 [node name="QuitButton" type="Button" parent="CanvasLayer/Pause/CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(200, 50)
 layout_mode = 2
 size_flags_vertical = 3
 text = "Quit to Desktop"

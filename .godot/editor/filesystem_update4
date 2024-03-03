@@ -1,8 +1,14 @@
-res://scenes/units/tank_unit.tscn
-res://src/menu/SettingsScript.gd
-res://src/units/TankBaseScript.gd
-res://src/units/Unit.gd
 res://scenes/start.tscn
-res://scenes/functionalityTest.tscn
+res://src/menu/SettingsScript.gd
+res://scenes/units/tank_unit.tscn
+res://scenes/maps/Functionality Test/functionalityTest.tscn
 res://scenes/pauseMenu.tscn
 res://scenes/mainMenu.tscn
+res://scenes/ui.tscn
+res://scenes/skirmishMenu.tscn
+res://scenes/multiplayerMenu.tscn
+res://scenes/multiplayerPlayerInfo.tscn
+res://src/autoload/GameMetaDataScript.gd
+res://src/server/PlayerData.gd
+res://src/server/ServerScript.gd
+res://src/autoload/SettingsConfigScript.gd

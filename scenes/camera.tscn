@@ -1,11 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://tvp3eaxedmw8"]
+[gd_scene load_steps=7 format=3 uid="uid://tvp3eaxedmw8"]
 
 [ext_resource type="Script" path="res://src/camera/CameraScript.gd" id="1_ax1wl"]
 [ext_resource type="Script" path="res://src/camera/ZoomInOutScript.gd" id="2_3e58m"]
 [ext_resource type="Script" path="res://src/camera/RotationScript.gd" id="3_msccp"]
 [ext_resource type="Script" path="res://src/camera/DrawSelectionRectangleScript.gd" id="4_fnijy"]
 [ext_resource type="Script" path="res://src/camera/RightClickToMoveUnitScript.gd" id="5_kmv6q"]
-
+[ext_resource type="PackedScene" uid="uid://duqs6lco5hrwv" path="res://scenes/ui.tscn" id="6_kvqno"]
 
 [node name="Camera" type="Node3D"]
 script = ExtResource("1_ax1wl")
@@ -27,3 +27,5 @@ script = ExtResource("4_fnijy")
 
 [node name="MoveUnit" type="Node3D" parent="."]
 script = ExtResource("5_kmv6q")
+
+[node name="UI" parent="." instance=ExtResource("6_kvqno")]

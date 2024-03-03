@@ -9,8 +9,16 @@ func saveCurrentSettings() -> void:
 	SettingsConfigScript.setSettings()
 
 
+func saveCurrentPlayerInfo() -> void:
+	SettingsConfigScript.setPlayerInfo()
+
+
 func revertChangedSettings() -> void:
 	SettingsConfigScript.revertSettings()
+
+
+func revertChangedPlayerInfo() -> void:
+	SettingsConfigScript.revertPlayerInfo()
 
 
 func restoreDefaultSettings() -> void:
@@ -21,8 +29,8 @@ func selectAntiAliasing(index: int) -> void:
 	SettingsConfigScript.changedSettings["aa"] = SettingsConfigScript.msaaOptions[index]
 
 
-func selectFPS(index: int) -> void:
-	SettingsConfigScript.changedSettings["fps"] = index
+func selectFPS(pressed: int) -> void:
+	SettingsConfigScript.changedSettings["fps"] = pressed
 
 
 func selectVSync(index: int) -> void:
@@ -51,6 +59,14 @@ func selectShadowMode(index: int) -> void:
 
 func selectVolume(value: int) -> void:
 	SettingsConfigScript.changedSettings["volume"] = value
+
+
+func changePlayerFaction(value: int) -> void:
+	SettingsConfigScript.changedPlayerInfo["faction"] = value
+
+
+func changePlayerName(playerName: String) -> void:
+	SettingsConfigScript.changedPlayerInfo["name"] = playerName
 
 
 func goBackFromSettings() -> void:
@@ -90,13 +106,16 @@ func setComponentValues() -> void:
 	#without the following line of code changedSettings has { "shadow": 1 } randomly stored for some reason and I don't understand why
 	SettingsConfigScript.changedSettings.clear()
 	
-	$CenterContainer/PanelContainer/MarginContainer/ScrollContainer/VBoxContainer/GridContainer/AA.select(SettingsConfigScript.currentSettings["aa"])
-	$CenterContainer/PanelContainer/MarginContainer/ScrollContainer/VBoxContainer/GridContainer/FPS.select(SettingsConfigScript.currentSettings["fps"])
-	$CenterContainer/PanelContainer/MarginContainer/ScrollContainer/VBoxContainer/GridContainer/Resolution.select(resolutionIndex)
-	$CenterContainer/PanelContainer/MarginContainer/ScrollContainer/VBoxContainer/GridContainer/ResolutionScale.select(resolutionScaleIndex)
-	$CenterContainer/PanelContainer/MarginContainer/ScrollContainer/VBoxContainer/GridContainer/ShadowOnOff.button_pressed = SettingsConfigScript.currentSettings["shadow"]
-	$CenterContainer/PanelContainer/MarginContainer/ScrollContainer/VBoxContainer/GridContainer/ShadowMode.select(SettingsConfigScript.currentSettings["shadowMode"])
-	$CenterContainer/PanelContainer/MarginContainer/ScrollContainer/VBoxContainer/GridContainer/VSync.select(SettingsConfigScript.currentSettings["vsync"])
-	$CenterContainer/PanelContainer/MarginContainer/ScrollContainer/VBoxContainer/GridContainer/WindowMode.select(0 if SettingsConfigScript.currentSettings["windowMode"] == 0 else 1)
-	$CenterContainer/PanelContainer/MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VolumeSlider.value = SettingsConfigScript.currentSettings["volume"]
-	$CenterContainer/PanelContainer/MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/VolumeBox.value = SettingsConfigScript.currentSettings["volume"]
+	$CenterContainer/PanelContainer/TabContainer/PlayerInfo/VBoxContainer/GridContainer/LineEdit.text = SettingsConfigScript.currentPlayerInfo["name"]
+	$CenterContainer/PanelContainer/TabContainer/PlayerInfo/VBoxContainer/GridContainer/OptionButton.select(SettingsConfigScript.currentPlayerInfo["faction"])
+
+	$CenterContainer/PanelContainer/TabContainer/Settings/ScrollContainer/VBoxContainer/GridContainer/WindowMode.select(0 if SettingsConfigScript.currentSettings["windowMode"] == 0 else 1)
+	$CenterContainer/PanelContainer/TabContainer/Settings/ScrollContainer/VBoxContainer/GridContainer/AA.select(SettingsConfigScript.currentSettings["aa"])
+	$CenterContainer/PanelContainer/TabContainer/Settings/ScrollContainer/VBoxContainer/GridContainer/FPS.button_pressed = SettingsConfigScript.currentSettings["fps"]
+	$CenterContainer/PanelContainer/TabContainer/Settings/ScrollContainer/VBoxContainer/GridContainer/Resolution.select(resolutionIndex)
+	$CenterContainer/PanelContainer/TabContainer/Settings/ScrollContainer/VBoxContainer/GridContainer/ResolutionScale.select(resolutionScaleIndex)
+	$CenterContainer/PanelContainer/TabContainer/Settings/ScrollContainer/VBoxContainer/GridContainer/ShadowOnOff.button_pressed = SettingsConfigScript.currentSettings["shadow"]
+	$CenterContainer/PanelContainer/TabContainer/Settings/ScrollContainer/VBoxContainer/GridContainer/ShadowMode.select(SettingsConfigScript.currentSettings["shadowMode"])
+	$CenterContainer/PanelContainer/TabContainer/Settings/ScrollContainer/VBoxContainer/GridContainer/VSync.select(SettingsConfigScript.currentSettings["vsync"])
+	$CenterContainer/PanelContainer/TabContainer/Settings/ScrollContainer/VBoxContainer/HBoxContainer/VolumeSlider.value = SettingsConfigScript.currentSettings["volume"]
+	$CenterContainer/PanelContainer/TabContainer/Settings/ScrollContainer/VBoxContainer/HBoxContainer/VolumeBox.value = SettingsConfigScript.currentSettings["volume"]

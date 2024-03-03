@@ -1,0 +1,305 @@
+[gd_scene load_steps=2 format=3 uid="uid://dal3qfbn7tf7c"]
+
+[ext_resource type="Script" path="res://src/menu/MultiplayerMenuScript.gd" id="1_vjwf4"]
+
+[node name="MultiplayerMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_vjwf4")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 16
+
+[node name="UpperPanel" type="VBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/UpperPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 100
+theme_override_constants/margin_top = 100
+theme_override_constants/margin_right = 100
+
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer/UpperPanel/MarginContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/UpperPanel/MarginContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="NameLabel2" type="Label" parent="VBoxContainer/UpperPanel/MarginContainer/PanelContainer/HBoxContainer"]
+custom_minimum_size = Vector2(100, 40)
+layout_mode = 2
+text = "#PLAYERS"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VSeparator" type="VSeparator" parent="VBoxContainer/UpperPanel/MarginContainer/PanelContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="NameLabel" type="Label" parent="VBoxContainer/UpperPanel/MarginContainer/PanelContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "SERVER NAME"
+
+[node name="VSeparator2" type="VSeparator" parent="VBoxContainer/UpperPanel/MarginContainer/PanelContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="PingLabel" type="Label" parent="VBoxContainer/UpperPanel/MarginContainer/PanelContainer/HBoxContainer"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+text = "PING"
+horizontal_alignment = 1
+
+[node name="VSeparator3" type="VSeparator" parent="VBoxContainer/UpperPanel/MarginContainer/PanelContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="StatusLabel" type="Label" parent="VBoxContainer/UpperPanel/MarginContainer/PanelContainer/HBoxContainer"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+text = "STATUS"
+horizontal_alignment = 1
+
+[node name="VSeparator4" type="VSeparator" parent="VBoxContainer/UpperPanel/MarginContainer/PanelContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="PasswordLabel" type="Label" parent="VBoxContainer/UpperPanel/MarginContainer/PanelContainer/HBoxContainer"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+text = "PASSWORD"
+horizontal_alignment = 1
+
+[node name="VSeparator5" type="VSeparator" parent="VBoxContainer/UpperPanel/MarginContainer/PanelContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/UpperPanel/MarginContainer/PanelContainer/HBoxContainer"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+
+[node name="ServerList" type="VBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 8
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/ServerList"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 100
+theme_override_constants/margin_right = 100
+
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer/ServerList/MarginContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/ServerList/MarginContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Buttons" type="MarginContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 100
+theme_override_constants/margin_right = 100
+theme_override_constants/margin_bottom = 100
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Buttons"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="BackButton" type="Button" parent="VBoxContainer/Buttons/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "BACK"
+
+[node name="RefreshButton" type="Button" parent="VBoxContainer/Buttons/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "REFRESH"
+
+[node name="HostButton" type="Button" parent="VBoxContainer/Buttons/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "HOST"
+
+[node name="JoinButton" type="Button" parent="VBoxContainer/Buttons/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "JOIN"
+
+[node name="JoinContainer" type="CenterContainer" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -199.5
+offset_top = -62.5
+offset_right = 199.5
+offset_bottom = 62.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="WhiteRect" type="ColorRect" parent="JoinContainer"]
+custom_minimum_size = Vector2(400, 120)
+layout_mode = 2
+
+[node name="BlackRect" type="ColorRect" parent="JoinContainer"]
+custom_minimum_size = Vector2(396, 116)
+layout_mode = 2
+color = Color(0, 0, 0, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="JoinContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="JoinContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="IpAndPort" type="HBoxContainer" parent="JoinContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="IpLabel" type="Label" parent="JoinContainer/MarginContainer/VBoxContainer/IpAndPort"]
+layout_mode = 2
+text = "IP ADDRESS:"
+
+[node name="Ip" type="LineEdit" parent="JoinContainer/MarginContainer/VBoxContainer/IpAndPort"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+placeholder_text = "127.0.0.1"
+
+[node name="PortLabel" type="Label" parent="JoinContainer/MarginContainer/VBoxContainer/IpAndPort"]
+layout_mode = 2
+text = "PORT:"
+
+[node name="Port" type="LineEdit" parent="JoinContainer/MarginContainer/VBoxContainer/IpAndPort"]
+layout_mode = 2
+placeholder_text = "7000"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="JoinContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="PasswordLabel" type="Label" parent="JoinContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "PASSWORD:"
+
+[node name="Password" type="LineEdit" parent="JoinContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Buttons" type="HBoxContainer" parent="JoinContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="CancelButton" type="Button" parent="JoinContainer/MarginContainer/VBoxContainer/Buttons"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "CANCEL"
+
+[node name="JoinButton" type="Button" parent="JoinContainer/MarginContainer/VBoxContainer/Buttons"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "JOIN"
+
+[node name="hostContainer" type="CenterContainer" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -199.5
+offset_top = -62.5
+offset_right = 199.5
+offset_bottom = 62.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="WhiteRect" type="ColorRect" parent="hostContainer"]
+custom_minimum_size = Vector2(400, 120)
+layout_mode = 2
+
+[node name="BlackRect" type="ColorRect" parent="hostContainer"]
+custom_minimum_size = Vector2(396, 116)
+layout_mode = 2
+color = Color(0, 0, 0, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="hostContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="hostContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="IpAndPort" type="HBoxContainer" parent="hostContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="MaxPlayersLabel" type="Label" parent="hostContainer/MarginContainer/VBoxContainer/IpAndPort"]
+layout_mode = 2
+text = "MAX PLAYERS:"
+
+[node name="MaxPlayers" type="LineEdit" parent="hostContainer/MarginContainer/VBoxContainer/IpAndPort"]
+layout_mode = 2
+placeholder_text = "2"
+
+[node name="PortLabel" type="Label" parent="hostContainer/MarginContainer/VBoxContainer/IpAndPort"]
+layout_mode = 2
+text = "PORT:"
+
+[node name="Port" type="LineEdit" parent="hostContainer/MarginContainer/VBoxContainer/IpAndPort"]
+layout_mode = 2
+placeholder_text = "7000"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="hostContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="PasswordLabel" type="Label" parent="hostContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "PASSWORD:"
+
+[node name="Password" type="LineEdit" parent="hostContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Buttons" type="HBoxContainer" parent="hostContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="CancelButton" type="Button" parent="hostContainer/MarginContainer/VBoxContainer/Buttons"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "CANCEL"
+
+[node name="HostButton" type="Button" parent="hostContainer/MarginContainer/VBoxContainer/Buttons"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "HOST"
+
+[connection signal="pressed" from="VBoxContainer/Buttons/HBoxContainer/BackButton" to="." method="back"]
+[connection signal="pressed" from="VBoxContainer/Buttons/HBoxContainer/HostButton" to="." method="hostInput"]
+[connection signal="pressed" from="VBoxContainer/Buttons/HBoxContainer/JoinButton" to="." method="joinInput"]
+[connection signal="pressed" from="JoinContainer/MarginContainer/VBoxContainer/Buttons/CancelButton" to="." method="cancelJoin"]
+[connection signal="pressed" from="JoinContainer/MarginContainer/VBoxContainer/Buttons/JoinButton" to="." method="joinServer"]
+[connection signal="pressed" from="hostContainer/MarginContainer/VBoxContainer/Buttons/CancelButton" to="." method="cancelHost"]
+[connection signal="pressed" from="hostContainer/MarginContainer/VBoxContainer/Buttons/HostButton" to="." method="hostServer"]

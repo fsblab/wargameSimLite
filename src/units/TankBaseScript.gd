@@ -1,6 +1,9 @@
 extends GroundUnit
 
 
-# Called when the node enters the scene tree for the first time.
 func _ready():
-	setup(10., 1)
+	setup(15., -10., 1)
+
+
+func _enter_tree():
+	set_multiplayer_authority(name.to_int())

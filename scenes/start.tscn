@@ -1,5 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://bai2ia3a1fbjq"]
+[gd_scene load_steps=3 format=3 uid="uid://bai2ia3a1fbjq"]
 
+[ext_resource type="Script" path="res://src/server/ServerScript.gd" id="1_6rkh1"]
 [ext_resource type="PackedScene" uid="uid://bd6c0wssqj7ku" path="res://scenes/mainMenu.tscn" id="1_7da4r"]
 
 [node name="Start" type="Control"]
@@ -9,5 +10,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_6rkh1")
 
 [node name="MainMenu" parent="." instance=ExtResource("1_7da4r")]

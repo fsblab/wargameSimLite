@@ -1,7 +1,11 @@
-[gd_scene load_steps=3 format=3 uid="uid://bd6c0wssqj7ku"]
+[gd_scene load_steps=6 format=3 uid="uid://bd6c0wssqj7ku"]
 
 [ext_resource type="Script" path="res://src/menu/MainMenuCanvasScript.gd" id="1_uh67x"]
+[ext_resource type="PackedScene" uid="uid://dal3qfbn7tf7c" path="res://scenes/multiplayerMenu.tscn" id="2_31m8x"]
 [ext_resource type="PackedScene" uid="uid://b63mipdhbgvn2" path="res://scenes/settings.tscn" id="2_qs2n4"]
+[ext_resource type="PackedScene" uid="uid://clp7n16ypmd8y" path="res://scenes/skirmishMenu.tscn" id="2_qyjwr"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_tdlql"]
 
 [node name="MainMenu" type="Node"]
 
@@ -16,55 +20,144 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/MainMenu"]
+[node name="CenterContainer" type="CenterContainer" parent="CanvasLayer/MainMenu"]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -191.0
-offset_top = -106.0
-offset_right = 191.0
-offset_bottom = 106.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MainMenu/MarginContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/MainMenu/CenterContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MainMenu/CenterContainer/MarginContainer"]
 layout_mode = 2
 alignment = 1
 
-[node name="TITLE" type="Label" parent="CanvasLayer/MainMenu/MarginContainer/VBoxContainer"]
+[node name="TITLE" type="Label" parent="CanvasLayer/MainMenu/CenterContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 50
 text = "RTS WARGAMES"
-horizontal_alignment = 1
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MainMenu/MarginContainer/VBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MainMenu/CenterContainer/MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(128, 0)
 layout_mode = 2
 size_flags_horizontal = 4
 
-[node name="SPButton" type="Button" parent="CanvasLayer/MainMenu/MarginContainer/VBoxContainer/VBoxContainer"]
+[node name="SPButton" type="Button" parent="CanvasLayer/MainMenu/CenterContainer/MarginContainer/VBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(200, 50)
 layout_mode = 2
 text = "SINGLEPLAYER"
 
-[node name="MPButton" type="Button" parent="CanvasLayer/MainMenu/MarginContainer/VBoxContainer/VBoxContainer"]
+[node name="MPButton" type="Button" parent="CanvasLayer/MainMenu/CenterContainer/MarginContainer/VBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(200, 50)
 layout_mode = 2
 text = "MULTIPLAYER"
 
-[node name="SettingsButton" type="Button" parent="CanvasLayer/MainMenu/MarginContainer/VBoxContainer/VBoxContainer"]
+[node name="SettingsButton" type="Button" parent="CanvasLayer/MainMenu/CenterContainer/MarginContainer/VBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(200, 50)
 layout_mode = 2
 text = "SETTINGS"
 
-[node name="ExButton" type="Button" parent="CanvasLayer/MainMenu/MarginContainer/VBoxContainer/VBoxContainer"]
+[node name="ExButton" type="Button" parent="CanvasLayer/MainMenu/CenterContainer/MarginContainer/VBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(200, 50)
 layout_mode = 2
 text = "EXIT"
+
+[node name="SinglePlayerMenu" type="Control" parent="CanvasLayer"]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="CanvasLayer/SinglePlayerMenu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/SinglePlayerMenu/CenterContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="CanvasLayer/SinglePlayerMenu/CenterContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/SinglePlayerMenu/CenterContainer/MarginContainer/VBoxContainer2"]
+custom_minimum_size = Vector2(0, 72)
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/SinglePlayerMenu/CenterContainer/MarginContainer/VBoxContainer2"]
+layout_mode = 2
+
+[node name="SkirmishButton" type="Button" parent="CanvasLayer/SinglePlayerMenu/CenterContainer/MarginContainer/VBoxContainer2/VBoxContainer"]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+text = "SKIRMISH"
+
+[node name="CampaignButton" type="Button" parent="CanvasLayer/SinglePlayerMenu/CenterContainer/MarginContainer/VBoxContainer2/VBoxContainer"]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+text = "CAMPAIGN"
+
+[node name="ArmoryButton" type="Button" parent="CanvasLayer/SinglePlayerMenu/CenterContainer/MarginContainer/VBoxContainer2/VBoxContainer"]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+text = "ARMORY"
+
+[node name="BackButton" type="Button" parent="CanvasLayer/SinglePlayerMenu/CenterContainer/MarginContainer/VBoxContainer2/VBoxContainer"]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+text = "BACK"
+
+[node name="MultiplayerMenu" parent="CanvasLayer" instance=ExtResource("2_31m8x")]
+visible = false
+
+[node name="SkirmishMenu" parent="CanvasLayer" instance=ExtResource("2_qyjwr")]
+visible = false
 
 [node name="Settings" parent="CanvasLayer" instance=ExtResource("2_qs2n4")]
 visible = false
 
-[connection signal="pressed" from="CanvasLayer/MainMenu/MarginContainer/VBoxContainer/VBoxContainer/SPButton" to="CanvasLayer" method="sp"]
-[connection signal="pressed" from="CanvasLayer/MainMenu/MarginContainer/VBoxContainer/VBoxContainer/SettingsButton" to="CanvasLayer" method="toSettings"]
-[connection signal="pressed" from="CanvasLayer/MainMenu/MarginContainer/VBoxContainer/VBoxContainer/ExButton" to="CanvasLayer" method="quitToDesktop"]
+[node name="PopupPanel" type="PopupPanel" parent="CanvasLayer"]
+initial_position = 2
+size = Vector2i(8, 23)
+max_size = Vector2i(400, 100)
+theme_override_styles/panel = SubResource("StyleBoxEmpty_tdlql")
+
+[node name="RedColorRect" type="ColorRect" parent="CanvasLayer/PopupPanel"]
+offset_right = 8.0
+offset_bottom = 23.0
+color = Color(1, 0, 0, 1)
+
+[node name="PopupLabel" type="Label" parent="CanvasLayer/PopupPanel"]
+offset_right = 8.0
+offset_bottom = 23.0
+size_flags_horizontal = 3
+size_flags_vertical = 6
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="pressed" from="CanvasLayer/MainMenu/CenterContainer/MarginContainer/VBoxContainer/VBoxContainer/SPButton" to="CanvasLayer" method="sp"]
+[connection signal="pressed" from="CanvasLayer/MainMenu/CenterContainer/MarginContainer/VBoxContainer/VBoxContainer/MPButton" to="CanvasLayer" method="mp"]
+[connection signal="pressed" from="CanvasLayer/MainMenu/CenterContainer/MarginContainer/VBoxContainer/VBoxContainer/SettingsButton" to="CanvasLayer" method="toSettings"]
+[connection signal="pressed" from="CanvasLayer/MainMenu/CenterContainer/MarginContainer/VBoxContainer/VBoxContainer/ExButton" to="CanvasLayer" method="quitToDesktop"]
+[connection signal="pressed" from="CanvasLayer/SinglePlayerMenu/CenterContainer/MarginContainer/VBoxContainer2/VBoxContainer/SkirmishButton" to="CanvasLayer" method="skirmish"]
+[connection signal="pressed" from="CanvasLayer/SinglePlayerMenu/CenterContainer/MarginContainer/VBoxContainer2/VBoxContainer/CampaignButton" to="CanvasLayer" method="campaign"]
+[connection signal="pressed" from="CanvasLayer/SinglePlayerMenu/CenterContainer/MarginContainer/VBoxContainer2/VBoxContainer/ArmoryButton" to="CanvasLayer" method="armory"]
+[connection signal="pressed" from="CanvasLayer/SinglePlayerMenu/CenterContainer/MarginContainer/VBoxContainer2/VBoxContainer/BackButton" to="CanvasLayer" method="goBackFromPlayerMenu"]
+[connection signal="goBack" from="CanvasLayer/MultiplayerMenu" to="CanvasLayer" method="goBackFromPlayerMenu"]
+[connection signal="joinSkirmishLobby" from="CanvasLayer/MultiplayerMenu" to="CanvasLayer" method="joinSkirmishLobby"]
+[connection signal="openSkirmishLobby" from="CanvasLayer/MultiplayerMenu" to="CanvasLayer" method="skirmish"]
+[connection signal="goBack" from="CanvasLayer/SkirmishMenu" to="CanvasLayer" method="goBackFromSkirmish"]
+[connection signal="startSkirmish" from="CanvasLayer/SkirmishMenu" to="CanvasLayer" method="startSkirmish"]
 [connection signal="hidden" from="CanvasLayer/Settings" to="CanvasLayer" method="goBackFromSettings"]

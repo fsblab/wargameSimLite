@@ -1,7 +1,7 @@
 extends CanvasLayer
 
 
-@onready var main: Control = $Pause
+@onready var pause: Control = $Pause
 @onready var settings: Control = $Settings
 @onready var menu: Node = get_parent()
 
@@ -13,30 +13,31 @@ func cont() -> void:
 
 
 func toSettings() -> void:
-	main.visible = false
+	pause.visible = false
 	settings.visible = true
 
 
 func goBackFromSettings() -> void:
-	main.visible = true
+	pause.visible = true
 
 
 func backToMainMenu() -> void:
 	get_tree().paused = false
 	
-	var root = get_tree().get_root()
+	var root = get_tree().get_root().get_node("Start")
 	var current: Node
 	
-	for i in range(2, root.get_child_count()):
-		current = root.get_child(i)
-		current.queue_free()
+	for child in root.get_children():
+		child.queue_free()
 	
-	var back = ResourceLoader.load("res://scenes/start.tscn")
+	var main = ResourceLoader.load("res://scenes/mainMenu.tscn")
 	
-	current = back.instantiate()
+	current = main.instantiate()
 	root.add_child(current)
 	
-	get_tree().set_current_scene(current)
+	GameMetaDataScript.reset()
+	
+	get_tree().set_current_scene(root)
 
 
 func quitToDesktop() -> void:

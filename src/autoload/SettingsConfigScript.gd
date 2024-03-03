@@ -1,12 +1,12 @@
 extends Node
 
-
-enum fps {
-	DISABLED = 0,
-	TOPLEFT = 1,
-	TOPRIGHT = 2,
-	BOTTOMLEFT = 3,
-	BOTTOMRIGHT = 4
+enum faction {
+	BLACK,
+	BLUE,
+	GREEN,
+	RED,
+	YELLOW,
+	NONE
 }
 var msaaOptions = [
 	Viewport.MSAA_DISABLED,
@@ -48,7 +48,7 @@ var windowOptions = [
 
 var defaultSettings = {
 		"aa": msaaOptions[0],
-		"fps": fps.DISABLED,
+		"fps": false,
 		"resolution": DisplayServer.screen_get_size(),
 		"resolutionScale": resolutionScaleOptions[2],
 		"shadow": true,
@@ -61,7 +61,7 @@ var defaultSettings = {
 
 var currentSettings = {
 		"aa": msaaOptions[0],
-		"fps": fps.DISABLED,
+		"fps": false,
 		"resolution": DisplayServer.screen_get_size(),
 		"resolutionScale": resolutionScaleOptions[2],
 		"shadow": true,
@@ -75,6 +75,21 @@ var currentSettings = {
 var changedSettings = {}
 
 
+var defaultPlayerInfo = {
+	"faction": faction.NONE,
+	"name": ""
+}
+
+
+var currentPlayerInfo = {
+	"faction": faction.NONE,
+	"name": ""
+}
+
+
+var changedPlayerInfo = {}
+
+
 func _ready():
 	readSettingsConfig()
 	setSettings()
@@ -85,8 +100,8 @@ func readSettingsConfig() -> void:
 		writeSettingsConfig()
 		return
 	
-	var file = FileAccess.open("user://settings.config", FileAccess.READ)
-	var jsonString = file.get_as_text()
+	var file: FileAccess = FileAccess.open("user://settings.config", FileAccess.READ)
+	var jsonString: String = file.get_as_text()
 	file.close()
 	
 	var json = JSON.new()
@@ -96,21 +111,19 @@ func readSettingsConfig() -> void:
 		writeSettingsConfig()
 		return
 	
-	var width = RegEx.new()
+	var width: RegEx = RegEx.new()
 	width.compile("\\d+")
-	var height = RegEx.new()
+	var height: RegEx = RegEx.new()
 	height.compile("(?<=,).*\\d+")
 	
-	json.data["resolution"] = Vector2i(int(width.search(json.data["resolution"]).get_string()), int(height.search(json.data["resolution"]).get_string()))
+	var player: Dictionary = json.data["playerinfo"]
+	var settings: Dictionary = json.data["settings"]
 	
-	currentSettings = json.data
+	settings["resolution"] = Vector2i(int(width.search(settings["resolution"]).get_string()), int(height.search(settings["resolution"]).get_string()))
+	
+	currentPlayerInfo = player
+	currentSettings = settings
 	setSettings()
-
-
-func writeSettingsConfig() -> void:
-	var file = FileAccess.open("user://settings.config", FileAccess.WRITE)
-	file.store_line(JSON.stringify(currentSettings, "\t"))
-	file.close()
 
 
 func setSettings() -> void:
@@ -120,7 +133,9 @@ func setSettings() -> void:
 	for setting in changedSettings:
 		currentSettings[setting] = changedSettings[setting]
 	
+	DisplayServer.window_set_mode(currentSettings["windowMode"])
 	get_viewport().msaa_3d = msaaOptions[currentSettings["aa"]]
+	get_tree().call_group("UI", "setFPS", currentSettings["fps"])
 	DisplayServer.window_set_size(currentSettings["resolution"])
 	get_viewport().scaling_3d_scale = resolutionScaleOptions[currentSettings["resolutionScale"]]
 	get_tree().call_group("Lights", "setShadow", currentSettings["shadow"])
@@ -131,15 +146,37 @@ func setSettings() -> void:
 		AudioServer.set_bus_mute(0, false)
 		AudioServer.set_bus_volume_db(0, linear_to_db(currentSettings["volume"] / 100.))
 	DisplayServer.window_set_vsync_mode(vsyncOptions[currentSettings["vsync"]])
-	DisplayServer.window_set_mode(currentSettings["windowMode"])
 	
 	changedSettings.clear()
 	
 	writeSettingsConfig()
 
 
+func setPlayerInfo() -> void:
+	if changedPlayerInfo.is_empty():
+		return
+	
+	for info in changedPlayerInfo:
+		currentPlayerInfo[info] = changedPlayerInfo[info]
+	
+	changedPlayerInfo.clear()
+	
+	writeSettingsConfig()
+
+
+func writeSettingsConfig() -> void:
+	var file = FileAccess.open("user://settings.config", FileAccess.WRITE)
+	var data = {"settings": currentSettings, "playerinfo": currentPlayerInfo}
+	file.store_line(JSON.stringify(data, "\t"))
+	file.close()
+
+
 func revertSettings() -> void:
 	changedSettings.clear()
+
+
+func revertPlayerInfo() -> void:
+	changedPlayerInfo.clear()
 
 
 func resetSettings() -> void:
