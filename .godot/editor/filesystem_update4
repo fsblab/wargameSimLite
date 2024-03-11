@@ -9,6 +9,4 @@ res://scenes/skirmishMenu.tscn
 res://scenes/multiplayerMenu.tscn
 res://scenes/multiplayerPlayerInfo.tscn
 res://src/autoload/GameMetaDataScript.gd
-res://src/server/PlayerData.gd
-res://src/server/ServerScript.gd
-res://src/autoload/SettingsConfigScript.gd
+res://src/menu/SkirmishMenuScript.gd

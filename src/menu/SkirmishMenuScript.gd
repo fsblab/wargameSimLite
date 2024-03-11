@@ -17,7 +17,10 @@ signal goBack()
 
 
 func _ready():
-	multiplayer.peer_connected.connect(addPlayer)
+	#multiplayer.peer_connected.connect(addPlayer)
+	#multiplayer.peer_disconnected.connect(removePlayer)
+	GameMetaDataScript.connectedClientsUpdated.connect(addPlayer)
+	GameMetaDataScript.clientDisconnected.connect(removePlayer)
 	
 	for mapName in defaultMaps:
 		mapNameOptionButton.add_item(mapName)
@@ -53,18 +56,39 @@ func initSkirmishMenu() -> void:
 	lobbyLeader.visible = true
 
 
-func addPlayer(_id: int):
-	var client: Resource = ResourceLoader.load("res://scenes/multiplayerPlayerInfo.tscn")
-	clientContainer.add_child(client.instantiate())
+func addPlayer(id: int):
+	if multiplayer.get_unique_id() == id:
+		for player in GameMetaDataScript.connectedClients.values():
+			if player.uid == 1:
+				continue
+			#GameMetaDataScript.setupPlayerInfoNode(player)
+			clientContainer.add_child(player.playerInfoNode)
+	else:
+		clientContainer.add_child(GameMetaDataScript.connectedClients[id].playerInfoNode)
+		#GameMetaDataScript.setupPlayerInfoNode(GameMetaDataScript.connectedClients[id].playerInfoNode)
+
+
+func removePlayer(id: int):
+	clientContainer.remove_child(GameMetaDataScript.connectedClients[id].playerInfoNode)
+
+
+func resetClientContainer() -> void:
+	for player in GameMetaDataScript.connectedClients.values():
+		if player.uid == 1:
+			continue
+		clientContainer.remove_child(player.playerInfoNode)
 
 
 func go() -> void:
 	startSkirmish.emit(mapNameOptionButton.get_item_text(mapNameOptionButton.selected))
+	get_tree().force_update_transform()
 
 
 func back() -> void:
+	resetClientContainer()
 	chatBox.text = ""
 	message.text = ""
+	server.disconnectPlayer()
 	goBack.emit()
 
 

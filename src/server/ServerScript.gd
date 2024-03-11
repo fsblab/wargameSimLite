@@ -3,7 +3,6 @@ extends Control
 
 @onready var chatBox: TextEdit = $MainMenu/CanvasLayer/SkirmishMenu/CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/ChatContainer/MarginContainer/VBoxContainer/TextEdit
 
-var clientId: int
 var peer: ENetMultiplayerPeer
 const localhost: String = "127.0.0.1"
 
@@ -66,7 +65,7 @@ func _sendChat(pName: String, msg: String) -> void:
 	chatBox.scroll_vertical = INF
 
 
-func clientConnectedToServer():
+func clientConnectedToServer() -> void:
 	rpc("_sendChat", SettingsConfigScript.currentPlayerInfo["name"], "joined")
 
 
@@ -94,6 +93,9 @@ func playerJoined(id: int) -> void:
 func _requestPlayerData(id: int, clients: Dictionary) -> void:
 	GameMetaDataScript.client.uid = id
 	clients[id] = GameMetaDataScript.client
+	for player in clients.values():
+		#player.playerInfoNode = ResourceLoader.load("res://scenes/multiplayerPlayerInfo.tscn").instantiate()
+		GameMetaDataScript.setupPlayerInfoNode(player)
 	GameMetaDataScript.connectedClients.merge(clients)
 	rpc("_updateConnectedClients", GameMetaDataScript.client)
 
@@ -101,7 +103,22 @@ func _requestPlayerData(id: int, clients: Dictionary) -> void:
 @rpc("any_peer", "call_local", "reliable")
 func _updateConnectedClients(client: Dictionary) -> void:
 	GameMetaDataScript.connectedClients[client.uid] = client
+	#GameMetaDataScript.connectedClients[client.uid].playerInfoNode = ResourceLoader.load("res://scenes/multiplayerPlayerInfo.tscn").instantiate()
+	GameMetaDataScript.setupPlayerInfoNode(GameMetaDataScript.connectedClients[client.uid])
+	GameMetaDataScript.connectedClientsUpdated.emit(client.uid)
 
 
-func playerLeft(id) -> void:
+func disconnectPlayer() -> void:
+	rpc_id(1, "_disconnectPlayer", GameMetaDataScript.client.uid)
+
+
+@rpc("any_peer", "call_local", "reliable")
+func _disconnectPlayer(id: int) -> void:
+	multiplayer.disconnect_peer(id)
+
+
+func playerLeft(id: int) -> void:
+	if multiplayer.is_server():
+		rpc("_sendChat", GameMetaDataScript.connectedClients[id].playerName, "left")
+	GameMetaDataScript.clientDisconnected.emit(id)
 	GameMetaDataScript.connectedClients.erase(id)
