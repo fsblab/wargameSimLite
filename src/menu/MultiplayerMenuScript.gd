@@ -26,6 +26,7 @@ func cancelHost() -> void:
 
 
 func hostServer() -> void:
+	hostContainer.visible = false
 	if not maxPlayers.text:
 		maxPlayers.text = maxPlayers.placeholder_text
 	if not hostPort.text:
@@ -42,4 +43,5 @@ func cancelJoin() -> void:
 
 
 func joinServer() -> void:
+	joinContainer.visible = false
 	joinSkirmishLobby.emit(ip.text, joinPort.text.to_int())

@@ -35,20 +35,18 @@ var currentFaction: faction
 var currentSkirmishMode: skirmishMode
 var connectedClients: Dictionary
 var client: Dictionary
-var playerData: Dictionary
 
 
 func reset():
-	playerData = {
+	client = {
 		faction = SettingsConfigScript.currentPlayerInfo["faction"],
 		isReady = false,
 		playerInfoNode = ResourceLoader.load("res://scenes/multiplayerPlayerInfo.tscn").instantiate(),
 		playerName = SettingsConfigScript.currentPlayerInfo["name"],
 		team = 1,
-		uid = 0
+		uid = 1
 	}
 	
-	client.merge(playerData, true)
 	currentPlayMode = playMode.NONE
 	currentGameMode = gameMode.NONE
 	currentFaction = faction.NONE
@@ -58,3 +56,18 @@ func setupPlayerInfoNode(data: Dictionary) -> void:
 	data.playerInfoNode = ResourceLoader.load("res://scenes/multiplayerPlayerInfo.tscn").instantiate()
 	data.playerInfoNode.get_node("PlayerNameLabel").text = data.playerName
 	data.playerInfoNode.get_node("Faction").select(data.faction)
+	data.playerInfoNode.get_node("OptionButton").select(1)
+	
+	if data.uid == 1:
+		data.playerInfoNode.get_node("PlayerNameLabel").add_theme_color_override("font_color", Color("gold"))
+		data.playerInfoNode.get_node("Kick").disabled = true
+	
+	if data.uid != multiplayer.get_unique_id():
+		data.playerInfoNode.get_node("Faction").disabled = true
+		data.playerInfoNode.get_node("Ready").disabled = true
+		data.playerInfoNode.get_node("OptionButton").disabled = true
+		data.playerInfoNode.get_node("Team").get_line_edit().editable = false
+	
+	if multiplayer.get_unique_id() != 1:
+		data.playerInfoNode.get_node("Kick").disabled = true
+

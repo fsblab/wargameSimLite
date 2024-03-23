@@ -8,7 +8,9 @@ signal goBack()
 @onready var defaultMaps: PackedStringArray = mapFolder.get_directories()
 @onready var mapNameOptionButton: OptionButton = $CenterContainer/MarginContainer/VBoxContainer/MapSettingsContainer/HBoxContainer/MapContainer/MarginContainer/VBoxContainer/HBoxContainer/GridContainer2/MapNameOptionButton
 @onready var lobbyLeader: HBoxContainer
-@onready var clientContainer: VBoxContainer = $CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/Multiplayer
+@onready var mpClientContainer: VBoxContainer = $CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/Multiplayer
+@onready var spClientContainer: VBoxContainer = $CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/Singleplayer
+@onready var clientContainer: VBoxContainer
 @onready var message: LineEdit = $CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/ChatContainer/MarginContainer/VBoxContainer/HBoxContainer/LineEdit
 @onready var chatBox: TextEdit = $CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/ChatContainer/MarginContainer/VBoxContainer/TextEdit
 @onready var mapImageButton: TextureButton = $CenterContainer/MarginContainer/VBoxContainer/MapSettingsContainer/HBoxContainer/MapContainer/MarginContainer/VBoxContainer/HBoxContainer/mapImage
@@ -17,8 +19,6 @@ signal goBack()
 
 
 func _ready():
-	#multiplayer.peer_connected.connect(addPlayer)
-	#multiplayer.peer_disconnected.connect(removePlayer)
 	GameMetaDataScript.connectedClientsUpdated.connect(addPlayer)
 	GameMetaDataScript.clientDisconnected.connect(removePlayer)
 	
@@ -37,51 +37,48 @@ func _process(_delta):
 
 func initSkirmishMenu() -> void:
 	if GameMetaDataScript.currentPlayMode == GameMetaDataScript.playMode.SINGLEPLAYER:
-		$CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/Multiplayer.visible = false
-		$CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/Singleplayer.visible = true
-		lobbyLeader = $CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/Singleplayer/SingleplayerPlayerInfo
+		mpClientContainer.visible = false
+		spClientContainer.visible = true
+		clientContainer = spClientContainer
+		lobbyLeader = ResourceLoader.load("res://scenes/singleplayerPlayerInfo.tscn").instantiate()
 		lobbyLeader.get_node("OptionButton").select(1)
 		lobbyLeader.get_node("OptionButton").disabled = true
 	elif GameMetaDataScript.currentPlayMode == GameMetaDataScript.playMode.MULTIPLAYER:
-		$CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/Multiplayer.visible = true
-		$CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/Singleplayer.visible = false
-		lobbyLeader = $CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/Multiplayer/MultiplayerPlayerInfo
-		lobbyLeader.setPlayerNameColor(Color("gold"))
-		lobbyLeader.disableKickButton()
-		lobbyLeader.get_node("OptionButton").select(1)
-		lobbyLeader.get_node("OptionButton").disabled = true
+		mpClientContainer.visible = true
+		spClientContainer.visible = false
+		clientContainer = mpClientContainer
+		GameMetaDataScript.setupPlayerInfoNode(GameMetaDataScript.client)
 	else:
 		back()
 		return
-	lobbyLeader.visible = true
+	if multiplayer.get_unique_id() == 1:
+		clientContainer.add_child(GameMetaDataScript.client.playerInfoNode)
 
 
-func addPlayer(id: int):
+func addPlayer(id: int) -> void:
 	if multiplayer.get_unique_id() == id:
 		for player in GameMetaDataScript.connectedClients.values():
-			if player.uid == 1:
-				continue
-			#GameMetaDataScript.setupPlayerInfoNode(player)
+			print(multiplayer.get_unique_id(), " added ", player.playerInfoNode.get_node("PlayerNameLabel").text)
 			clientContainer.add_child(player.playerInfoNode)
 	else:
+		print(multiplayer.get_unique_id(), " added ", GameMetaDataScript.connectedClients[id].playerInfoNode.get_node("PlayerNameLabel").text)
 		clientContainer.add_child(GameMetaDataScript.connectedClients[id].playerInfoNode)
-		#GameMetaDataScript.setupPlayerInfoNode(GameMetaDataScript.connectedClients[id].playerInfoNode)
 
 
-func removePlayer(id: int):
-	clientContainer.remove_child(GameMetaDataScript.connectedClients[id].playerInfoNode)
+func removePlayer(id: int) -> void:
+	GameMetaDataScript.connectedClients[id].playerInfoNode.queue_free()
 
 
 func resetClientContainer() -> void:
-	for player in GameMetaDataScript.connectedClients.values():
-		if player.uid == 1:
-			continue
-		clientContainer.remove_child(player.playerInfoNode)
+	for player in clientContainer.get_children():
+		player.queue_free()
+	print(GameMetaDataScript.connectedClients)
+	GameMetaDataScript.connectedClients.clear()
 
 
 func go() -> void:
 	startSkirmish.emit(mapNameOptionButton.get_item_text(mapNameOptionButton.selected))
-	get_tree().force_update_transform()
+	#get_tree().force_update_transform()
 
 
 func back() -> void:
@@ -107,7 +104,6 @@ func getFileByExtension(mapDir: String, ext: String) -> String:
 	map.compile(".+\\.(" + ext + ")$")
 	
 	var dir: DirAccess = DirAccess.open(mapDir)
-	var mapName: String
 	
 	if dir.get_files().is_empty():
 		return ""
@@ -115,7 +111,6 @@ func getFileByExtension(mapDir: String, ext: String) -> String:
 	#get name of first file that ends in ext
 	for file in dir.get_files():
 		if (map.search(file)):
-			mapName = file
-			break
+			return file
 	
-	return mapName
+	return ""

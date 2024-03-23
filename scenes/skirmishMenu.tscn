@@ -233,9 +233,11 @@ layout_mode = 2
 layout_mode = 2
 
 [node name="MultiplayerPlayerInfo" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/Multiplayer" instance=ExtResource("2_p3rr2")]
+visible = false
 layout_mode = 2
 
 [node name="HSeparator2" type="HSeparator" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/Multiplayer"]
+visible = false
 layout_mode = 2
 
 [node name="Singleplayer" type="VBoxContainer" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer"]
@@ -283,9 +285,11 @@ layout_mode = 2
 layout_mode = 2
 
 [node name="SingleplayerPlayerInfo" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/Singleplayer" instance=ExtResource("3_iyg52")]
+visible = false
 layout_mode = 2
 
 [node name="HSeparator2" type="HSeparator" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/Singleplayer"]
+visible = false
 layout_mode = 2
 
 [node name="ChatContainer" type="PanelContainer" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer"]

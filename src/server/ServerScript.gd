@@ -85,17 +85,23 @@ func closeConnection() -> void:
 
 
 func playerJoined(id: int) -> void:
+	#host sends list of players in lobby to newly connected client
 	if multiplayer.is_server():
-		rpc_id(id, "_requestPlayerData", id, GameMetaDataScript.connectedClients)
+		rpc_id(id, "_requestPlayerData", GameMetaDataScript.connectedClients)
 
 
+#only newly connected client executes this
+#sets up lobby with data of players currently in lobby
 @rpc("any_peer", "call_local", "reliable")
-func _requestPlayerData(id: int, clients: Dictionary) -> void:
+func _requestPlayerData(clients: Dictionary) -> void:
+	var id: int = multiplayer.get_unique_id()
+	
 	GameMetaDataScript.client.uid = id
 	clients[id] = GameMetaDataScript.client
+	
 	for player in clients.values():
-		#player.playerInfoNode = ResourceLoader.load("res://scenes/multiplayerPlayerInfo.tscn").instantiate()
 		GameMetaDataScript.setupPlayerInfoNode(player)
+	
 	GameMetaDataScript.connectedClients.merge(clients)
 	rpc("_updateConnectedClients", GameMetaDataScript.client)
 
@@ -103,13 +109,14 @@ func _requestPlayerData(id: int, clients: Dictionary) -> void:
 @rpc("any_peer", "call_local", "reliable")
 func _updateConnectedClients(client: Dictionary) -> void:
 	GameMetaDataScript.connectedClients[client.uid] = client
-	#GameMetaDataScript.connectedClients[client.uid].playerInfoNode = ResourceLoader.load("res://scenes/multiplayerPlayerInfo.tscn").instantiate()
-	GameMetaDataScript.setupPlayerInfoNode(GameMetaDataScript.connectedClients[client.uid])
+	GameMetaDataScript.setupPlayerInfoNode(client)
+	#GameMetaDataScript.setupPlayerInfoNode(GameMetaDataScript.connectedClients[client.uid])
 	GameMetaDataScript.connectedClientsUpdated.emit(client.uid)
 
 
 func disconnectPlayer() -> void:
-	rpc_id(1, "_disconnectPlayer", GameMetaDataScript.client.uid)
+	multiplayer.multiplayer_peer = null
+	peer = null
 
 
 @rpc("any_peer", "call_local", "reliable")
@@ -120,5 +127,6 @@ func _disconnectPlayer(id: int) -> void:
 func playerLeft(id: int) -> void:
 	if multiplayer.is_server():
 		rpc("_sendChat", GameMetaDataScript.connectedClients[id].playerName, "left")
+	
 	GameMetaDataScript.clientDisconnected.emit(id)
 	GameMetaDataScript.connectedClients.erase(id)
