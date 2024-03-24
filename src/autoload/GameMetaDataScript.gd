@@ -71,3 +71,13 @@ func setupPlayerInfoNode(data: Dictionary) -> void:
 	if multiplayer.get_unique_id() != 1:
 		data.playerInfoNode.get_node("Kick").disabled = true
 
+
+func setupSPInfoNode() -> void:
+	client.playerInfoNode = ResourceLoader.load("res://scenes/singleplayerPlayerInfo.tscn").instantiate()
+	client.playerInfoNode.get_node("PlayerNameLabel").text = client.playerName
+	client.playerInfoNode.get_node("Faction").select(client.faction)
+	client.playerInfoNode.get_node("OptionButton").select(1)
+
+
+func setupBotInfoNode() -> void:
+	pass
