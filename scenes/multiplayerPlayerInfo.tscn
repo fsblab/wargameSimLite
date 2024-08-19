@@ -98,4 +98,6 @@ text = "❌"
 [node name="VSeparator7" type="VSeparator" parent="."]
 layout_mode = 2
 
+[connection signal="item_selected" from="Faction" to="." method="selectFaction"]
+[connection signal="value_changed" from="Team" to="." method="setTeam"]
 [connection signal="pressed" from="Ready" to="." method="toggleReady"]

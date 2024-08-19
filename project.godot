@@ -20,6 +20,7 @@ config/icon="res://icon.svg"
 UnitSelectionScript="*res://src/autoload/UnitSelectionScript.gd"
 SettingsConfigScript="*res://src/autoload/SettingsConfigScript.gd"
 GameMetaDataScript="*res://src/autoload/GameMetaDataScript.gd"
+SignalBusScript="*res://src/autoload/SignalBusScript.gd"
 
 [display]
 

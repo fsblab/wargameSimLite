@@ -27,11 +27,14 @@ func cancelHost() -> void:
 
 func hostServer() -> void:
 	hostContainer.visible = false
+	
 	if not maxPlayers.text:
 		maxPlayers.text = maxPlayers.placeholder_text
 	if not hostPort.text:
 		hostPort.text = "7000"
-	openSkirmishLobby.emit(hostPort.text.to_int(), maxPlayers.text.to_int())
+	
+	GameMetaDataScript.lobby.maxPlayers = maxPlayers.text.to_int()
+	openSkirmishLobby.emit(hostPort.text.to_int(), 4095)
 
 
 func joinInput() -> void:

@@ -1,5 +1,6 @@
-res://scenes
 res://src/autoload
+res://src
+res://scenes
 N:/godotProjects/wargameLikeRTSGame/scenes/maps/Non Empty Test
 res://assets/materials
 res://assets/sprites/unitsymbols

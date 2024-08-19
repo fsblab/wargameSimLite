@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://src/menu/MainMenuCanvasScript.gd" id="1_uh67x"]
 [ext_resource type="PackedScene" uid="uid://dal3qfbn7tf7c" path="res://scenes/multiplayerMenu.tscn" id="2_31m8x"]
 [ext_resource type="PackedScene" uid="uid://b63mipdhbgvn2" path="res://scenes/settings.tscn" id="2_qs2n4"]
-[ext_resource type="PackedScene" uid="uid://clp7n16ypmd8y" path="res://scenes/skirmishMenu.tscn" id="2_qyjwr"]
+[ext_resource type="PackedScene" uid="uid://xekxadsyo5pg" path="res://scenes/skirmishMenu.tscn" id="2_qyjwr"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_tdlql"]
 

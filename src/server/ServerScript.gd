@@ -12,6 +12,10 @@ func _ready():
 	multiplayer.peer_disconnected.connect(playerLeft)
 	multiplayer.connected_to_server.connect(clientConnectedToServer)
 	
+	SignalBusScript.dcplayer.connect(disconnectPlayer)
+	SignalBusScript.sc.connect(sendChat)
+	SignalBusScript.scas.connect(sendChatAsServer)
+	
 	GameMetaDataScript.reset()
 
 
@@ -65,6 +69,10 @@ func _sendChat(pName: String, msg: String) -> void:
 	chatBox.scroll_vertical = INF
 
 
+func sendChatAsServer(msg: String) -> void:
+	rpc("_sendChat", "SERVER", msg)
+
+
 func clientConnectedToServer() -> void:
 	rpc("_sendChat", SettingsConfigScript.currentPlayerInfo["name"], "joined")
 
@@ -87,13 +95,13 @@ func closeConnection() -> void:
 func playerJoined(id: int) -> void:
 	#host sends list of players in lobby to newly connected client
 	if multiplayer.is_server():
-		rpc_id(id, "_requestPlayerData", GameMetaDataScript.connectedClients)
+		rpc_id(id, "_requestPlayerData", GameMetaDataScript.connectedClients, GameMetaDataScript.lobby)
 
 
 #only newly connected client executes this
 #sets up lobby with data of players currently in lobby
 @rpc("any_peer", "call_local", "reliable")
-func _requestPlayerData(clients: Dictionary) -> void:
+func _requestPlayerData(clients: Dictionary, lobbyInfo: Dictionary) -> void:
 	var id: int = multiplayer.get_unique_id()
 	
 	GameMetaDataScript.client.uid = id
@@ -102,7 +110,9 @@ func _requestPlayerData(clients: Dictionary) -> void:
 	for player in clients.values():
 		GameMetaDataScript.setupPlayerInfoNode(player)
 	
+	GameMetaDataScript.lobby.mayClients = lobbyInfo.maxClients
 	GameMetaDataScript.connectedClients.merge(clients)
+	GameMetaDataScript.lobby.merge(lobbyInfo)
 	rpc("_updateConnectedClients", GameMetaDataScript.client)
 
 
@@ -110,8 +120,16 @@ func _requestPlayerData(clients: Dictionary) -> void:
 func _updateConnectedClients(client: Dictionary) -> void:
 	GameMetaDataScript.connectedClients[client.uid] = client
 	GameMetaDataScript.setupPlayerInfoNode(client)
-	#GameMetaDataScript.setupPlayerInfoNode(GameMetaDataScript.connectedClients[client.uid])
 	GameMetaDataScript.connectedClientsUpdated.emit(client.uid)
+
+
+func lobbyClientChangedState() -> void:
+	rpc("_changeDataOnConnectedClient", GameMetaDataScript.client)
+
+
+@rpc("any_peer", "call_local", "reliable")
+func _changeDataOnConnectedClient(client: Dictionary) -> void:
+	GameMetaDataScript.updatePlayerInfoNode(client)
 
 
 func disconnectPlayer() -> void:

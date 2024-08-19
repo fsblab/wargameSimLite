@@ -1,12 +1,11 @@
-res://scenes/start.tscn
+res://scenes/skirmishMenu.tscn
 res://src/menu/SettingsScript.gd
+res://src/menu/SkirmishMenuScript.gd
+res://scenes/start.tscn
 res://scenes/units/tank_unit.tscn
 res://scenes/maps/Functionality Test/functionalityTest.tscn
 res://scenes/pauseMenu.tscn
 res://scenes/mainMenu.tscn
 res://scenes/ui.tscn
-res://scenes/skirmishMenu.tscn
 res://scenes/multiplayerMenu.tscn
 res://scenes/multiplayerPlayerInfo.tscn
-res://src/autoload/GameMetaDataScript.gd
-res://src/menu/SkirmishMenuScript.gd

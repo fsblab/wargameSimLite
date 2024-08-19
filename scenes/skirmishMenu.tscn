@@ -1,10 +1,29 @@
-[gd_scene load_steps=5 format=3 uid="uid://clp7n16ypmd8y"]
+[gd_scene load_steps=7 format=3 uid="uid://xekxadsyo5pg"]
 
 [ext_resource type="Script" path="res://src/menu/SkirmishMenuScript.gd" id="1_to3ks"]
+[ext_resource type="Script" path="res://src/menu/MapSettingsScript.gd" id="2_lasoi"]
 [ext_resource type="PackedScene" uid="uid://djwmgw835k35h" path="res://scenes/multiplayerPlayerInfo.tscn" id="2_p3rr2"]
 [ext_resource type="PackedScene" uid="uid://db58lpfhwwdb5" path="res://scenes/singleplayerPlayerInfo.tscn" id="3_iyg52"]
 
 [sub_resource type="ImageTexture" id="ImageTexture_v4god"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_tfd00"]
+properties/0/path = NodePath("HBoxContainer/SettingsContainer/MarginContainer/VBoxContainer/HBoxContainer/GridContainer/MaxPlayer:value")
+properties/0/spawn = true
+properties/0/sync = true
+properties/0/watch = false
+properties/1/path = NodePath("HBoxContainer/MapContainer/MarginContainer/VBoxContainer/HBoxContainer/GridContainer2/MapNameOptionButton:selected")
+properties/1/spawn = true
+properties/1/sync = true
+properties/1/watch = false
+properties/2/path = NodePath("HBoxContainer/MapContainer/MarginContainer/VBoxContainer/HBoxContainer/GridContainer/MapSize:text")
+properties/2/spawn = true
+properties/2/sync = true
+properties/2/watch = false
+properties/3/path = NodePath("HBoxContainer/MapContainer/MarginContainer/VBoxContainer/HBoxContainer/GridContainer/MaxNoTeams:text")
+properties/3/spawn = true
+properties/3/sync = true
+properties/3/watch = false
 
 [node name="SkirmishMenu" type="Control"]
 layout_mode = 3
@@ -34,6 +53,7 @@ theme_override_constants/separation = 8
 [node name="MapSettingsContainer" type="MarginContainer" parent="CenterContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
+script = ExtResource("2_lasoi")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/MarginContainer/VBoxContainer/MapSettingsContainer"]
 layout_mode = 2
@@ -64,6 +84,7 @@ layout_mode = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/MarginContainer/VBoxContainer/MapSettingsContainer/HBoxContainer/MapContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
+size_flags_vertical = 3
 theme_override_constants/separation = 8
 
 [node name="mapImage" type="TextureButton" parent="CenterContainer/MarginContainer/VBoxContainer/MapSettingsContainer/HBoxContainer/MapContainer/MarginContainer/VBoxContainer/HBoxContainer"]
@@ -147,6 +168,29 @@ horizontal_alignment = 2
 
 [node name="HSeparator" type="HSeparator" parent="CenterContainer/MarginContainer/VBoxContainer/MapSettingsContainer/HBoxContainer/SettingsContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/MarginContainer/VBoxContainer/MapSettingsContainer/HBoxContainer/SettingsContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 8
+
+[node name="GridContainer" type="GridContainer" parent="CenterContainer/MarginContainer/VBoxContainer/MapSettingsContainer/HBoxContainer/SettingsContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/h_separation = 8
+theme_override_constants/v_separation = 8
+columns = 4
+
+[node name="MaxPlayerLabel" type="Label" parent="CenterContainer/MarginContainer/VBoxContainer/MapSettingsContainer/HBoxContainer/SettingsContainer/MarginContainer/VBoxContainer/HBoxContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "MAXIMAL NUMBER OF PLAYERS:"
+
+[node name="MaxPlayer" type="SpinBox" parent="CenterContainer/MarginContainer/VBoxContainer/MapSettingsContainer/HBoxContainer/SettingsContainer/MarginContainer/VBoxContainer/HBoxContainer/GridContainer"]
+layout_mode = 2
+min_value = 1.0
+max_value = 4095.0
+value = 1.0
 
 [node name="PlayerInfoChatContainer" type="HBoxContainer" parent="CenterContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -346,6 +390,14 @@ layout_mode = 2
 size_flags_horizontal = 3
 text = "GO"
 
+[node name="Timer" type="Timer" parent="CenterContainer/MarginContainer/VBoxContainer/BottomButtonsContainer"]
+
+[node name="MapSettingsSynchronizer" type="MultiplayerSynchronizer" parent="."]
+root_path = NodePath("../CenterContainer/MarginContainer/VBoxContainer/MapSettingsContainer")
+replication_config = SubResource("SceneReplicationConfig_tfd00")
+
 [connection signal="item_selected" from="CenterContainer/MarginContainer/VBoxContainer/MapSettingsContainer/HBoxContainer/MapContainer/MarginContainer/VBoxContainer/HBoxContainer/GridContainer2/MapNameOptionButton" to="." method="setMapImage"]
+[connection signal="value_changed" from="CenterContainer/MarginContainer/VBoxContainer/MapSettingsContainer/HBoxContainer/SettingsContainer/MarginContainer/VBoxContainer/HBoxContainer/GridContainer/MaxPlayer" to="CenterContainer/MarginContainer/VBoxContainer/MapSettingsContainer" method="updateMaxPlayers"]
 [connection signal="pressed" from="CenterContainer/MarginContainer/VBoxContainer/BottomButtonsContainer/BackButton" to="." method="back"]
-[connection signal="pressed" from="CenterContainer/MarginContainer/VBoxContainer/BottomButtonsContainer/ReadyButton" to="." method="go"]
+[connection signal="pressed" from="CenterContainer/MarginContainer/VBoxContainer/BottomButtonsContainer/ReadyButton" to="." method="toggleCountdown"]
+[connection signal="timeout" from="CenterContainer/MarginContainer/VBoxContainer/BottomButtonsContainer/Timer" to="." method="countdown"]
