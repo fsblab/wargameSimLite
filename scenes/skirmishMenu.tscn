@@ -10,20 +10,16 @@
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_tfd00"]
 properties/0/path = NodePath("HBoxContainer/SettingsContainer/MarginContainer/VBoxContainer/HBoxContainer/GridContainer/MaxPlayer:value")
 properties/0/spawn = true
-properties/0/sync = true
-properties/0/watch = false
+properties/0/replication_mode = 1
 properties/1/path = NodePath("HBoxContainer/MapContainer/MarginContainer/VBoxContainer/HBoxContainer/GridContainer2/MapNameOptionButton:selected")
 properties/1/spawn = true
-properties/1/sync = true
-properties/1/watch = false
+properties/1/replication_mode = 1
 properties/2/path = NodePath("HBoxContainer/MapContainer/MarginContainer/VBoxContainer/HBoxContainer/GridContainer/MapSize:text")
 properties/2/spawn = true
-properties/2/sync = true
-properties/2/watch = false
+properties/2/replication_mode = 1
 properties/3/path = NodePath("HBoxContainer/MapContainer/MarginContainer/VBoxContainer/HBoxContainer/GridContainer/MaxNoTeams:text")
 properties/3/spawn = true
-properties/3/sync = true
-properties/3/watch = false
+properties/3/replication_mode = 1
 
 [node name="SkirmishMenu" type="Control"]
 layout_mode = 3
@@ -355,8 +351,8 @@ theme_override_constants/separation = 8
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_colors/background_color = Color(0.128906, 0.128906, 0.128906, 1)
-theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_readonly_color = Color(1, 1, 1, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 editable = false
 context_menu_enabled = false
 shortcut_keys_enabled = false

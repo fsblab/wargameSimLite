@@ -10,7 +10,7 @@ extends HBoxContainer
 func toggleReady() -> void:
 	var status = not GameMetaDataScript.client.isReady
 	if not status:
-		SignalBusScript.readySetFalse()
+		SignalBusScript.abortStartOfMatch()
 	sendChangeToClients("isReady", status)
 
 
@@ -24,7 +24,7 @@ func setTeam(val: float) -> void:
 
 func sendChangeToClients(what: String, toWhat) -> void:
 	GameMetaDataScript.client[what] = toWhat
-	server.lobbyClientChangedState()
+	SignalBusScript.lobbyClientChangedState()
 
 
 func setPlayerNameColor(color: Color) -> void:

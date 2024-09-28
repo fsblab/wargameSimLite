@@ -13,16 +13,13 @@ size = Vector3(2.00048, 1.35567, 5.77985)
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_q1e51"]
 properties/0/path = NodePath("Model:position")
 properties/0/spawn = true
-properties/0/sync = true
-properties/0/watch = false
+properties/0/replication_mode = 1
 properties/1/path = NodePath("Model:rotation")
 properties/1/spawn = true
-properties/1/sync = true
-properties/1/watch = false
+properties/1/replication_mode = 1
 properties/2/path = NodePath("Model:engine_force")
 properties/2/spawn = true
-properties/2/sync = true
-properties/2/watch = false
+properties/2/replication_mode = 1
 
 [node name="TankUnit" type="Node3D"]
 process_mode = 1

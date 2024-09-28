@@ -1,6 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://dal3qfbn7tf7c"]
+[gd_scene load_steps=3 format=3 uid="uid://dal3qfbn7tf7c"]
 
 [ext_resource type="Script" path="res://src/menu/MultiplayerMenuScript.gd" id="1_vjwf4"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_s434c"]
 
 [node name="MultiplayerMenu" type="Control"]
 layout_mode = 3
@@ -295,6 +297,26 @@ text = "CANCEL"
 layout_mode = 2
 size_flags_horizontal = 3
 text = "HOST"
+
+[node name="PopupPanel" type="PopupPanel" parent="."]
+auto_translate_mode = 1
+initial_position = 2
+size = Vector2i(9, 31)
+max_size = Vector2i(400, 100)
+theme_override_styles/panel = SubResource("StyleBoxEmpty_s434c")
+
+[node name="RedColorRect" type="ColorRect" parent="PopupPanel"]
+offset_right = 9.0
+offset_bottom = 31.0
+color = Color(1, 0, 0, 1)
+
+[node name="PopupLabel" type="Label" parent="PopupPanel"]
+offset_right = 9.0
+offset_bottom = 31.0
+size_flags_horizontal = 3
+size_flags_vertical = 6
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [connection signal="pressed" from="VBoxContainer/Buttons/HBoxContainer/BackButton" to="." method="back"]
 [connection signal="pressed" from="VBoxContainer/Buttons/HBoxContainer/HostButton" to="." method="hostInput"]

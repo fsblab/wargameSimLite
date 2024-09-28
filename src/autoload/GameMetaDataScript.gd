@@ -1,9 +1,6 @@
 extends Node
 
 
-signal connectedClientsUpdated
-signal clientDisconnected
-
 enum playMode {
 	NONE,
 	SINGLEPLAYER,
@@ -36,6 +33,7 @@ var currentSkirmishMode: skirmishMode
 var connectedClients: Dictionary
 var client: Dictionary
 var lobby: Dictionary
+var maxPlayers: int
 
 
 func reset() -> void:

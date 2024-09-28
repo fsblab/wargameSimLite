@@ -11,6 +11,12 @@ signal joinSkirmishLobby
 @onready var joinPort: LineEdit = $JoinContainer/MarginContainer/VBoxContainer/IpAndPort/Port
 @onready var maxPlayers: LineEdit = $hostContainer/MarginContainer/VBoxContainer/IpAndPort/MaxPlayers
 @onready var hostPort: LineEdit = $hostContainer/MarginContainer/VBoxContainer/IpAndPort/Port
+@onready var popupPanel: PopupPanel = $PopupPanel
+@onready var popupText: Label = $PopupPanel/PopupLabel
+
+
+func _ready() -> void:
+	SignalBusScript._cannotConnectToLobby.connect(cancelJoin)
 
 
 func back() -> void:
@@ -33,7 +39,7 @@ func hostServer() -> void:
 	if not hostPort.text:
 		hostPort.text = "7000"
 	
-	GameMetaDataScript.lobby.maxPlayers = maxPlayers.text.to_int()
+	GameMetaDataScript.lobby.maxClients = maxPlayers.text.to_int()
 	openSkirmishLobby.emit(hostPort.text.to_int(), 4095)
 
 
@@ -41,7 +47,10 @@ func joinInput() -> void:
 	joinContainer.visible = true
 
 
-func cancelJoin() -> void:
+func cancelJoin(msg = '') -> void:
+	if not msg == '':
+		popupPanel.show()
+		popupText.text = msg
 	joinContainer.visible = false
 
 

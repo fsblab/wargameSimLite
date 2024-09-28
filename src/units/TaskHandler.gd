@@ -14,7 +14,7 @@ var taskFinished: bool:
 	get: return taskFinished
 
 
-func _init():
+func _init() -> void:
 	args = []
 	hasDelta = false
 	taskFinished = true

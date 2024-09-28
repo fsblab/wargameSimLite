@@ -10,11 +10,13 @@ const localhost: String = "127.0.0.1"
 func _ready():
 	multiplayer.peer_connected.connect(playerJoined)
 	multiplayer.peer_disconnected.connect(playerLeft)
-	multiplayer.connected_to_server.connect(clientConnectedToServer)
+#	multiplayer.connected_to_server.connect(clientConnectedToServer)
 	
-	SignalBusScript.dcplayer.connect(disconnectPlayer)
-	SignalBusScript.sc.connect(sendChat)
-	SignalBusScript.scas.connect(sendChatAsServer)
+	SignalBusScript._disconnectPlayer.connect(disconnectPlayer)
+	SignalBusScript._lobbyClientChangedState.connect(lobbyClientChangedState)
+#	SignalBusScript.reqLobby.connect()
+	SignalBusScript._sendChat.connect(sendChat)
+	SignalBusScript._sendChatAsServer.connect(sendChatAsServer)
 	
 	GameMetaDataScript.reset()
 
@@ -56,7 +58,30 @@ func joinServer(ip: String, port: int) -> bool:
 		return false
 	
 	multiplayer.multiplayer_peer = peer
+
+	rpc("requestLobbyInfo")
+	
+	if GameMetaDataScript.lobby.maxClients == -1:
+		multiplayer.multiplayer_peer = null
+		peer = null
+		return false
+
 	return true
+
+
+@rpc("any_peer", "call_local", "reliable")
+func requestLobbyInfo(id) -> void:
+	if multiplayer.is_server():
+		if GameMetaDataScript.lobby.maxClients == GameMetaDataScript.connectedClients.size():
+			rpc_id(id, "sendLobbyInfo", GameMetaDataScript.lobby, -1)
+			return
+		rpc_id(id, "sendLobbyInfo", GameMetaDataScript.lobby, GameMetaDataScript.maxClients)
+
+
+@rpc("authority", "call_remote", "reliable")
+func sendLobbyInfo(lobbyInfo: Dictionary, maxClients: int) -> void:
+	GameMetaDataScript.lobby.maxClients = maxClients
+	GameMetaDataScript.lobby.merge(lobbyInfo)
 
 
 func sendChat(msg: String) -> void:
@@ -73,6 +98,7 @@ func sendChatAsServer(msg: String) -> void:
 	rpc("_sendChat", "SERVER", msg)
 
 
+## @deprecated
 func clientConnectedToServer() -> void:
 	rpc("_sendChat", SettingsConfigScript.currentPlayerInfo["name"], "joined")
 
@@ -83,8 +109,12 @@ func kickPlayer(id: int) -> void:
 
 @rpc("authority", "call_remote", "reliable")
 func _kickPlayer(id: int) -> void:
-	multiplayer.disconnect_peer(id)
-	GameMetaDataScript.connectedClients.erase(id)
+	multiplayer.multiplayer_peer = null
+	#multiplayer.disconnect_peer(id)
+	if GameMetaDataScript.connectedClients.has(id):
+		GameMetaDataScript.connectedClients.erase(id)
+	if GameMetaDataScript.currentGameMode == GameMetaDataScript.gameMode.SKIRMISH:
+		SignalBusScript.cannotConnectToLobby("lobby is full. Max Clients: " + str(GameMetaDataScript.lobby.maxClients))
 
 
 func closeConnection() -> void:
@@ -93,15 +123,18 @@ func closeConnection() -> void:
 
 
 func playerJoined(id: int) -> void:
-	#host sends list of players in lobby to newly connected client
+	#host sends list of clients in lobby to newly connected client
 	if multiplayer.is_server():
+		if GameMetaDataScript.lobby.maxClients == GameMetaDataScript.connectedClients.size():
+			rpc_id(id, "_kickPlayer", id)
+			return
 		rpc_id(id, "_requestPlayerData", GameMetaDataScript.connectedClients, GameMetaDataScript.lobby)
 
 
 #only newly connected client executes this
 #sets up lobby with data of players currently in lobby
 @rpc("any_peer", "call_local", "reliable")
-func _requestPlayerData(clients: Dictionary, lobbyInfo: Dictionary) -> void:
+func _requestPlayerData(clients: Dictionary, _lobbyInfo: Dictionary) -> void:
 	var id: int = multiplayer.get_unique_id()
 	
 	GameMetaDataScript.client.uid = id
@@ -110,9 +143,10 @@ func _requestPlayerData(clients: Dictionary, lobbyInfo: Dictionary) -> void:
 	for player in clients.values():
 		GameMetaDataScript.setupPlayerInfoNode(player)
 	
-	GameMetaDataScript.lobby.mayClients = lobbyInfo.maxClients
+	#GameMetaDataScript.lobby.mayClients = lobbyInfo.maxClients
 	GameMetaDataScript.connectedClients.merge(clients)
-	GameMetaDataScript.lobby.merge(lobbyInfo)
+	#GameMetaDataScript.lobby.merge(lobbyInfo)
+	rpc("_sendChat", SettingsConfigScript.currentPlayerInfo["name"], "joined")
 	rpc("_updateConnectedClients", GameMetaDataScript.client)
 
 
@@ -120,7 +154,7 @@ func _requestPlayerData(clients: Dictionary, lobbyInfo: Dictionary) -> void:
 func _updateConnectedClients(client: Dictionary) -> void:
 	GameMetaDataScript.connectedClients[client.uid] = client
 	GameMetaDataScript.setupPlayerInfoNode(client)
-	GameMetaDataScript.connectedClientsUpdated.emit(client.uid)
+	SignalBusScript.connectedClientsUpdated(client.uid)
 
 
 func lobbyClientChangedState() -> void:
@@ -143,8 +177,8 @@ func _disconnectPlayer(id: int) -> void:
 
 
 func playerLeft(id: int) -> void:
-	if multiplayer.is_server():
+	if multiplayer.is_server() and GameMetaDataScript.connectedClients.has(id):
 		rpc("_sendChat", GameMetaDataScript.connectedClients[id].playerName, "left")
 	
-	GameMetaDataScript.clientDisconnected.emit(id)
+	SignalBusScript.clientDisconnected(id)
 	GameMetaDataScript.connectedClients.erase(id)

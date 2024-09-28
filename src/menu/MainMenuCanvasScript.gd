@@ -25,29 +25,30 @@ func mp() -> void:
 	GameMetaDataScript.currentPlayMode = GameMetaDataScript.playMode.MULTIPLAYER
 
 
-func skirmish(port: int = 7000, maxPlayers: int = 1) -> void:
+func skirmish(port: int = 7000, maxClients: int = 1) -> void:
 	spMenu.visible = false
 	mpMenu.visible = false
 	skirmishMenu.visible = true
 	
 	GameMetaDataScript.currentGameMode =  GameMetaDataScript.gameMode.SKIRMISH
 
-	if not root.initServer(port, maxPlayers):
+	if not root.initServer(port, maxClients):
 		goBackFromSkirmish()
 	
 	skirmishMenu.initSkirmishMenu()
 
 
 func joinSkirmishLobby(ip: String, port: int) -> void:
+	if not root.joinServer(ip, port):
+		return
+	
 	spMenu.visible = false
 	mpMenu.visible = false
 	skirmishMenu.visible = true
 	
 	GameMetaDataScript.currentGameMode =  GameMetaDataScript.gameMode.SKIRMISH
 
-	if not root.joinServer(ip, port):
-		goBackFromSkirmish()
-	
+
 	skirmishMenu.initSkirmishMenu()
 
 

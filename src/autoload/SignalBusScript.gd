@@ -1,25 +1,55 @@
 extends Node
 
 #PlayerInfoScript -> SkirmishMenuScript
-signal abortStartOfMatch
+signal _abortStartOfMatch
+#ServerScript -> SkirmishMenuScript
+signal _cannotConnectToLobby(msg: String)
+#ServerScript -> SkirmishMenuScript
+signal _clientDisconnected(id: int)
+#ServerScript -> SkirmishMenuScript
+signal _connectedClientsUpdated(id: int)
 #SkirmishMenu -> ServerScript
-signal dcplayer
-#SkirmishMenu -> ServerScript
-signal sc(msg: String)
-signal scas(msg: String)
+signal _disconnectPlayer
+#PlayerInfoScript -> ServerScript
+signal _lobbyClientChangedState
+#MainMenuCanvasScript -> ServerScript
+signal _requestLobbyInfo
+#SkirmishMenuScript -> ServerScript
+signal _sendChat(msg: String)
+signal _sendChatAsServer(msg: String)
+
+
+func abortStartOfMatch() -> void:
+	_abortStartOfMatch.emit()
+
+
+func cannotConnectToLobby(msg: String) -> void:
+	_cannotConnectToLobby.emit(msg)
+
+
+func clientDisconnected(id: int) -> void:
+	_clientDisconnected.emit(id)
+
+
+func connectedClientsUpdated(id: int) -> void:
+	_connectedClientsUpdated.emit(id)
 
 
 func disconnectPlayer() -> void:
-	dcplayer.emit()
+	_disconnectPlayer.emit()
 
 
-func readySetFalse() -> void:
-	abortStartOfMatch.emit()
+func lobbyClientChangedState() -> void:
+	_lobbyClientChangedState.emit()
+
+
+func requestLobbyInfo() -> void:
+	_requestLobbyInfo.emit()
 
 
 func sendChat(msg: String) -> void:
-	sc.emit(msg)
+	_sendChat.emit(msg)
 
 
 func sendChatAsServer(msg: String) -> void:
-	scas.emit(msg)
+	_sendChatAsServer.emit(msg)

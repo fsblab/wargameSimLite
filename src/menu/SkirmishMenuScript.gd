@@ -23,9 +23,10 @@ var clientContainer: VBoxContainer
 var timerCounter: int
 
 func _ready():
-	GameMetaDataScript.connectedClientsUpdated.connect(addPlayer)
-	GameMetaDataScript.clientDisconnected.connect(removePlayer)
-	SignalBusScript.abortStartOfMatch.connect(stopCountdown)
+	SignalBusScript._connectedClientsUpdated.connect(addPlayer)
+	SignalBusScript._clientDisconnected.connect(removePlayer)
+	SignalBusScript._abortStartOfMatch.connect(stopCountdown)
+	SignalBusScript._cannotConnectToLobby.connect(back)
 	
 	for mapName in defaultMaps:
 		mapNameOptionButton.add_item(mapName)
@@ -54,6 +55,7 @@ func initSkirmishMenu() -> void:
 		clientContainer = mpClientContainer
 		GameMetaDataScript.setupPlayerInfoNode(GameMetaDataScript.client)
 		maxPlayerBox.value = GameMetaDataScript.lobby.maxClients
+		maxPlayerBox.apply()
 	else:
 		back()
 		return
@@ -72,7 +74,8 @@ func addPlayer(id: int) -> void:
 
 
 func removePlayer(id: int) -> void:
-	GameMetaDataScript.connectedClients[id].playerInfoNode.queue_free()
+	if GameMetaDataScript.connectedClients.has(id):
+		GameMetaDataScript.connectedClients[id].playerInfoNode.queue_free()
 
 
 func resetClientContainer() -> void:
@@ -82,6 +85,7 @@ func resetClientContainer() -> void:
 
 
 func go() -> void:
+	resetClientContainer()
 	timerCounter = 5
 	message.text = ""
 	chatBox.text = ""
@@ -89,7 +93,10 @@ func go() -> void:
 	startSkirmish.emit(mapNameOptionButton.get_item_text(mapNameOptionButton.selected))
 
 
-func back() -> void:
+func back(msg: String = '') -> void:
+	if not msg == '':
+		#TODO: small info box displaying message
+		pass
 	resetClientContainer()
 	chatBox.text = ""
 	message.text = ""
@@ -126,13 +133,13 @@ func toggleCountdown() -> void:
 
 @rpc("any_peer", "call_local", "reliable")
 func _toggleCountdown() -> void:
-	print(multiplayer.get_unique_id())
 	if timer.is_stopped():
-		for client in GameMetaDataScript.connectedClients:
-			if GameMetaDataScript.connectedClients[client].isReady == false:
-				if multiplayer.get_unique_id() == 1:
-					chatMessage('', "EVERYONE IS REQUIRED TO BE READY FOR THE GAME TO START")
-				return
+		if GameMetaDataScript.currentPlayMode == GameMetaDataScript.playMode.MULTIPLAYER:
+			for client in GameMetaDataScript.connectedClients:
+				if GameMetaDataScript.connectedClients[client].isReady == false:
+					if multiplayer.get_unique_id() == 1:
+						chatMessage('', "EVERYONE IS REQUIRED TO BE READY FOR THE GAME TO START")
+					return
 		readyButton.text = "CANCEL"
 		timer.start()
 	else:
