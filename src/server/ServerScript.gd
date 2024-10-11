@@ -11,10 +11,12 @@ func _ready():
 	multiplayer.peer_connected.connect(playerJoined)
 	multiplayer.peer_disconnected.connect(playerLeft)
 #	multiplayer.connected_to_server.connect(clientConnectedToServer)
+	multiplayer.connection_failed.connect(goBack)
+	multiplayer.server_disconnected.connect(goBack)
 	
 	SignalBusScript._disconnectPlayer.connect(disconnectPlayer)
 	SignalBusScript._lobbyClientChangedState.connect(lobbyClientChangedState)
-#	SignalBusScript.reqLobby.connect()
+#	SignalBusScript._requestLobbyInfo.connect()
 	SignalBusScript._sendChat.connect(sendChat)
 	SignalBusScript._sendChatAsServer.connect(sendChatAsServer)
 	
@@ -36,6 +38,12 @@ func initServer(port: int = 7000, maxClients: int = 1) -> bool:
 	GameMetaDataScript.client.uid = multiplayer.get_unique_id()
 	GameMetaDataScript.connectedClients[GameMetaDataScript.client.uid] = GameMetaDataScript.client
 	set_multiplayer_authority(GameMetaDataScript.client.uid)
+
+	if GameMetaDataScript.currentPlayMode == GameMetaDataScript.playMode.SINGLEPLAYER:
+		peer.refuse_new_connections = true
+	else:
+		peer.refuse_new_connections = false
+	
 	sendChat("Lobby created")
 	return true
 
@@ -182,3 +190,9 @@ func playerLeft(id: int) -> void:
 	
 	SignalBusScript.clientDisconnected(id)
 	GameMetaDataScript.connectedClients.erase(id)
+
+
+func goBack() -> void:
+	print("test")
+	closeConnection()
+	SignalBusScript.cannotConnectToLobby("Connection could not be established.")
