@@ -61,10 +61,10 @@ func setupPlayerList() -> void:
 
 		lSettings.font_color = GameMetaDataScript.factionColor.get(int(player.faction))
 		lSettings.outline_color = Color(0, 0, 0, 1)
-		lSettings.font_size = 40
+		lSettings.font_size = 16
 
-		infoNode.get_node("HBoxContainer/PlayerName").label_settings = lSettings
-		infoNode.get_node("HBoxContainer/PlayerName").text = player.playerName
+		infoNode.get_node("PlayerName").label_settings = lSettings
+		infoNode.get_node("PlayerName").text = player.playerName
 		
 		playerList.add_child(infoNode)
 
