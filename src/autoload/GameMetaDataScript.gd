@@ -26,6 +26,15 @@ enum faction {
 	YELLOW
 }
 
+const factionColor = {
+	faction.NONE: Color(0, 0 , 0, 1),
+	faction.BLACK: Color(0, 0, 0, 1),
+	faction.BLUE: Color(0, 1, 1, 1),
+	faction.GREEN: Color(0, 1, 0, 1),
+	faction.RED: Color(1, 0, 0, 1),
+	faction.YELLOW: Color(1, 1, 0, 1)
+}
+
 var currentPlayMode: playMode
 var currentGameMode: gameMode
 var currentFaction: faction

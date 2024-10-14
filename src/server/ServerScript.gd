@@ -193,6 +193,5 @@ func playerLeft(id: int) -> void:
 
 
 func goBack() -> void:
-	print("test")
 	closeConnection()
 	SignalBusScript.cannotConnectToLobby("Connection could not be established.")

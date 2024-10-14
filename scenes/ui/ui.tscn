@@ -1,18 +1,18 @@
 [gd_scene load_steps=14 format=3 uid="uid://duqs6lco5hrwv"]
 
-[ext_resource type="Script" path="res://src/UI/UIScript.gd" id="1_7hcav"]
-[ext_resource type="Texture2D" uid="uid://cq0832vfctcr3" path="res://assets/sprites/unitsymbols/logistics.png" id="2_vrexi"]
-[ext_resource type="Texture2D" uid="uid://iqglvxby6mlu" path="res://assets/sprites/unitsymbols/supplyAndTransportation.png" id="3_6ev42"]
-[ext_resource type="Texture2D" uid="uid://bodoalqdls7as" path="res://assets/sprites/unitsymbols/infantry.png" id="3_i0bik"]
-[ext_resource type="Texture2D" uid="uid://cmg1lbgff4yer" path="res://assets/sprites/unitsymbols/artillery.png" id="4_ciwga"]
-[ext_resource type="Texture2D" uid="uid://b55jidk816j76" path="res://assets/sprites/unitsymbols/supplyHelicopter.png" id="4_najv1"]
-[ext_resource type="Texture2D" uid="uid://dg580l05f63wm" path="res://assets/sprites/unitsymbols/tank.png" id="5_0myvj"]
-[ext_resource type="Texture2D" uid="uid://c7jxidbahit2" path="res://assets/sprites/unitsymbols/maintenance.png" id="5_6w0qe"]
-[ext_resource type="Texture2D" uid="uid://rd1c1a6kdsvn" path="res://assets/sprites/unitsymbols/airdefence.png" id="6_rfwmx"]
-[ext_resource type="Texture2D" uid="uid://ci1bel28cd7tq" path="res://assets/sprites/unitsymbols/recon.png" id="7_51m32"]
-[ext_resource type="Texture2D" uid="uid://dqt3tmahriaju" path="res://assets/sprites/unitsymbols/engineer.png" id="8_i5w8v"]
-[ext_resource type="Texture2D" uid="uid://438tm1nx15u6" path="res://assets/sprites/unitsymbols/heli.png" id="8_mhdls"]
-[ext_resource type="Texture2D" uid="uid://clqtifdjbmt4t" path="res://assets/sprites/unitsymbols/plane.png" id="9_6gmpj"]
+[ext_resource type="Script" path="res://src/UI/UIScript.gd" id="1_0dwn8"]
+[ext_resource type="Texture2D" uid="uid://cq0832vfctcr3" path="res://assets/sprites/unitsymbols/logistics.png" id="2_7ebp5"]
+[ext_resource type="Texture2D" uid="uid://iqglvxby6mlu" path="res://assets/sprites/unitsymbols/supplyAndTransportation.png" id="3_jms1v"]
+[ext_resource type="Texture2D" uid="uid://b55jidk816j76" path="res://assets/sprites/unitsymbols/supplyHelicopter.png" id="4_b1lx0"]
+[ext_resource type="Texture2D" uid="uid://c7jxidbahit2" path="res://assets/sprites/unitsymbols/maintenance.png" id="5_q3557"]
+[ext_resource type="Texture2D" uid="uid://bodoalqdls7as" path="res://assets/sprites/unitsymbols/infantry.png" id="6_s6sn0"]
+[ext_resource type="Texture2D" uid="uid://rd1c1a6kdsvn" path="res://assets/sprites/unitsymbols/airdefence.png" id="7_5fjf6"]
+[ext_resource type="Texture2D" uid="uid://cmg1lbgff4yer" path="res://assets/sprites/unitsymbols/artillery.png" id="8_1slsm"]
+[ext_resource type="Texture2D" uid="uid://dg580l05f63wm" path="res://assets/sprites/unitsymbols/tank.png" id="9_3ubv2"]
+[ext_resource type="Texture2D" uid="uid://ci1bel28cd7tq" path="res://assets/sprites/unitsymbols/recon.png" id="10_qmc1i"]
+[ext_resource type="Texture2D" uid="uid://dqt3tmahriaju" path="res://assets/sprites/unitsymbols/engineer.png" id="11_brltc"]
+[ext_resource type="Texture2D" uid="uid://438tm1nx15u6" path="res://assets/sprites/unitsymbols/heli.png" id="12_82oy1"]
+[ext_resource type="Texture2D" uid="uid://clqtifdjbmt4t" path="res://assets/sprites/unitsymbols/plane.png" id="13_wge8m"]
 
 [node name="UI" type="Control" groups=["UI"]]
 layout_mode = 3
@@ -21,7 +21,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_7hcav")
+script = ExtResource("1_0dwn8")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -51,7 +51,7 @@ theme_override_constants/separation = 8
 
 [node name="Logistics" type="TextureButton" parent="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
-texture_normal = ExtResource("2_vrexi")
+texture_normal = ExtResource("2_7ebp5")
 
 [node name="LogisticsUnits" type="CenterContainer" parent="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer/Logistics"]
 visible = false
@@ -81,19 +81,19 @@ theme_override_constants/separation = 8
 [node name="SupplyAndTransportation" type="TextureButton" parent="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer/Logistics/LogisticsUnits/PanelContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
-texture_normal = ExtResource("3_6ev42")
+texture_normal = ExtResource("3_jms1v")
 
 [node name="SupplyHelicopter" type="TextureButton" parent="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer/Logistics/LogisticsUnits/PanelContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
-texture_normal = ExtResource("4_najv1")
+texture_normal = ExtResource("4_b1lx0")
 
 [node name="Maintenance" type="TextureButton" parent="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer/Logistics/LogisticsUnits/PanelContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
-texture_normal = ExtResource("5_6w0qe")
+texture_normal = ExtResource("5_q3557")
 
 [node name="Infantry" type="TextureButton" parent="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
-texture_normal = ExtResource("3_i0bik")
+texture_normal = ExtResource("6_s6sn0")
 
 [node name="InfantryUnits" type="CenterContainer" parent="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer/Infantry"]
 visible = false
@@ -122,23 +122,23 @@ theme_override_constants/separation = 8
 
 [node name="Infantry" type="TextureButton" parent="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer/Infantry/InfantryUnits/PanelContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
-texture_normal = ExtResource("3_i0bik")
+texture_normal = ExtResource("6_s6sn0")
 
 [node name="Infantry2" type="TextureButton" parent="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer/Infantry/InfantryUnits/PanelContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
-texture_normal = ExtResource("3_i0bik")
+texture_normal = ExtResource("6_s6sn0")
 
 [node name="Infantry3" type="TextureButton" parent="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer/Infantry/InfantryUnits/PanelContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
-texture_normal = ExtResource("3_i0bik")
+texture_normal = ExtResource("6_s6sn0")
 
 [node name="Infantry4" type="TextureButton" parent="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer/Infantry/InfantryUnits/PanelContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
-texture_normal = ExtResource("3_i0bik")
+texture_normal = ExtResource("6_s6sn0")
 
 [node name="AntiAir" type="TextureButton" parent="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
-texture_normal = ExtResource("6_rfwmx")
+texture_normal = ExtResource("7_5fjf6")
 
 [node name="AntiAirUnits" type="CenterContainer" parent="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer/AntiAir"]
 visible = false
@@ -168,15 +168,15 @@ theme_override_constants/separation = 8
 [node name="Logistics" type="TextureButton" parent="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer/AntiAir/AntiAirUnits/PanelContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
-texture_normal = ExtResource("2_vrexi")
+texture_normal = ExtResource("2_7ebp5")
 
 [node name="Infantry" type="TextureButton" parent="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer/AntiAir/AntiAirUnits/PanelContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
-texture_normal = ExtResource("3_i0bik")
+texture_normal = ExtResource("6_s6sn0")
 
 [node name="Artillery" type="TextureButton" parent="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
-texture_normal = ExtResource("4_ciwga")
+texture_normal = ExtResource("8_1slsm")
 
 [node name="ArtilleryUnits" type="CenterContainer" parent="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer/Artillery"]
 visible = false
@@ -206,15 +206,15 @@ theme_override_constants/separation = 8
 [node name="Logistics" type="TextureButton" parent="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer/Artillery/ArtilleryUnits/PanelContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
-texture_normal = ExtResource("2_vrexi")
+texture_normal = ExtResource("2_7ebp5")
 
 [node name="Infantry" type="TextureButton" parent="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer/Artillery/ArtilleryUnits/PanelContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
-texture_normal = ExtResource("3_i0bik")
+texture_normal = ExtResource("6_s6sn0")
 
 [node name="Tank" type="TextureButton" parent="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
-texture_normal = ExtResource("5_0myvj")
+texture_normal = ExtResource("9_3ubv2")
 
 [node name="TankUnits" type="CenterContainer" parent="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer/Tank"]
 visible = false
@@ -244,15 +244,15 @@ theme_override_constants/separation = 8
 [node name="Logistics" type="TextureButton" parent="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer/Tank/TankUnits/PanelContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
-texture_normal = ExtResource("2_vrexi")
+texture_normal = ExtResource("2_7ebp5")
 
 [node name="Infantry" type="TextureButton" parent="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer/Tank/TankUnits/PanelContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
-texture_normal = ExtResource("3_i0bik")
+texture_normal = ExtResource("6_s6sn0")
 
 [node name="Reconnaissance" type="TextureButton" parent="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
-texture_normal = ExtResource("7_51m32")
+texture_normal = ExtResource("10_qmc1i")
 
 [node name="ReconnaissanceUnits" type="CenterContainer" parent="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer/Reconnaissance"]
 visible = false
@@ -282,15 +282,15 @@ theme_override_constants/separation = 8
 [node name="Logistics" type="TextureButton" parent="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer/Reconnaissance/ReconnaissanceUnits/PanelContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
-texture_normal = ExtResource("2_vrexi")
+texture_normal = ExtResource("2_7ebp5")
 
 [node name="Infantry" type="TextureButton" parent="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer/Reconnaissance/ReconnaissanceUnits/PanelContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
-texture_normal = ExtResource("3_i0bik")
+texture_normal = ExtResource("6_s6sn0")
 
 [node name="Engineer" type="TextureButton" parent="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
-texture_normal = ExtResource("8_i5w8v")
+texture_normal = ExtResource("11_brltc")
 
 [node name="EngineerUnits" type="CenterContainer" parent="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer/Engineer"]
 visible = false
@@ -320,15 +320,15 @@ theme_override_constants/separation = 8
 [node name="Logistics" type="TextureButton" parent="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer/Engineer/EngineerUnits/PanelContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
-texture_normal = ExtResource("2_vrexi")
+texture_normal = ExtResource("2_7ebp5")
 
 [node name="Infantry" type="TextureButton" parent="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer/Engineer/EngineerUnits/PanelContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
-texture_normal = ExtResource("3_i0bik")
+texture_normal = ExtResource("6_s6sn0")
 
 [node name="Helicopter" type="TextureButton" parent="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
-texture_normal = ExtResource("8_mhdls")
+texture_normal = ExtResource("12_82oy1")
 
 [node name="HelicopterUnits" type="CenterContainer" parent="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer/Helicopter"]
 visible = false
@@ -358,15 +358,15 @@ theme_override_constants/separation = 8
 [node name="Logistics" type="TextureButton" parent="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer/Helicopter/HelicopterUnits/PanelContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
-texture_normal = ExtResource("2_vrexi")
+texture_normal = ExtResource("2_7ebp5")
 
 [node name="Infantry" type="TextureButton" parent="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer/Helicopter/HelicopterUnits/PanelContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
-texture_normal = ExtResource("3_i0bik")
+texture_normal = ExtResource("6_s6sn0")
 
 [node name="Plane" type="TextureButton" parent="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
-texture_normal = ExtResource("9_6gmpj")
+texture_normal = ExtResource("13_wge8m")
 
 [node name="PlaneUnits" type="CenterContainer" parent="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer/Plane"]
 visible = false
@@ -396,25 +396,72 @@ theme_override_constants/separation = 8
 [node name="Logistics" type="TextureButton" parent="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer/Plane/PlaneUnits/PanelContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
-texture_normal = ExtResource("2_vrexi")
+texture_normal = ExtResource("2_7ebp5")
 
 [node name="Infantry" type="TextureButton" parent="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer/Plane/PlaneUnits/PanelContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
-texture_normal = ExtResource("3_i0bik")
+texture_normal = ExtResource("6_s6sn0")
 
 [node name="MiniMap" type="CenterContainer" parent="CanvasLayer"]
+modulate = Color(0, 1, 1, 1)
+custom_minimum_size = Vector2(400, 400)
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -40.0
-offset_bottom = 40.0
+offset_left = -408.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = 408.0
 grow_horizontal = 0
 
 [node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/MiniMap"]
+custom_minimum_size = Vector2(400, 400)
 layout_mode = 2
 
 [node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/MiniMap/PanelContainer"]
+custom_minimum_size = Vector2(5, 5)
 layout_mode = 2
+
+[node name="Players" type="CenterContainer" parent="CanvasLayer"]
+modulate = Color(0, 1, 1, 1)
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -308.0
+offset_top = 416.0
+offset_right = -8.0
+offset_bottom = 616.0
+grow_horizontal = 0
+
+[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/Players"]
+custom_minimum_size = Vector2(300, 200)
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Players/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/Players/PanelContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Players/PanelContainer/MarginContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 2
+
+[node name="PlayerTitle" type="Label" parent="CanvasLayer/Players/PanelContainer/MarginContainer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+text = "Players"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="CanvasLayer/Players/PanelContainer/MarginContainer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 0
 
 [node name="UnitButtons" type="CenterContainer" parent="CanvasLayer"]
 modulate = Color(0, 1, 1, 1)
@@ -447,6 +494,7 @@ columns = 2
 [node name="Stop" type="Button" parent="CanvasLayer/UnitButtons/PanelContainer/MarginContainer/GridContainer"]
 custom_minimum_size = Vector2(120, 50)
 layout_mode = 2
+mouse_filter = 1
 text = "STOP"
 
 [node name="FireAt" type="Button" parent="CanvasLayer/UnitButtons/PanelContainer/MarginContainer/GridContainer"]

@@ -47,8 +47,7 @@ func joinSkirmishLobby(ip: String, port: int) -> void:
 	skirmishMenu.visible = true
 	
 	GameMetaDataScript.currentGameMode =  GameMetaDataScript.gameMode.SKIRMISH
-
-
+	
 	skirmishMenu.initSkirmishMenu()
 
 

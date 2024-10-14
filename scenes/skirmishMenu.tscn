@@ -205,130 +205,144 @@ theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 
-[node name="Multiplayer" type="VBoxContainer" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer"]
+[node name="MultiplayerScrollContainer" type="ScrollContainer" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer"]
 layout_mode = 2
+mouse_filter = 2
+horizontal_scroll_mode = 0
+
+[node name="Multiplayer" type="VBoxContainer" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/MultiplayerScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 theme_override_constants/separation = -1
 
-[node name="MultiplayerTable" type="HBoxContainer" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/Multiplayer"]
+[node name="MultiplayerTable" type="HBoxContainer" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/MultiplayerScrollContainer/Multiplayer"]
 layout_mode = 2
 
-[node name="VSeparator8" type="VSeparator" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/Multiplayer/MultiplayerTable"]
+[node name="VSeparator8" type="VSeparator" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/MultiplayerScrollContainer/Multiplayer/MultiplayerTable"]
 layout_mode = 2
 
-[node name="Label2" type="Label" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/Multiplayer/MultiplayerTable"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="VSeparator6" type="VSeparator" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/Multiplayer/MultiplayerTable"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/Multiplayer/MultiplayerTable"]
+[node name="Label2" type="Label" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/MultiplayerScrollContainer/Multiplayer/MultiplayerTable"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="VSeparator" type="VSeparator" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/Multiplayer/MultiplayerTable"]
+[node name="VSeparator6" type="VSeparator" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/MultiplayerScrollContainer/Multiplayer/MultiplayerTable"]
 layout_mode = 2
 
-[node name="PlayerNameLabel" type="Label" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/Multiplayer/MultiplayerTable"]
+[node name="Label" type="Label" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/MultiplayerScrollContainer/Multiplayer/MultiplayerTable"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="VSeparator" type="VSeparator" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/MultiplayerScrollContainer/Multiplayer/MultiplayerTable"]
+layout_mode = 2
+
+[node name="PlayerNameLabel" type="Label" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/MultiplayerScrollContainer/Multiplayer/MultiplayerTable"]
 layout_mode = 2
 size_flags_horizontal = 6
 text = "NAME"
 
-[node name="VSeparator2" type="VSeparator" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/Multiplayer/MultiplayerTable"]
+[node name="VSeparator2" type="VSeparator" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/MultiplayerScrollContainer/Multiplayer/MultiplayerTable"]
 layout_mode = 2
 
-[node name="FactionLabel" type="Label" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/Multiplayer/MultiplayerTable"]
+[node name="FactionLabel" type="Label" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/MultiplayerScrollContainer/Multiplayer/MultiplayerTable"]
 layout_mode = 2
 size_flags_horizontal = 6
 text = "FACTION"
 
-[node name="VSeparator3" type="VSeparator" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/Multiplayer/MultiplayerTable"]
+[node name="VSeparator3" type="VSeparator" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/MultiplayerScrollContainer/Multiplayer/MultiplayerTable"]
 layout_mode = 2
 
-[node name="TeamLabel" type="Label" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/Multiplayer/MultiplayerTable"]
+[node name="TeamLabel" type="Label" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/MultiplayerScrollContainer/Multiplayer/MultiplayerTable"]
 layout_mode = 2
 size_flags_horizontal = 6
 text = "TEAM"
 
-[node name="VSeparator7" type="VSeparator" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/Multiplayer/MultiplayerTable"]
+[node name="VSeparator7" type="VSeparator" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/MultiplayerScrollContainer/Multiplayer/MultiplayerTable"]
 layout_mode = 2
 
-[node name="PingLabel" type="Label" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/Multiplayer/MultiplayerTable"]
+[node name="PingLabel" type="Label" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/MultiplayerScrollContainer/Multiplayer/MultiplayerTable"]
 layout_mode = 2
 size_flags_horizontal = 6
 text = "PING"
 
-[node name="VSeparator4" type="VSeparator" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/Multiplayer/MultiplayerTable"]
+[node name="VSeparator4" type="VSeparator" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/MultiplayerScrollContainer/Multiplayer/MultiplayerTable"]
 layout_mode = 2
 
-[node name="ReadyLabel" type="Label" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/Multiplayer/MultiplayerTable"]
+[node name="ReadyLabel" type="Label" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/MultiplayerScrollContainer/Multiplayer/MultiplayerTable"]
 layout_mode = 2
 size_flags_horizontal = 6
 text = "READY"
 
-[node name="VSeparator5" type="VSeparator" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/Multiplayer/MultiplayerTable"]
+[node name="VSeparator5" type="VSeparator" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/MultiplayerScrollContainer/Multiplayer/MultiplayerTable"]
 layout_mode = 2
 
-[node name="HSeparator" type="HSeparator" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/Multiplayer"]
+[node name="HSeparator" type="HSeparator" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/MultiplayerScrollContainer/Multiplayer"]
 layout_mode = 2
 
-[node name="MultiplayerPlayerInfo" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/Multiplayer" instance=ExtResource("2_p3rr2")]
+[node name="MultiplayerPlayerInfo" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/MultiplayerScrollContainer/Multiplayer" instance=ExtResource("2_p3rr2")]
 visible = false
 layout_mode = 2
 
-[node name="HSeparator2" type="HSeparator" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/Multiplayer"]
+[node name="HSeparator2" type="HSeparator" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/MultiplayerScrollContainer/Multiplayer"]
 visible = false
 layout_mode = 2
 
-[node name="Singleplayer" type="VBoxContainer" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer"]
+[node name="SingleplayerScrollContainer" type="ScrollContainer" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer"]
 layout_mode = 2
+mouse_filter = 2
+horizontal_scroll_mode = 0
+
+[node name="Singleplayer" type="VBoxContainer" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/SingleplayerScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 theme_override_constants/separation = -1
 
-[node name="SingleplayerTable" type="HBoxContainer" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/Singleplayer"]
+[node name="SingleplayerTable" type="HBoxContainer" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/SingleplayerScrollContainer/Singleplayer"]
 layout_mode = 2
 
-[node name="VSeparator" type="VSeparator" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/Singleplayer/SingleplayerTable"]
+[node name="VSeparator" type="VSeparator" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/SingleplayerScrollContainer/Singleplayer/SingleplayerTable"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/Singleplayer/SingleplayerTable"]
+[node name="Label" type="Label" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/SingleplayerScrollContainer/Singleplayer/SingleplayerTable"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="VSeparator2" type="VSeparator" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/Singleplayer/SingleplayerTable"]
+[node name="VSeparator2" type="VSeparator" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/SingleplayerScrollContainer/Singleplayer/SingleplayerTable"]
 layout_mode = 2
 
-[node name="PlayerNameLabel" type="Label" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/Singleplayer/SingleplayerTable"]
+[node name="PlayerNameLabel" type="Label" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/SingleplayerScrollContainer/Singleplayer/SingleplayerTable"]
 layout_mode = 2
 size_flags_horizontal = 6
 text = "NAME"
 
-[node name="VSeparator3" type="VSeparator" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/Singleplayer/SingleplayerTable"]
+[node name="VSeparator3" type="VSeparator" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/SingleplayerScrollContainer/Singleplayer/SingleplayerTable"]
 layout_mode = 2
 
-[node name="FactionLabel" type="Label" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/Singleplayer/SingleplayerTable"]
+[node name="FactionLabel" type="Label" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/SingleplayerScrollContainer/Singleplayer/SingleplayerTable"]
 layout_mode = 2
 size_flags_horizontal = 6
 text = "FACTION"
 
-[node name="VSeparator4" type="VSeparator" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/Singleplayer/SingleplayerTable"]
+[node name="VSeparator4" type="VSeparator" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/SingleplayerScrollContainer/Singleplayer/SingleplayerTable"]
 layout_mode = 2
 
-[node name="TeamLabel" type="Label" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/Singleplayer/SingleplayerTable"]
+[node name="TeamLabel" type="Label" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/SingleplayerScrollContainer/Singleplayer/SingleplayerTable"]
 layout_mode = 2
 size_flags_horizontal = 6
 text = "TEAM"
 
-[node name="VSeparator5" type="VSeparator" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/Singleplayer/SingleplayerTable"]
+[node name="VSeparator5" type="VSeparator" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/SingleplayerScrollContainer/Singleplayer/SingleplayerTable"]
 layout_mode = 2
 
-[node name="HSeparator" type="HSeparator" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/Singleplayer"]
+[node name="HSeparator" type="HSeparator" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/SingleplayerScrollContainer/Singleplayer"]
 layout_mode = 2
 
-[node name="SingleplayerPlayerInfo" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/Singleplayer" instance=ExtResource("3_iyg52")]
+[node name="SingleplayerPlayerInfo" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/SingleplayerScrollContainer/Singleplayer" instance=ExtResource("3_iyg52")]
 visible = false
 layout_mode = 2
 
-[node name="HSeparator2" type="HSeparator" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/Singleplayer"]
+[node name="HSeparator2" type="HSeparator" parent="CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/SingleplayerScrollContainer/Singleplayer"]
 visible = false
 layout_mode = 2
 

@@ -40,6 +40,7 @@ func hostServer() -> void:
 		hostPort.text = "7000"
 	
 	GameMetaDataScript.lobby.maxClients = maxPlayers.text.to_int()
+	GameMetaDataScript.lobby.maxClients = 1 if GameMetaDataScript.lobby.maxClients < 1 else 4095 if GameMetaDataScript.lobby.maxClients > 4095 else GameMetaDataScript.lobby.maxClients
 	openSkirmishLobby.emit(hostPort.text.to_int(), 4095)
 
 
@@ -48,7 +49,7 @@ func joinInput() -> void:
 
 
 func cancelJoin(msg = '') -> void:
-	if not msg == '':
+	if msg:
 		popupPanel.show()
 		popupText.text = msg
 	joinContainer.visible = false

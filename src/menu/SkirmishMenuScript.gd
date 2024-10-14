@@ -8,8 +8,8 @@ signal goBack()
 @onready var defaultMaps: PackedStringArray = mapFolder.get_directories()
 @onready var mapAndSettingsSplittingPoint: HBoxContainer = $CenterContainer/MarginContainer/VBoxContainer/MapSettingsContainer/HBoxContainer
 @onready var mapNameOptionButton: OptionButton = $CenterContainer/MarginContainer/VBoxContainer/MapSettingsContainer/HBoxContainer/MapContainer/MarginContainer/VBoxContainer/HBoxContainer/GridContainer2/MapNameOptionButton
-@onready var mpClientContainer: VBoxContainer = $CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/Multiplayer
-@onready var spClientContainer: VBoxContainer = $CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/Singleplayer
+@onready var mpClientContainer: VBoxContainer = $CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/MultiplayerScrollContainer/Multiplayer
+@onready var spClientContainer: VBoxContainer = $CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/SingleplayerScrollContainer/Singleplayer
 @onready var message: LineEdit = $CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/ChatContainer/MarginContainer/VBoxContainer/HBoxContainer/LineEdit
 @onready var chatBox: TextEdit = $CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/ChatContainer/MarginContainer/VBoxContainer/TextEdit
 @onready var mapImageButton: TextureButton = $CenterContainer/MarginContainer/VBoxContainer/MapSettingsContainer/HBoxContainer/MapContainer/MarginContainer/VBoxContainer/HBoxContainer/mapImage
@@ -54,7 +54,7 @@ func initSkirmishMenu() -> void:
 		spClientContainer.visible = false
 		clientContainer = mpClientContainer
 		GameMetaDataScript.setupPlayerInfoNode(GameMetaDataScript.client)
-		maxPlayerBox.value = GameMetaDataScript.lobby.maxClients
+		maxPlayerBox.get_line_edit().text = str(GameMetaDataScript.lobby.maxClients)
 		maxPlayerBox.apply()
 	else:
 		back()
@@ -78,14 +78,15 @@ func removePlayer(id: int) -> void:
 		GameMetaDataScript.connectedClients[id].playerInfoNode.queue_free()
 
 
-func resetClientContainer() -> void:
+func resetClientContainer(disconnecting = true) -> void:
 	for index in range(2, clientContainer.get_child_count()):
 		clientContainer.get_child(index).queue_free()
-	GameMetaDataScript.connectedClients.clear()
+	if disconnecting:
+		GameMetaDataScript.connectedClients.clear()
 
 
 func go() -> void:
-	resetClientContainer()
+	resetClientContainer(false)
 	timerCounter = 5
 	message.text = ""
 	chatBox.text = ""
@@ -94,7 +95,7 @@ func go() -> void:
 
 
 func back(msg: String = '') -> void:
-	if not msg == '':
+	if msg:
 		#TODO: small info box displaying message
 		pass
 	resetClientContainer()

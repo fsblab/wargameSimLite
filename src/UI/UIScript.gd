@@ -16,6 +16,8 @@ extends Control
 @onready var helUnits: CenterContainer = $CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer/Helicopter/HelicopterUnits
 @onready var plnUnits: CenterContainer = $CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer/Plane/PlaneUnits
 
+@onready var playerList: VBoxContainer = $CanvasLayer/Players/PanelContainer/MarginContainer/ScrollContainer/VBoxContainer
+
 @onready var openUnitGroup: CenterContainer = logUnits
 
 var unitGroups: Dictionary
@@ -34,10 +36,13 @@ func _ready():
 		"pln": plnUnits
 	}
 
+	setupPlayerList()
+
 
 func _process(_delta):
 	if Input.is_action_just_released("TAB"):
 		openUnitGroup.visible = not openUnitGroup.visible
+		print(GameMetaDataScript.connectedClients)
 	
 	if UnitSelectionScript.selectedUnits.is_empty():
 		unitButtons.visible = false
@@ -47,6 +52,21 @@ func _process(_delta):
 
 func setFPS(pressed: int) -> void:
 	fps.visible = pressed
+
+
+func setupPlayerList() -> void:
+	for player in GameMetaDataScript.connectedClients.values():
+		var infoNode: Control = ResourceLoader.load("res://scenes/ui/uiPlayerInfoNode.tscn").instantiate()
+		var lSettings: LabelSettings = LabelSettings.new()
+
+		lSettings.font_color = GameMetaDataScript.factionColor.get(int(player.faction))
+		lSettings.outline_color = Color(0, 0, 0, 1)
+		lSettings.font_size = 40
+
+		infoNode.get_node("HBoxContainer/PlayerName").label_settings = lSettings
+		infoNode.get_node("HBoxContainer/PlayerName").text = player.playerName
+		
+		playerList.add_child(infoNode)
 
 
 func drawFPS() -> void:
