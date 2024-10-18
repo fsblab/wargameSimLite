@@ -36,6 +36,8 @@ func _ready():
 	mapNameOptionButton.select(0)
 	setMapImage(0)
 
+	GameMetaDataScript.currentGameState = GameMetaDataScript.gameState.LOBBY
+
 
 func _process(_delta):
 	if Input.is_key_pressed(KEY_ENTER) and message.text:
@@ -86,6 +88,7 @@ func resetClientContainer(disconnecting = true) -> void:
 
 
 func go() -> void:
+	GameMetaDataScript.currentGameState = GameMetaDataScript.gameState.LOADING
 	resetClientContainer(false)
 	timerCounter = 5
 	message.text = ""
@@ -95,6 +98,7 @@ func go() -> void:
 
 
 func back(msg: String = '') -> void:
+	GameMetaDataScript.currentGameState = GameMetaDataScript.gameState.LOADING
 	if msg:
 		#TODO: small info box displaying message
 		pass

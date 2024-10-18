@@ -32,6 +32,8 @@ func cancelHost() -> void:
 
 
 func hostServer() -> void:
+	GameMetaDataScript.currentGameState = GameMetaDataScript.gameState.LOADING
+
 	hostContainer.visible = false
 	
 	if not maxPlayers.text:
@@ -56,5 +58,7 @@ func cancelJoin(msg = '') -> void:
 
 
 func joinServer() -> void:
+	GameMetaDataScript.currentGameState = GameMetaDataScript.gameState.LOADING
+
 	joinContainer.visible = false
 	joinSkirmishLobby.emit(ip.text, joinPort.text.to_int())

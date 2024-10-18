@@ -7,3 +7,7 @@ res://src/autoload/SignalBusScript.gd
 res://scenes/ui/uiPlayerInfoNode.tscn
 res://src/menu/SettingsScript.gd
 res://src/menu/MapSettingsScript.gd
+res://src/menu/MainMenuCanvasScript.gd
+res://src/menu/PauseMenuCanvasScript.gd
+res://src/menu/SkirmishMenuScript.gd
+res://src/menu/MultiplayerMenuScript.gd

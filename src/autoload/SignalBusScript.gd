@@ -19,7 +19,7 @@ signal _sendChat(msg: String)
 signal _sendChatAsServer(msg: String)
 #ServerScript -> PlayerInfoScript
 #ServerScript -> UIScript
-signal _updatePing(val: int)
+signal _updatePing(val: int, uid: int)
 
 
 func abortStartOfMatch() -> void:
@@ -58,5 +58,5 @@ func sendChatAsServer(msg: String) -> void:
 	_sendChatAsServer.emit(msg)
 
 
-func updatePing(val: int) -> void:
-	_updatePing.emit(val)
+func updatePing(val: int, uid: int) -> void:
+	_updatePing.emit(val, uid)

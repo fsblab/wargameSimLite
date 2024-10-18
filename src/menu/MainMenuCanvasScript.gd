@@ -59,6 +59,7 @@ func goBackFromSkirmish() -> void:
 	else:
 		mpMenu.visible = true
 	GameMetaDataScript.currentGameMode = GameMetaDataScript.gameMode.NONE
+	GameMetaDataScript.currentGameState = GameMetaDataScript.gameState.MENUS
 
 
 func startSkirmish(folder: String) -> void:

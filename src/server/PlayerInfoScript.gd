@@ -6,10 +6,6 @@ extends HBoxContainer
 @onready var kickButton: Button = $Kick
 
 
-func _ready() -> void:
-	SignalBusScript._updatePing.connect(updatePing)
-
-
 func toggleReady() -> void:
 	var status = not GameMetaDataScript.client.isReady
 	if not status:
@@ -23,10 +19,6 @@ func selectFaction(index: int) -> void:
 
 func setTeam(val: float) -> void:
 	sendChangeToClients("team", int(val))
-
-
-func updatePing(val: int) -> void:
-	sendChangeToClients("ping", val)
 
 
 func sendChangeToClients(what: String, toWhat) -> void:

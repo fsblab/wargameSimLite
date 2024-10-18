@@ -17,6 +17,12 @@ enum skirmishMode {
 	DESTRUCTION,
 	KINGOFTHEHILL
 }
+enum gameState {
+	MENUS,
+	LOBBY,
+	LOADING,
+	MATCH
+}
 enum faction {
 	NONE,
 	BLACK,
@@ -44,6 +50,7 @@ const pingRating = {
 var currentPlayMode: playMode
 var currentGameMode: gameMode
 var currentSkirmishMode: skirmishMode
+var currentGameState: gameState
 var connectedClients: Dictionary
 var client: Dictionary
 var lobby: Dictionary
@@ -68,6 +75,8 @@ func reset() -> void:
 	
 	currentPlayMode = playMode.NONE
 	currentGameMode = gameMode.NONE
+	currentGameState = gameState.MENUS
+
 
 
 func setupPlayerInfoNode(data: Dictionary) -> void:

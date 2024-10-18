@@ -29,7 +29,7 @@ func _ready():
 
 func _process(_delta: float) -> void:
 	tickCurrent = Time.get_ticks_usec()
-	if multiplayer.is_server() and not GameMetaDataScript.connectedClients.is_empty() and tickCurrent - tickStamp > 2000000:
+	if multiplayer.is_server() and not GameMetaDataScript.connectedClients.is_empty() and tickCurrent - tickStamp > 2000000 and not GameMetaDataScript.currentGameState in [GameMetaDataScript.gameState.LOADING, GameMetaDataScript.gameState.MENUS]:
 		tickStamp = tickCurrent
 		pingEveryone()
 
@@ -212,11 +212,22 @@ func pingEveryone() -> void:
 	for id in GameMetaDataScript.connectedClients:
 		if id < 1:
 			continue
-		rpc_id(id, "_ping", Time.get_ticks_usec())
+		rpc_id(id, "_ping", Time.get_ticks_usec(), id)
 
 
 #actually half a ping
 @warning_ignore("integer_division")
 @rpc("any_peer", "call_local", "reliable")
-func _ping(timestamp: int) -> void:
-	SignalBusScript.updatePing((Time.get_ticks_usec() - timestamp) / 1000)
+func _ping(timestamp: int, id: int) -> void:
+	var ping = (Time.get_ticks_usec() - timestamp) / 1000
+	GameMetaDataScript.client["ping"] = ping
+	
+	if GameMetaDataScript.currentGameState == GameMetaDataScript.gameState.LOBBY:
+		rpc("_updateConnectedClients", GameMetaDataScript.client)
+	elif GameMetaDataScript.currentGameState == GameMetaDataScript.gameState.MATCH:
+		rpc("_updatePing", ping, id)
+
+
+@rpc("any_peer", "call_local", "reliable")
+func _updatePing(ping: int, id: int) -> void:
+	SignalBusScript.updatePing(ping, id)
