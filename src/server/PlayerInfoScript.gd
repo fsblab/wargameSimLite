@@ -4,7 +4,10 @@ extends HBoxContainer
 @onready var playerName: Label = $PlayerNameLabel
 @onready var readyButton: Button = $Ready
 @onready var kickButton: Button = $Kick
-@onready var server: Control = get_tree().get_root().get_node("Start")
+
+
+func _ready() -> void:
+	SignalBusScript._updatePing.connect(updatePing)
 
 
 func toggleReady() -> void:
@@ -20,6 +23,10 @@ func selectFaction(index: int) -> void:
 
 func setTeam(val: float) -> void:
 	sendChangeToClients("team", int(val))
+
+
+func updatePing(val: int) -> void:
+	sendChangeToClients("ping", val)
 
 
 func sendChangeToClients(what: String, toWhat) -> void:

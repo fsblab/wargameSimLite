@@ -27,28 +27,33 @@ enum faction {
 }
 
 const factionColor = {
-	faction.NONE: Color(0, 0 , 0, 1),
-	faction.BLACK: Color(0, 0, 0, 1),
-	faction.BLUE: Color(0, 1, 1, 1),
-	faction.GREEN: Color(0, 1, 0, 1),
-	faction.RED: Color(1, 0, 0, 1),
-	faction.YELLOW: Color(1, 1, 0, 1)
+	faction.NONE: Color8(255, 255, 255),
+	faction.BLACK: Color8(0, 0, 0),
+	faction.BLUE: Color8(0, 255, 255),
+	faction.GREEN: Color8(0, 255, 0),
+	faction.RED: Color8(255, 0, 0),
+	faction.YELLOW: Color8(255, 255, 0)
+}
+
+const pingRating = {
+	0: Color8(0, 255, 0),
+	100: Color8(255, 255, 0),
+	400: Color8(255, 0, 0)
 }
 
 var currentPlayMode: playMode
 var currentGameMode: gameMode
-var currentFaction: faction
 var currentSkirmishMode: skirmishMode
 var connectedClients: Dictionary
 var client: Dictionary
 var lobby: Dictionary
-var maxPlayers: int
 
 
 func reset() -> void:
 	client = {
 		faction = SettingsConfigScript.currentPlayerInfo["faction"],
 		isReady = false,
+		ping = 0,
 		playerInfoNode = ResourceLoader.load("res://scenes/multiplayerPlayerInfo.tscn").instantiate(1),
 		playerName = SettingsConfigScript.currentPlayerInfo["name"],
 		team = 1,
@@ -63,7 +68,6 @@ func reset() -> void:
 	
 	currentPlayMode = playMode.NONE
 	currentGameMode = gameMode.NONE
-	currentFaction = faction.NONE
 
 
 func setupPlayerInfoNode(data: Dictionary) -> void:
@@ -73,6 +77,7 @@ func setupPlayerInfoNode(data: Dictionary) -> void:
 	data.playerInfoNode.get_node("OptionButton").select(1)
 	data.playerInfoNode.get_node("OptionButton").set_item_disabled(2, true)
 	data.playerInfoNode.get_node("Ready").text = "✔️" if data.isReady else "❌"
+	data.playerInfoNode.get_node("Ping").text = str(data.ping)
 	
 	if data.uid == 1:
 		data.playerInfoNode.get_node("PlayerNameLabel").add_theme_color_override("font_color", Color("gold"))
@@ -99,12 +104,19 @@ func updatePlayerInfoNode(data: Dictionary) -> void:
 	connectedClients[data.uid].isReady = data.isReady
 	connectedClients[data.uid].faction = data.faction
 	connectedClients[data.uid].team = data.team
+	connectedClients[data.uid].ping = data.ping
 	
 	var obj = instance_from_id(connectedClients[data.uid].playerInfoNode.get_instance_id())
 	
 	obj.get_node("Ready").text = "✔️" if data.isReady else "❌"
 	obj.get_node("Faction").select(data.faction)
 	obj.get_node("Team").get_line_edit().text = str(data.team)
+	obj.get_node("Ping").text = str(data.ping)
+
+	for ping in pingRating:
+		if ping >= data.ping:
+			break
+		obj.get_node("Ping").add_theme_color_override("font_color", pingRating[ping])
 
 
 func setupBotInfoNode() -> void:

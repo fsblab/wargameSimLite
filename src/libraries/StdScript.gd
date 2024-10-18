@@ -34,6 +34,13 @@ static func map(someArray: Array, someFunc: Callable) -> Array:
 	return mappedArray
 
 
+static func dmap(someDict: Dictionary, someFunc: Callable) -> Dictionary:
+	var mappedDict: Dictionary
+	for key in someDict:
+		mappedDict[key] = someFunc.call(someDict[key])
+	return mappedDict
+
+
 static func mapOverLeaveNodes(node: Node, mapper: Callable, condition: Callable) -> void:
 	if node.get_child_count() == 0:
 		if condition.call(node):
@@ -68,6 +75,7 @@ static func getFileNameByExtension(mapDir: String, ext: String) -> String:
 	return ""
 
 
+@warning_ignore("confusable_local_declaration")
 static func enableDisableLeaves(node: Node, mpid: int) -> void:
 	if mpid != 1:
 		mapOverLeaveNodes(node, func(node: Node): node.disabled = true, func(node): return any(map(disableableNodes, func(item): return node.is_class(item))))

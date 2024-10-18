@@ -5,14 +5,18 @@ extends Control
 
 var peer: ENetMultiplayerPeer
 const localhost: String = "127.0.0.1"
+var tickStamp: int
+var tickCurrent: int
 
 
 func _ready():
+	tickStamp = Time.get_ticks_usec()
+
 	multiplayer.peer_connected.connect(playerJoined)
 	multiplayer.peer_disconnected.connect(playerLeft)
 #	multiplayer.connected_to_server.connect(clientConnectedToServer)
-	multiplayer.connection_failed.connect(goBack)
-	multiplayer.server_disconnected.connect(goBack)
+	multiplayer.connection_failed.connect(connectionFailed)
+	multiplayer.server_disconnected.connect(connectionFailed)
 	
 	SignalBusScript._disconnectPlayer.connect(disconnectPlayer)
 	SignalBusScript._lobbyClientChangedState.connect(lobbyClientChangedState)
@@ -21,6 +25,13 @@ func _ready():
 	SignalBusScript._sendChatAsServer.connect(sendChatAsServer)
 	
 	GameMetaDataScript.reset()
+
+
+func _process(_delta: float) -> void:
+	tickCurrent = Time.get_ticks_usec()
+	if multiplayer.is_server() and not GameMetaDataScript.connectedClients.is_empty() and tickCurrent - tickStamp > 2000000:
+		tickStamp = tickCurrent
+		pingEveryone()
 
 
 func initServer(port: int = 7000, maxClients: int = 1) -> bool:
@@ -67,7 +78,7 @@ func joinServer(ip: String, port: int) -> bool:
 	
 	multiplayer.multiplayer_peer = peer
 
-	rpc("requestLobbyInfo")
+	rpc("_requestLobbyInfo")
 	
 	if GameMetaDataScript.lobby.maxClients == -1:
 		multiplayer.multiplayer_peer = null
@@ -78,16 +89,16 @@ func joinServer(ip: String, port: int) -> bool:
 
 
 @rpc("any_peer", "call_local", "reliable")
-func requestLobbyInfo(id) -> void:
+func _requestLobbyInfo(id) -> void:
 	if multiplayer.is_server():
 		if GameMetaDataScript.lobby.maxClients == GameMetaDataScript.connectedClients.size():
-			rpc_id(id, "sendLobbyInfo", GameMetaDataScript.lobby, -1)
+			rpc_id(id, "_sendLobbyInfo", GameMetaDataScript.lobby, -1)
 			return
-		rpc_id(id, "sendLobbyInfo", GameMetaDataScript.lobby, GameMetaDataScript.maxClients)
+		rpc_id(id, "_sendLobbyInfo", GameMetaDataScript.lobby, GameMetaDataScript.maxClients)
 
 
 @rpc("authority", "call_remote", "reliable")
-func sendLobbyInfo(lobbyInfo: Dictionary, maxClients: int) -> void:
+func _sendLobbyInfo(lobbyInfo: Dictionary, maxClients: int) -> void:
 	GameMetaDataScript.lobby.maxClients = maxClients
 	GameMetaDataScript.lobby.merge(lobbyInfo)
 
@@ -192,6 +203,20 @@ func playerLeft(id: int) -> void:
 	GameMetaDataScript.connectedClients.erase(id)
 
 
-func goBack() -> void:
+func connectionFailed() -> void:
 	closeConnection()
 	SignalBusScript.cannotConnectToLobby("Connection could not be established.")
+
+
+func pingEveryone() -> void:
+	for id in GameMetaDataScript.connectedClients:
+		if id < 1:
+			continue
+		rpc_id(id, "_ping", Time.get_ticks_usec())
+
+
+#actually half a ping
+@warning_ignore("integer_division")
+@rpc("any_peer", "call_local", "reliable")
+func _ping(timestamp: int) -> void:
+	SignalBusScript.updatePing((Time.get_ticks_usec() - timestamp) / 1000)

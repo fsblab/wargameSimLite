@@ -38,6 +38,8 @@ func _ready():
 
 	setupPlayerList()
 
+	SignalBusScript._updatePing.connect(updatePing)
+
 
 func _process(_delta):
 	if Input.is_action_just_released("TAB"):
@@ -63,10 +65,24 @@ func setupPlayerList() -> void:
 		lSettings.outline_color = Color(0, 0, 0, 1)
 		lSettings.font_size = 16
 
+		infoNode.name = str(player.uid)
 		infoNode.get_node("PlayerName").label_settings = lSettings
 		infoNode.get_node("PlayerName").text = player.playerName
 		
 		playerList.add_child(infoNode)
+
+
+func updatePing(_val: int) -> void:
+	for node in playerList.get_children():
+		var uid = int(str(node.name))
+		if not GameMetaDataScript.connectedClients.has(uid):
+			continue
+		var ping = GameMetaDataScript.connectedClients[uid]["ping"]
+		node.get_node("Ping").text = str(ping)
+		for ratings in GameMetaDataScript.pingRating:
+			if ratings >= ping:
+				break
+			node.get_node("Ping").add_theme_color_override("font_color", GameMetaDataScript.pingRating[ratings])
 
 
 func drawFPS() -> void:

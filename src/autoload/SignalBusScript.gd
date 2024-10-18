@@ -17,6 +17,9 @@ signal _requestLobbyInfo
 #SkirmishMenuScript -> ServerScript
 signal _sendChat(msg: String)
 signal _sendChatAsServer(msg: String)
+#ServerScript -> PlayerInfoScript
+#ServerScript -> UIScript
+signal _updatePing(val: int)
 
 
 func abortStartOfMatch() -> void:
@@ -53,3 +56,7 @@ func sendChat(msg: String) -> void:
 
 func sendChatAsServer(msg: String) -> void:
 	_sendChatAsServer.emit(msg)
+
+
+func updatePing(val: int) -> void:
+	_updatePing.emit(val)
