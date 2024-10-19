@@ -23,7 +23,7 @@ extends Control
 var unitGroups: Dictionary
 
 
-func _ready():
+func _ready() -> void:
 	unitGroups = {
 		"log": logUnits,
 		"inf": infUnits,
@@ -43,7 +43,7 @@ func _ready():
 	GameMetaDataScript.currentGameState = GameMetaDataScript.gameState.MATCH
 
 
-func _process(_delta):
+func _process(_delta) -> void:
 	if Input.is_action_just_released("TAB"):
 		openUnitGroup.visible = not openUnitGroup.visible
 		print(GameMetaDataScript.connectedClients)

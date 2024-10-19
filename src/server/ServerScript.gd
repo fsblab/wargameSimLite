@@ -223,7 +223,7 @@ func _ping(timestamp: int, id: int) -> void:
 	GameMetaDataScript.client["ping"] = ping
 	
 	if GameMetaDataScript.currentGameState == GameMetaDataScript.gameState.LOBBY:
-		rpc("_updateConnectedClients", GameMetaDataScript.client)
+		rpc("_changeDataOnConnectedClient", GameMetaDataScript.client)
 	elif GameMetaDataScript.currentGameState == GameMetaDataScript.gameState.MATCH:
 		rpc("_updatePing", ping, id)
 
