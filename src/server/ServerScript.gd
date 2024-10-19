@@ -109,8 +109,9 @@ func sendChat(msg: String) -> void:
 
 @rpc("any_peer", "call_local", "reliable")
 func _sendChat(pName: String, msg: String) -> void:
-	chatBox.text = chatBox.text + str("[", Time.get_time_string_from_system(), "] " , pName, ": ", msg, "\n")
-	chatBox.scroll_vertical = INF
+	if GameMetaDataScript.currentGameState == GameMetaDataScript.gameState.LOBBY:
+		chatBox.text = chatBox.text + str("[", Time.get_time_string_from_system(), "] " , pName, ": ", msg, "\n")
+		chatBox.scroll_vertical = INF
 
 
 func sendChatAsServer(msg: String) -> void:
@@ -186,8 +187,13 @@ func _changeDataOnConnectedClient(client: Dictionary) -> void:
 
 
 func disconnectPlayer() -> void:
+	var uid = multiplayer.get_unique_id()
 	multiplayer.multiplayer_peer = null
 	peer = null
+
+	if GameMetaDataScript.currentGameState == GameMetaDataScript.gameState.MATCH:
+		rpc("_updatePing", -1, uid)
+
 
 
 @rpc("any_peer", "call_local", "reliable")
@@ -198,6 +204,8 @@ func _disconnectPlayer(id: int) -> void:
 func playerLeft(id: int) -> void:
 	if multiplayer.is_server() and GameMetaDataScript.connectedClients.has(id):
 		rpc("_sendChat", GameMetaDataScript.connectedClients[id].playerName, "left")
+		if GameMetaDataScript.currentGameState == GameMetaDataScript.gameState.MATCH:
+			rpc("_updatePing", -1, id)
 	
 	SignalBusScript.clientDisconnected(id)
 	GameMetaDataScript.connectedClients.erase(id)

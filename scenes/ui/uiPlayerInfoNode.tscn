@@ -1,4 +1,6 @@
-[gd_scene format=3 uid="uid://vgw5a7wxvf2s"]
+[gd_scene load_steps=2 format=3 uid="uid://vgw5a7wxvf2s"]
+
+[ext_resource type="Texture2D" uid="uid://uhutvfe5x53g" path="res://assets/sprites/connection/connected.png" id="1_3u5mg"]
 
 [node name="uiPlayerInfoNode" type="HBoxContainer"]
 anchors_preset = 15
@@ -8,6 +10,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="PlayerName" type="Label" parent="."]
+z_index = 1
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
@@ -18,5 +21,10 @@ size_flags_horizontal = 3
 size_flags_vertical = 1
 
 [node name="Connection" type="TextureRect" parent="."]
+custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
-size_flags_horizontal = 3
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("1_3u5mg")
+expand_mode = 1
+stretch_mode = 4

@@ -22,6 +22,9 @@ func goBackFromSettings() -> void:
 
 
 func backToMainMenu() -> void:
+	GameMetaDataScript.currentGameState = GameMetaDataScript.gameState.LOADING
+	SignalBusScript.disconnectPlayer()
+
 	get_tree().paused = false
 	
 	var root = get_tree().get_root().get_node("Start")
@@ -41,4 +44,5 @@ func backToMainMenu() -> void:
 
 
 func quitToDesktop() -> void:
+	SignalBusScript.disconnectPlayer()
 	get_tree().quit()

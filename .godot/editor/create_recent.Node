@@ -1,3 +1,5 @@
+Sprite2D
+Sprite3D
 TextureRect
 Label
 HBoxContainer
@@ -11,5 +13,3 @@ SpinBox
 GridContainer
 TextureButton
 CenterContainer
-ColorRect
-LineEdit

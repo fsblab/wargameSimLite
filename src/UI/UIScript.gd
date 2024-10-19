@@ -18,6 +18,9 @@ extends Control
 
 @onready var playerList: VBoxContainer = $CanvasLayer/Players/PanelContainer/MarginContainer/ScrollContainer/VBoxContainer
 
+@onready var connectedIcon: Texture2D = ResourceLoader.load("res://assets/sprites/connection/connected.png", "Texture2D")
+@onready var disconnectedIcon: Texture2D = ResourceLoader.load("res://assets/sprites/connection/disconnected.png", "Texture2D")
+
 @onready var openUnitGroup: CenterContainer = logUnits
 
 var unitGroups: Dictionary
@@ -75,8 +78,14 @@ func setupPlayerList() -> void:
 
 
 func updatePing(ping: int, uid: int) -> void:
+	if ping == -1:
+		playerList.get_node(str(uid, "/Ping")).text = ""
+		playerList.get_node(str(uid, "/Connection")).set_texture(disconnectedIcon)
+		return
+	
 	ping = ping if GameMetaDataScript.connectedClients.has(uid) else 0
 	playerList.get_node(str(uid, "/Ping")).text = str(ping)
+
 	for ratings in GameMetaDataScript.pingRating:
 		if ratings >= ping:
 			break

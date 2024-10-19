@@ -9,6 +9,7 @@ signal _clientDisconnected(id: int)
 #ServerScript -> SkirmishMenuScript
 signal _connectedClientsUpdated(id: int)
 #SkirmishMenu -> ServerScript
+#PauseMenuCanvasScript -> ServerScript
 signal _disconnectPlayer
 #PlayerInfoScript -> ServerScript
 signal _lobbyClientChangedState
