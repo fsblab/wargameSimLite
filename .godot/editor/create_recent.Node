@@ -1,7 +1,9 @@
+Label
+CanvasLayer
+CanvasModulate
 Sprite2D
 Sprite3D
 TextureRect
-Label
 HBoxContainer
 ScrollContainer
 VBoxContainer
@@ -10,6 +12,3 @@ Popup
 MultiplayerSynchronizer
 Timer
 SpinBox
-GridContainer
-TextureButton
-CenterContainer

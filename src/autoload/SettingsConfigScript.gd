@@ -1,13 +1,5 @@
 extends Node
 
-enum faction {
-	BLACK,
-	BLUE,
-	GREEN,
-	RED,
-	YELLOW,
-	NONE
-}
 var msaaOptions = [
 	Viewport.MSAA_DISABLED,
 	Viewport.MSAA_2X,
@@ -76,13 +68,13 @@ var changedSettings = {}
 
 
 var defaultPlayerInfo = {
-	"faction": faction.NONE,
+	"faction": GameMetaDataScript.faction.NONE,
 	"name": ""
 }
 
 
 var currentPlayerInfo = {
-	"faction": faction.NONE,
+	"faction": GameMetaDataScript.faction.NONE,
 	"name": ""
 }
 

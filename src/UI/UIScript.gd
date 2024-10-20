@@ -16,7 +16,7 @@ extends Control
 @onready var helUnits: CenterContainer = $CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer/Helicopter/HelicopterUnits
 @onready var plnUnits: CenterContainer = $CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer/Plane/PlaneUnits
 
-@onready var playerList: VBoxContainer = $CanvasLayer/Players/PanelContainer/MarginContainer/ScrollContainer/VBoxContainer
+@onready var playerList: VBoxContainer = $CanvasLayer/Players/PanelContainer/MarginContainer/CanvasLayer/ScrollContainer/VBoxContainer
 
 @onready var connectedIcon: Texture2D = ResourceLoader.load("res://assets/sprites/connection/connected.png", "Texture2D")
 @onready var disconnectedIcon: Texture2D = ResourceLoader.load("res://assets/sprites/connection/disconnected.png", "Texture2D")
@@ -66,7 +66,7 @@ func setupPlayerList() -> void:
 		var infoNode: Control = ResourceLoader.load("res://scenes/ui/uiPlayerInfoNode.tscn").instantiate()
 		var lSettings: LabelSettings = LabelSettings.new()
 
-		lSettings.font_color = GameMetaDataScript.factionColor.get(int(player.faction))
+		lSettings.font_color = GameMetaDataScript.factionColor.get(player.faction)
 		lSettings.outline_color = Color(0, 0, 0, 1)
 		lSettings.font_size = 16
 
