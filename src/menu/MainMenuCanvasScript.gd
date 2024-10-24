@@ -6,9 +6,15 @@ extends CanvasLayer
 @onready var mpMenu: Control = $MultiplayerMenu
 @onready var settingsMenu: Control = $Settings
 @onready var skirmishMenu: Control = $SkirmishMenu
+@onready var loadingScreen: Control = $LoadingScreen
 @onready var popup: PopupPanel = $PopupPanel
 @onready var popupText: Label = $PopupPanel/PopupLabel
 @onready var root: Control = get_tree().get_root().get_node("Start")
+
+
+func _ready() -> void:
+	SignalBusScript._toggleBetweenMuliplayerMenuAndSkirmishMenu.connect(toggleBetweenMenus)
+	SignalBusScript._toggleLoadingScreen.connect(toggleLoadingScreen)
 
 
 func sp() -> void:
@@ -44,7 +50,8 @@ func joinSkirmishLobby(ip: String, port: int) -> void:
 	
 	spMenu.visible = false
 	mpMenu.visible = false
-	skirmishMenu.visible = true
+	skirmishMenu.visible = false
+	loadingScreen.visible = true
 	
 	GameMetaDataScript.currentGameMode =  GameMetaDataScript.gameMode.SKIRMISH
 	
@@ -60,6 +67,7 @@ func goBackFromSkirmish() -> void:
 		mpMenu.visible = true
 	GameMetaDataScript.currentGameMode = GameMetaDataScript.gameMode.NONE
 	GameMetaDataScript.currentGameState = GameMetaDataScript.gameState.MENUS
+	loadingScreen.visible = false
 
 
 func startSkirmish(folder: String) -> void:
@@ -142,6 +150,15 @@ func toSettings() -> void:
 
 func goBackFromSettings() -> void:
 	main.visible = true
+
+
+func toggleBetweenMenus() -> void:
+	mpMenu.visible = skirmishMenu.visible
+	skirmishMenu.visible = not mpMenu.visible
+
+
+func toggleLoadingScreen() -> void:
+	loadingScreen.visible = not loadingScreen.visible
 
 
 func quitToDesktop() -> void:

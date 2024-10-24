@@ -13,11 +13,15 @@ signal _connectedClientsUpdated(id: int)
 signal _disconnectPlayer
 #PlayerInfoScript -> ServerScript
 signal _lobbyClientChangedState
-#MainMenuCanvasScript -> ServerScript
-signal _requestLobbyInfo
 #SkirmishMenuScript -> ServerScript
 signal _sendChat(msg: String)
 signal _sendChatAsServer(msg: String)
+#ServerScript -> MainMenuCanvasScript
+#SkirmishMenuScript -> MainMenuCanvasScript
+signal _toggleBetweenMuliplayerMenuAndSkirmishMenu()
+#ServerScript -> MainMenuCanvasScript
+#SkirmishMenuScript -> MainMenuCanvasScript
+signal _toggleLoadingScreen()
 #ServerScript -> PlayerInfoScript
 #ServerScript -> UIScript
 signal _updatePing(val: int, uid: int)
@@ -47,16 +51,20 @@ func lobbyClientChangedState() -> void:
 	_lobbyClientChangedState.emit()
 
 
-func requestLobbyInfo() -> void:
-	_requestLobbyInfo.emit()
-
-
 func sendChat(msg: String) -> void:
 	_sendChat.emit(msg)
 
 
 func sendChatAsServer(msg: String) -> void:
 	_sendChatAsServer.emit(msg)
+
+
+func toggleBetweenMultiplayerMenuAndSkirmishMenu() -> void:
+	_toggleBetweenMuliplayerMenuAndSkirmishMenu.emit()
+
+
+func toggleLoadingScreen() -> void:
+	_toggleLoadingScreen.emit()
 
 
 func updatePing(val: int, uid: int) -> void:

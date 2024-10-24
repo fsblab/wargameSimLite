@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://bd6c0wssqj7ku"]
+[gd_scene load_steps=7 format=3 uid="uid://bd6c0wssqj7ku"]
 
 [ext_resource type="Script" path="res://src/menu/MainMenuCanvasScript.gd" id="1_uh67x"]
 [ext_resource type="PackedScene" uid="uid://dal3qfbn7tf7c" path="res://scenes/multiplayerMenu.tscn" id="2_31m8x"]
 [ext_resource type="PackedScene" uid="uid://b63mipdhbgvn2" path="res://scenes/settings.tscn" id="2_qs2n4"]
 [ext_resource type="PackedScene" uid="uid://xekxadsyo5pg" path="res://scenes/skirmishMenu.tscn" id="2_qyjwr"]
+[ext_resource type="PackedScene" uid="uid://cgl8uliahvrfk" path="res://scenes/loadingScreen.tscn" id="5_0nw08"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_tdlql"]
 
@@ -126,6 +127,9 @@ visible = false
 visible = false
 
 [node name="Settings" parent="CanvasLayer" instance=ExtResource("2_qs2n4")]
+visible = false
+
+[node name="LoadingScreen" parent="CanvasLayer" instance=ExtResource("5_0nw08")]
 visible = false
 
 [node name="PopupPanel" type="PopupPanel" parent="CanvasLayer"]

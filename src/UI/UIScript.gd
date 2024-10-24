@@ -49,7 +49,6 @@ func _ready() -> void:
 func _process(_delta) -> void:
 	if Input.is_action_just_released("TAB"):
 		openUnitGroup.visible = not openUnitGroup.visible
-		print(GameMetaDataScript.connectedClients)
 	
 	if UnitSelectionScript.selectedUnits.is_empty():
 		unitButtons.visible = false

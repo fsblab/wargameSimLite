@@ -7,20 +7,20 @@ var peer: ENetMultiplayerPeer
 const localhost: String = "127.0.0.1"
 var tickStamp: int
 var tickCurrent: int
+const deltaTick: int = 2000000
 
 
 func _ready():
 	tickStamp = Time.get_ticks_usec()
 
-	multiplayer.peer_connected.connect(playerJoined)
+	multiplayer.peer_connected.connect(playerJoined)	#called on all clients
 	multiplayer.peer_disconnected.connect(playerLeft)
-#	multiplayer.connected_to_server.connect(clientConnectedToServer)
+	multiplayer.connected_to_server.connect(clientConnectedToServer)	#called only on newly connecting client
 	multiplayer.connection_failed.connect(connectionFailed)
 	multiplayer.server_disconnected.connect(connectionFailed)
 	
 	SignalBusScript._disconnectPlayer.connect(disconnectPlayer)
 	SignalBusScript._lobbyClientChangedState.connect(lobbyClientChangedState)
-#	SignalBusScript._requestLobbyInfo.connect()
 	SignalBusScript._sendChat.connect(sendChat)
 	SignalBusScript._sendChatAsServer.connect(sendChatAsServer)
 	
@@ -29,7 +29,7 @@ func _ready():
 
 func _process(_delta: float) -> void:
 	tickCurrent = Time.get_ticks_usec()
-	if multiplayer.is_server() and not GameMetaDataScript.connectedClients.is_empty() and tickCurrent - tickStamp > 2000000 and not GameMetaDataScript.currentGameState in [GameMetaDataScript.gameState.LOADING, GameMetaDataScript.gameState.MENUS]:
+	if multiplayer.is_server() and not GameMetaDataScript.connectedClients.is_empty() and tickCurrent - tickStamp > deltaTick and not GameMetaDataScript.currentGameState in [GameMetaDataScript.gameState.LOADING, GameMetaDataScript.gameState.MENUS]:
 		tickStamp = tickCurrent
 		pingEveryone()
 
@@ -109,18 +109,19 @@ func sendChat(msg: String) -> void:
 
 @rpc("any_peer", "call_local", "reliable")
 func _sendChat(pName: String, msg: String) -> void:
-	if GameMetaDataScript.currentGameState == GameMetaDataScript.gameState.LOBBY:
-		chatBox.text = chatBox.text + str("[", Time.get_time_string_from_system(), "] " , pName, ": ", msg, "\n")
-		chatBox.scroll_vertical = INF
+	chatBox.text = chatBox.text + str("[", Time.get_time_string_from_system(), "] " , pName, ": ", msg, "\n")
+	chatBox.scroll_vertical = INF
 
 
 func sendChatAsServer(msg: String) -> void:
 	rpc("_sendChat", "SERVER", msg)
 
 
-## @deprecated
 func clientConnectedToServer() -> void:
-	rpc("_sendChat", SettingsConfigScript.currentPlayerInfo["name"], "joined")
+#	rpc("_sendChat", SettingsConfigScript.currentPlayerInfo["name"], "joined")
+	SignalBusScript.toggleLoadingScreen()
+	SignalBusScript.toggleBetweenMultiplayerMenuAndSkirmishMenu()
+
 
 
 func kickPlayer(id: int) -> void:
