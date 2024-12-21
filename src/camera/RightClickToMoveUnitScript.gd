@@ -14,7 +14,6 @@ var result: Dictionary
 var task: TaskHandler
 
 
-# Called when the node enters the scene tree for the first time.
 func _ready():
 	mousePosition = Vector2(0, 0)
 	viewport = get_viewport()
@@ -26,7 +25,6 @@ func _ready():
 	query = PhysicsRayQueryParameters3D.new()
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(_delta):
 	if Input.is_action_just_released("right_mouse_button"):
 		mousePosition = viewport.get_mouse_position()

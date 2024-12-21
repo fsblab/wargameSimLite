@@ -1,29 +1,49 @@
 extends HBoxContainer
 
 
-@onready var playerName: Label = $PlayerNameLabel
+@onready var playerName: Label = $PlayerName
 @onready var readyButton: Button = $Ready
 @onready var kickButton: Button = $Kick
 
 
 func toggleReady() -> void:
-	var status = not GameMetaDataScript.client.isReady
+	var id: int = int(String(name))
+	if id < 30000 and not multiplayer.is_server():
+		return
+	var status = not GameMetaDataScript.client.Ready
 	if not status:
 		SignalBusScript.abortStartOfMatch()
-	sendChangeToClients("isReady", status)
+	sendChangeToClients("Ready", status)
+	SignalBusScript.enableDisableInfoNode(GameMetaDataScript.client.uid)
 
+
+func selectPlayer(index: int) -> void:
+	var oldId: String = name
+	var getData: Dictionary = [GameMetaDataScript.getNoneData, GameMetaDataScript.getPlayerPlaceholderData, GameMetaDataScript.getBotData, GameMetaDataScript.getViewerData][index].call()
+
+	sendChangeToClients("Player", index)
+	for data in ["Ready", "Faction", "Team", "PlayerName"]:
+		sendChangeToClients(data, getData[data])
+	
+	SignalBusScript.changeNodeName(oldId, str(getData.uid))
+	
+	if multiplayer.is_server():
+		GameMetaDataScript.connectedClients.erase(oldId.to_int())
+		GameMetaDataScript.connectedClients[getData.uid] = getData
+	
 
 func selectFaction(index: int) -> void:
-	sendChangeToClients("faction", index)
+	sendChangeToClients("Faction", index)
 
 
 func setTeam(val: float) -> void:
-	sendChangeToClients("team", int(val))
+	sendChangeToClients("Team", int(val))
 
 
 func sendChangeToClients(what: String, toWhat) -> void:
-	GameMetaDataScript.client[what] = toWhat
-	SignalBusScript.lobbyClientChangedState()
+	if str(multiplayer.get_unique_id()) == name:
+		GameMetaDataScript.client[what] = toWhat
+	SignalBusScript.updatePlayer.rpc(str(name), what, toWhat)
 
 
 func setPlayerNameColor(color: Color) -> void:
@@ -32,3 +52,10 @@ func setPlayerNameColor(color: Color) -> void:
 
 func disableKickButton() -> void:
 	kickButton.disabled = true
+
+
+func getKicked() -> void:
+	var id: int = int(str(name))
+	if id < 50000:
+		return
+	multiplayer.multiplayer_peer.disconnect_peer(id)

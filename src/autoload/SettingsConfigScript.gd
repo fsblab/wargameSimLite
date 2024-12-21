@@ -151,8 +151,8 @@ func setPlayerInfo() -> void:
 	for info in changedPlayerInfo:
 		currentPlayerInfo[info] = changedPlayerInfo[info]
 	
-	GameMetaDataScript.client.faction = currentPlayerInfo["faction"]
-	GameMetaDataScript.client.playerName = currentPlayerInfo["name"]
+	GameMetaDataScript.client.Faction = currentPlayerInfo["faction"]
+	GameMetaDataScript.client.PlayerName = currentPlayerInfo["name"]
 	
 	changedPlayerInfo.clear()
 	

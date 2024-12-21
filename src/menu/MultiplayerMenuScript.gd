@@ -42,7 +42,7 @@ func hostServer() -> void:
 		hostPort.text = "7000"
 	
 	GameMetaDataScript.lobby.maxClients = maxPlayers.text.to_int()
-	GameMetaDataScript.lobby.maxClients = 1 if GameMetaDataScript.lobby.maxClients < 1 else 4095 if GameMetaDataScript.lobby.maxClients > 4095 else GameMetaDataScript.lobby.maxClients
+	GameMetaDataScript.lobby.maxClients = max(min(GameMetaDataScript.lobby.maxClients, 4095), 1)
 	openSkirmishLobby.emit(hostPort.text.to_int(), 4095)
 
 	GameMetaDataScript.currentGameState = GameMetaDataScript.gameState.LOBBY
@@ -64,5 +64,3 @@ func joinServer() -> void:
 
 	joinContainer.visible = false
 	joinSkirmishLobby.emit(ip.text, joinPort.text.to_int())
-
-	GameMetaDataScript.currentGameState = GameMetaDataScript.gameState.LOBBY

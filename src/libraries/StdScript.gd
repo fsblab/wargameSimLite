@@ -76,8 +76,8 @@ static func getFileNameByExtension(mapDir: String, ext: String) -> String:
 
 
 @warning_ignore("confusable_local_declaration")
-static func enableDisableLeaves(node: Node, mpid: int) -> void:
-	if mpid != 1:
+static func enableDisableLeaves(node: Node, id: int) -> void:
+	if id != 1:
 		mapOverLeaveNodes(node, func(node: Node): node.disabled = true, func(node): return any(map(disableableNodes, func(item): return node.is_class(item))))
 		mapOverLeaveNodes(node, func(node: Node): node.editable = false, func(node): return any(map(editableNodes, func(item): return node.is_class(item))))
 	else:

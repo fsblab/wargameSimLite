@@ -1,30 +1,42 @@
 extends Node
 
 #PlayerInfoScript -> SkirmishMenuScript
+#ServerScript -> SkirmishMenuScript
 signal _abortStartOfMatch
 #ServerScript -> SkirmishMenuScript
 signal _cannotConnectToLobby(msg: String)
 #ServerScript -> SkirmishMenuScript
+signal _changeNodeName(id: String, newId: String)
+#SkirmishMenuScript -> ServerScript
+signal _changeNodeNameCompleted
+#ServerScript -> SkirmishMenuScript
 signal _clientDisconnected(id: int)
 #ServerScript -> SkirmishMenuScript
-signal _connectedClientsUpdated(id: int)
+#MapSettingsScript -> SkrimishMenuScript
+signal _connectedClientsUpdated(client: Dictionary)
 #SkirmishMenu -> ServerScript
 #PauseMenuCanvasScript -> ServerScript
 signal _disconnectPlayer
 #PlayerInfoScript -> ServerScript
-signal _lobbyClientChangedState
+signal _lobbyClientChangedState(client: Dictionary)
+#MapSettingsScript -> SkirmishLobbyScript
+signal _removeClient(id: int)
 #SkirmishMenuScript -> ServerScript
 signal _sendChat(msg: String)
 signal _sendChatAsServer(msg: String)
 #ServerScript -> MainMenuCanvasScript
 #SkirmishMenuScript -> MainMenuCanvasScript
-signal _toggleBetweenMuliplayerMenuAndSkirmishMenu()
+signal _toggleBetweenMuliplayerMenuAndSkirmishMenu
 #ServerScript -> MainMenuCanvasScript
 #SkirmishMenuScript -> MainMenuCanvasScript
-signal _toggleLoadingScreen()
+signal _toggleLoadingScreen
+#Severscript -> SkirmishMenuScript
+signal _enableDisableInfoNode
 #ServerScript -> PlayerInfoScript
 #ServerScript -> UIScript
 signal _updatePing(val: int, uid: int)
+#PlayerInfoScript -> SkirmishMenu
+signal _updatePlayer(id: String, what: String, toWhat)
 
 
 func abortStartOfMatch() -> void:
@@ -35,20 +47,33 @@ func cannotConnectToLobby(msg: String) -> void:
 	_cannotConnectToLobby.emit(msg)
 
 
+func changeNodeName(id: String, newId: String) -> void:
+	_changeNodeName.emit(id, newId)
+
+
+func changeNodeNameCompleted() -> void:
+	_changeNodeNameCompleted.emit()
+
+
+
 func clientDisconnected(id: int) -> void:
 	_clientDisconnected.emit(id)
 
 
-func connectedClientsUpdated(id: int) -> void:
-	_connectedClientsUpdated.emit(id)
+func connectedClientsUpdated(client: Dictionary) -> void:
+	_connectedClientsUpdated.emit(client)
 
 
 func disconnectPlayer() -> void:
 	_disconnectPlayer.emit()
 
 
-func lobbyClientChangedState() -> void:
-	_lobbyClientChangedState.emit()
+func lobbyClientChangedState(id: String, what: String, toWhat) -> void:
+	_lobbyClientChangedState.emit(id, what, toWhat)
+
+
+func removeClient(id: int) -> void:
+	_removeClient.emit(id)
 
 
 func sendChat(msg: String) -> void:
@@ -67,5 +92,16 @@ func toggleLoadingScreen() -> void:
 	_toggleLoadingScreen.emit()
 
 
+func enableDisableInfoNode(id: int) -> void:
+	_enableDisableInfoNode.emit(id)
+
+
 func updatePing(val: int, uid: int) -> void:
 	_updatePing.emit(val, uid)
+
+
+@rpc("any_peer", "call_local", "reliable")
+func updatePlayer(id: String, what: String, toWhat) -> void:
+	_updatePlayer.emit(id, what, toWhat)
+	if multiplayer.is_server():
+		GameMetaDataScript.connectedClients[id.to_int()][what] = toWhat

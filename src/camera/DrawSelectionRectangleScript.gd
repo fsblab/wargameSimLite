@@ -22,7 +22,7 @@ var ar: Area3D
 var rayLength: int
 var skip: bool
 
-# Called when the node enters the scene tree for the first time.
+
 func _ready():
 	from = Vector2(0, 0)
 	to = Vector2(0, 0)
@@ -55,7 +55,6 @@ func _draw():
 	draw_rect(Rect2(from, to - from), Color(Color.GREEN, .5), false, 2.0)
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(_delta):
 	if skip:
 		var results = ar.get_overlapping_bodies()

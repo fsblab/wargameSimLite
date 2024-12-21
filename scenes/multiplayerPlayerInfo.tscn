@@ -19,7 +19,7 @@ text = "Kick"
 [node name="VSeparator1" type="VSeparator" parent="."]
 layout_mode = 2
 
-[node name="OptionButton" type="OptionButton" parent="."]
+[node name="Player" type="OptionButton" parent="."]
 clip_contents = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -36,7 +36,7 @@ popup/item_2/id = 2
 [node name="VSeparator2" type="VSeparator" parent="."]
 layout_mode = 2
 
-[node name="PlayerNameLabel" type="Label" parent="."]
+[node name="PlayerName" type="Label" parent="."]
 clip_contents = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -103,6 +103,8 @@ text = "❌"
 [node name="VSeparator7" type="VSeparator" parent="."]
 layout_mode = 2
 
+[connection signal="pressed" from="Kick" to="." method="getKicked"]
+[connection signal="item_selected" from="Player" to="." method="selectPlayer"]
 [connection signal="item_selected" from="Faction" to="." method="selectFaction"]
 [connection signal="value_changed" from="Team" to="." method="setTeam"]
 [connection signal="pressed" from="Ready" to="." method="toggleReady"]

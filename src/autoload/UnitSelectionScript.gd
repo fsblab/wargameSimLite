@@ -9,7 +9,6 @@ var unitSelectedMaterial: StandardMaterial3D:
 	get: return unitSelectedMaterial
 
 
-# Called when the node enters the scene tree for the first time.
 func _ready():
 	selectedUnits = Array()
 	unitNotSelectedMaterial = preload("res://assets/materials/unitNotSelected.tres")

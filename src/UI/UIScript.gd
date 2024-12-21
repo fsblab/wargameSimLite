@@ -64,14 +64,14 @@ func setupPlayerList() -> void:
 	for player in GameMetaDataScript.connectedClients.values():
 		var infoNode: Control = ResourceLoader.load("res://scenes/ui/uiPlayerInfoNode.tscn").instantiate()
 		var lSettings: LabelSettings = LabelSettings.new()
-
-		lSettings.font_color = GameMetaDataScript.factionColor.get(player.faction)
+		
+		lSettings.font_color = GameMetaDataScript.factionColor.get(int(player.Faction))
 		lSettings.outline_color = Color(0, 0, 0, 1)
 		lSettings.font_size = 16
 
 		infoNode.name = str(player.uid)
 		infoNode.get_node("PlayerName").label_settings = lSettings
-		infoNode.get_node("PlayerName").text = player.playerName
+		infoNode.get_node("PlayerName").text = player.PlayerName
 		
 		playerList.add_child(infoNode)
 
