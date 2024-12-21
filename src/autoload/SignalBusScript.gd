@@ -12,14 +12,14 @@ signal _changeNodeNameCompleted
 #ServerScript -> SkirmishMenuScript
 signal _clientDisconnected(id: int)
 #ServerScript -> SkirmishMenuScript
-#MapSettingsScript -> SkrimishMenuScript
+#MapSettingsScript -> SkirmishMenuScript
 signal _connectedClientsUpdated(client: Dictionary)
 #SkirmishMenu -> ServerScript
 #PauseMenuCanvasScript -> ServerScript
 signal _disconnectPlayer
 #PlayerInfoScript -> ServerScript
 signal _lobbyClientChangedState(client: Dictionary)
-#MapSettingsScript -> SkirmishLobbyScript
+#MapSettingsScript -> SkirmishMenuScript
 signal _removeClient(id: int)
 #SkirmishMenuScript -> ServerScript
 signal _sendChat(msg: String)
@@ -47,6 +47,7 @@ func cannotConnectToLobby(msg: String) -> void:
 	_cannotConnectToLobby.emit(msg)
 
 
+@rpc("call_local", "any_peer", "reliable")
 func changeNodeName(id: String, newId: String) -> void:
 	_changeNodeName.emit(id, newId)
 
@@ -55,11 +56,11 @@ func changeNodeNameCompleted() -> void:
 	_changeNodeNameCompleted.emit()
 
 
-
 func clientDisconnected(id: int) -> void:
 	_clientDisconnected.emit(id)
 
 
+@rpc("call_local", "any_peer", "reliable")
 func connectedClientsUpdated(client: Dictionary) -> void:
 	_connectedClientsUpdated.emit(client)
 
@@ -72,6 +73,7 @@ func lobbyClientChangedState(id: String, what: String, toWhat) -> void:
 	_lobbyClientChangedState.emit(id, what, toWhat)
 
 
+@rpc("call_local", "any_peer", "reliable")
 func removeClient(id: int) -> void:
 	_removeClient.emit(id)
 

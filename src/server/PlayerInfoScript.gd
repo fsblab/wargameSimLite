@@ -25,7 +25,7 @@ func selectPlayer(index: int) -> void:
 	for data in ["Ready", "Faction", "Team", "PlayerName"]:
 		sendChangeToClients(data, getData[data])
 	
-	SignalBusScript.changeNodeName(oldId, str(getData.uid))
+	SignalBusScript.changeNodeName.rpc(oldId, str(getData.uid))
 	
 	if multiplayer.is_server():
 		GameMetaDataScript.connectedClients.erase(oldId.to_int())
