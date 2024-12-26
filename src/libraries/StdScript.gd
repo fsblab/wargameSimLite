@@ -36,7 +36,7 @@ static func map(someArray: Array, someFunc: Callable) -> Array:
 
 static func dmap(someDict: Dictionary, someFunc: Callable) -> Dictionary:
 	var mappedDict: Dictionary
-	for key in someDict:
+	for key in someDict.keys():
 		mappedDict[key] = someFunc.call(someDict[key])
 	return mappedDict
 

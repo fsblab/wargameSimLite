@@ -16,7 +16,7 @@ extends Control
 @onready var helUnits: CenterContainer = $CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer/Helicopter/HelicopterUnits
 @onready var plnUnits: CenterContainer = $CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer/Plane/PlaneUnits
 
-@onready var playerList: VBoxContainer = $CanvasLayer/Players/PanelContainer/MarginContainer/CanvasLayer/ScrollContainer/VBoxContainer
+@onready var playerList: VBoxContainer = $CanvasLayer/Players/PanelContainer/MarginContainer/CanvasLayer/ScrollContainer/PlayerList
 
 @onready var connectedIcon: Texture2D = ResourceLoader.load("res://assets/sprites/connection/connected.png", "Texture2D")
 @onready var disconnectedIcon: Texture2D = ResourceLoader.load("res://assets/sprites/connection/disconnected.png", "Texture2D")
@@ -39,6 +39,11 @@ func _ready() -> void:
 		"pln": plnUnits
 	}
 
+	if not multiplayer.is_server():
+		requestPlayerList()
+	
+	await SignalBusScript._playerListReceived
+	
 	setupPlayerList()
 
 	SignalBusScript._updatePing.connect(updatePing)
@@ -60,36 +65,55 @@ func setFPS(pressed: int) -> void:
 	fps.visible = pressed
 
 
+func requestPlayerList() ->  void:
+	SignalBusScript.requestPlayerListForUI()
+
+
 func setupPlayerList() -> void:
-	pass
-#	for player in GameMetaDataScript.connectedClients.values():
-#		var infoNode: Control = ResourceLoader.load("res://scenes/ui/uiPlayerInfoNode.tscn").instantiate()
-#		var lSettings: LabelSettings = LabelSettings.new()
-#		
-#		lSettings.font_color = GameMetaDataScript.factionColor.get(int(player.Faction))
-#		lSettings.outline_color = Color(0, 0, 0, 1)
-#		lSettings.font_size = 16
-#
-#		infoNode.name = str(player.uid)
-#		infoNode.get_node("PlayerName").label_settings = lSettings
-#		infoNode.get_node("PlayerName").text = player.PlayerName
-#		
-#		playerList.add_child(infoNode)
+	var clients: Array = StdScript.map(GameMetaDataScript.connectedClients.values(), func(client): return {"Faction": client.Faction, "PlayerName": client.PlayerName, "Team": client.Team, "uid": client.uid})
+	GameMetaDataScript.connectedClients.clear()
+
+	for player in clients:
+		var infoNode: HBoxContainer = ResourceLoader.load("res://scenes/ui/uiPlayerInfoNode.tscn").instantiate()
+		var lSettings: LabelSettings = LabelSettings.new()
+		
+		lSettings.font_color = GameMetaDataScript.factionColor.get(int(player.Faction))
+		lSettings.outline_color = Color(0, 0, 0, 1)
+		lSettings.font_size = 16
+
+		infoNode.name = str(player.uid)
+		infoNode.get_node("PlayerName").label_settings = lSettings
+		infoNode.get_node("PlayerName").text = player.PlayerName
+
+		if not playerList.has_node(str(player.Team)):
+			var teamLabel: Label = Label.new()
+			var teamSeperator: HSeparator = HSeparator.new()
+			var teamBox: VBoxContainer = VBoxContainer.new()
+
+			teamLabel.name = str("Team", player.Team)
+			teamLabel.text = str("Team ", str(player.Team))
+			teamBox.name = str(player.Team)
+
+			teamBox.add_child(teamLabel)
+			teamBox.add_child(teamSeperator)
+			playerList.add_child(teamBox)
+		
+		playerList.get_node(str(player.Team)).add_child(infoNode)
 
 
-func updatePing(ping: int, uid: int) -> void:
+func updatePing(ping: int, nodepath: String) -> void:
 	if ping == -1:
-		playerList.get_node(str(uid, "/Ping")).text = ""
-		playerList.get_node(str(uid, "/Connection")).set_texture(disconnectedIcon)
+		playerList.get_node(nodepath + "/Ping").text = ""
+		playerList.get_node(nodepath + "/Connection").set_texture(disconnectedIcon)
 		return
 	
-	ping = ping if GameMetaDataScript.connectedClients.has(uid) else 0
-	playerList.get_node(str(uid, "/Ping")).text = str(ping)
+	ping = ping if GameMetaDataScript.connectedClients.has(nodepath) else 0
+	playerList.get_node(nodepath + "/Ping").text = str(ping)
 
 	for ratings in GameMetaDataScript.pingRating:
 		if ratings >= ping:
 			break
-		playerList.get_node(str(uid, "/Ping")).add_theme_color_override("font_color", GameMetaDataScript.pingRating[ratings])
+		playerList.get_node(nodepath + "/Ping").add_theme_color_override("font_color", GameMetaDataScript.pingRating[ratings])
 
 
 func drawFPS() -> void:

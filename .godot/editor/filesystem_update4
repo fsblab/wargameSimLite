@@ -1,8 +1,7 @@
-res://src/autoload/GameMetaDataScript.gd
-res://src/menu/MultiplayerMenuScript.gd
-res://src/menu/SkirmishMenuScript.gd
 res://src/UI/UIScript.gd
+res://scenes/ui/ui.tscn
+res://src/menu/SettingsScript.gd
 res://src/server/ServerScript.gd
-res://src/menu/MapSettingsScript.gd
 res://src/autoload/SignalBusScript.gd
-res://src/server/PlayerInfoScript.gd
+res://src/libraries/StdScript.gd
+res://src/autoload/GameMetaDataScript.gd

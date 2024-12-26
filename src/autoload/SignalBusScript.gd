@@ -17,10 +17,16 @@ signal _connectedClientsUpdated(client: Dictionary)
 #SkirmishMenu -> ServerScript
 #PauseMenuCanvasScript -> ServerScript
 signal _disconnectPlayer
+#Severscript -> SkirmishMenuScript
+signal _enableDisableInfoNode
 #PlayerInfoScript -> ServerScript
 signal _lobbyClientChangedState(client: Dictionary)
+#ServerScript -> UIScript
+signal _playerListReceived()
 #MapSettingsScript -> SkirmishMenuScript
 signal _removeClient(id: int)
+#UIScript -> ServerScript
+signal _requestPlayerListForUI
 #SkirmishMenuScript -> ServerScript
 signal _sendChat(msg: String)
 signal _sendChatAsServer(msg: String)
@@ -30,11 +36,9 @@ signal _toggleBetweenMuliplayerMenuAndSkirmishMenu
 #ServerScript -> MainMenuCanvasScript
 #SkirmishMenuScript -> MainMenuCanvasScript
 signal _toggleLoadingScreen
-#Severscript -> SkirmishMenuScript
-signal _enableDisableInfoNode
 #ServerScript -> PlayerInfoScript
 #ServerScript -> UIScript
-signal _updatePing(val: int, uid: int)
+signal _updatePing(val: int, nodepath: String)
 #PlayerInfoScript -> SkirmishMenu
 signal _updatePlayer(id: String, what: String, toWhat)
 
@@ -73,9 +77,17 @@ func lobbyClientChangedState(id: String, what: String, toWhat) -> void:
 	_lobbyClientChangedState.emit(id, what, toWhat)
 
 
+func playerListReceived() -> void:
+	_playerListReceived.emit()
+
+
 @rpc("call_local", "any_peer", "reliable")
 func removeClient(id: int) -> void:
 	_removeClient.emit(id)
+
+
+func requestPlayerListForUI() -> void:
+	_requestPlayerListForUI.emit()
 
 
 func sendChat(msg: String) -> void:
@@ -98,8 +110,8 @@ func enableDisableInfoNode(id: int) -> void:
 	_enableDisableInfoNode.emit(id)
 
 
-func updatePing(val: int, uid: int) -> void:
-	_updatePing.emit(val, uid)
+func updatePing(val: int, nodepath: String) -> void:
+	_updatePing.emit(val, nodepath)
 
 
 @rpc("any_peer", "call_local", "reliable")

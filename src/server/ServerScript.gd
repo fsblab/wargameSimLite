@@ -16,13 +16,14 @@ func _ready():
 	tickStamp = Time.get_ticks_usec()
 
 #	multiplayer.peer_connected.connect(playerJoined)	#called on all clients
-	multiplayer.peer_disconnected.connect(playerLeft)	#calles on all clients
+	multiplayer.peer_disconnected.connect(playerLeft)	#called on all clients
 	multiplayer.connected_to_server.connect(connectionEstablished)	#called only on newly connecting client
 	multiplayer.connection_failed.connect(connectionFailed)			#called only on newly connecting client
 	multiplayer.server_disconnected.connect(connectionFailed)
 	
 	SignalBusScript._disconnectPlayer.connect(disconnectPlayer)
 	SignalBusScript._lobbyClientChangedState.connect(lobbyClientChangedState)
+	SignalBusScript._requestPlayerListForUI.connect(requestPlayerListForUI)
 	SignalBusScript._sendChat.connect(sendChat)
 	SignalBusScript._sendChatAsServer.connect(sendChatAsServer)
 	
@@ -224,6 +225,22 @@ func connectionFailed() -> void:
 	SignalBusScript.cannotConnectToLobby("Connection could not be established.")
 
 
+func requestPlayerListForUI() -> void:
+	rpc_id(1, "_requestPlayerList")
+
+
+@rpc("any_peer", "call_local", "reliable")
+func _requestPlayerList() -> void:
+	var clients: Dictionary =  StdScript.dmap(GameMetaDataScript.connectedClients, func(client): return {"Faction": client.Faction, "PlayerName": client.PlayerName, "Team": client.Team, "uid": client.uid})
+	rpc("_sendPlayerList", clients)
+
+
+@rpc("any_peer", "call_local", "reliable")
+func _sendPlayerList(clients: Dictionary) -> void:
+	GameMetaDataScript.connectedClients = clients
+	SignalBusScript.playerListReceived()
+
+
 func pingEveryone() -> void:
 	for id in multiplayer.get_peers():
 		if id < 1:
@@ -235,15 +252,16 @@ func pingEveryone() -> void:
 @warning_ignore("integer_division")
 @rpc("any_peer", "call_local", "unreliable")
 func _ping(timestamp: int, id: int) -> void:
+	var nodepath: String = str(GameMetaDataScript.client.Team, '/', GameMetaDataScript.client.uid)
 	var ping = (Time.get_ticks_usec() - timestamp) / 1000
 	GameMetaDataScript.client["Ping"] = ping
 	
 	if GameMetaDataScript.currentGameState == GameMetaDataScript.gameState.LOBBY:
 		rpc("_changeDataOnConnectedClient", str(id), "Ping", str(ping))
 	elif GameMetaDataScript.currentGameState == GameMetaDataScript.gameState.MATCH:
-		rpc("_updatePing", ping, id)
+		rpc("_updatePing", ping, nodepath)
 
 
 @rpc("any_peer", "call_local", "unreliable")
-func _updatePing(ping: int, id: int) -> void:
-	SignalBusScript.updatePing(ping, id)
+func _updatePing(ping: int, nodepath: String) -> void:
+	SignalBusScript.updatePing(ping, nodepath)
