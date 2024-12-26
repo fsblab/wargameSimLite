@@ -1,7 +1,12 @@
+res://src/menu/SkirmishMenuScript.gd
 res://src/UI/UIScript.gd
-res://scenes/ui/ui.tscn
-res://src/menu/SettingsScript.gd
-res://src/server/ServerScript.gd
-res://src/autoload/SignalBusScript.gd
-res://src/libraries/StdScript.gd
 res://src/autoload/GameMetaDataScript.gd
+res://src/server/ServerScript.gd
+res://src/menu/PauseMenuCanvasScript.gd
+res://src/autoload/SignalBusScript.gd
+res://src/menu/PauseMenuScript.gd
+res://src/camera/ZoomInOutScript.gd
+res://src/camera/DrawSelectionRectangleScript.gd
+res://src/camera/RightClickToMoveUnitScript.gd
+res://src/units/GroundUnit.gd
+res://src/menu/MultiplayerMenuScript.gd

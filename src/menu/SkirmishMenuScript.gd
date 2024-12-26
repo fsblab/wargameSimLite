@@ -2,7 +2,7 @@ extends Control
 
 
 signal startSkirmish(folder: String)
-signal goBack()
+signal goBack
 
 @onready var mapFolder: DirAccess = DirAccess.open("res://scenes/maps")
 @onready var defaultMaps: PackedStringArray = mapFolder.get_directories()
@@ -77,16 +77,16 @@ func addPlayer(client: Dictionary) -> void:
 		infoNode = spInfoNode.instantiate()
 		infoNode.get_node("PlayerName").text = client.PlayerName
 		infoNode.get_node("Faction").select(client.Faction)
-		infoNode.get_node("Player").select(1)
-		infoNode.get_node("Player").set_item_disabled(0, true)
+		infoNode.get_node("Player").select(1 if client.uid > 30000 or client.uid == 1 else 2 if client.uid > 20000 else 0)
 		infoNode.get_node("Player").set_item_disabled(2, true)
+		infoNode.get_node("Player").set_item_disabled(0, true)
 	elif GameMetaDataScript.currentPlayMode == GameMetaDataScript.playMode.MULTIPLAYER:
 		infoNode = mpInfoNode.instantiate()
 		infoNode.get_node("PlayerName").text = client.PlayerName
 		infoNode.get_node("Faction").select(client.Faction)
 		infoNode.get_node("Player").select(1 if client.uid > 30000 or client.uid == 1 else 2 if client.uid > 20000 else 0)
-		infoNode.get_node("Player").set_item_disabled(0, true)
 		infoNode.get_node("Player").set_item_disabled(2, true)
+		infoNode.get_node("Player").set_item_disabled(0, true)
 		infoNode.get_node("Ready").text = "✔️" if client.Ready else "❌"
 		infoNode.get_node("Ping").text = str(client.Ping)
 		
@@ -107,6 +107,7 @@ func addPlayer(client: Dictionary) -> void:
 		infoNode.get_node("Player").disabled = false
 		infoNode.get_node("Player").set_item_disabled(2, false)
 		infoNode.get_node("Player").set_item_disabled(0, false)
+
 
 	infoNode.name = str(client.uid)
 	StdScript.enableDisableLeaves(mapAndSettingsSplittingPoint, multiplayer.get_unique_id())
@@ -147,7 +148,7 @@ func enableDisableInfoNode(id: int) -> void:
 	var infoNode: HBoxContainer = clientContainer.get_node(str(id))
 
 	if GameMetaDataScript.currentPlayMode == GameMetaDataScript.playMode.SINGLEPLAYER:
-		pass #TODO
+		pass # TODO
 	elif GameMetaDataScript.currentPlayMode == GameMetaDataScript.playMode.MULTIPLAYER:
 		infoNode.get_node("Player").set_item_disabled(0, true)
 		infoNode.get_node("Player").set_item_disabled(2, true)

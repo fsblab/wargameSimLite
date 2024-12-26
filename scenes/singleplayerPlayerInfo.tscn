@@ -11,7 +11,7 @@ script = ExtResource("1_wnhra")
 [node name="VSeparator0" type="VSeparator" parent="."]
 layout_mode = 2
 
-[node name="OptionButton" type="OptionButton" parent="."]
+[node name="Player" type="OptionButton" parent="."]
 clip_contents = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -57,6 +57,7 @@ popup/item_3/id = 4
 popup/item_4/text = "YELLOW"
 popup/item_4/id = 5
 popup/item_5/text = "NONE"
+popup/item_5/id = 5
 
 [node name="VSeparator3" type="VSeparator" parent="."]
 layout_mode = 2
@@ -80,3 +81,7 @@ layout_mode = 2
 [node name="Kick" type="Button" parent="."]
 visible = false
 layout_mode = 2
+
+[connection signal="item_selected" from="Player" to="." method="selectPlayer"]
+[connection signal="item_selected" from="Faction" to="." method="selectFaction"]
+[connection signal="value_changed" from="Team" to="." method="setTeam"]

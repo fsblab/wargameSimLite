@@ -42,7 +42,8 @@ func _ready() -> void:
 	if not multiplayer.is_server():
 		requestPlayerList()
 	
-	await SignalBusScript._playerListReceived
+	if len(multiplayer.get_peers()):
+		await SignalBusScript._playerListReceived
 	
 	setupPlayerList()
 

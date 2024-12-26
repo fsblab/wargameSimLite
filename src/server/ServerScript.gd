@@ -19,7 +19,7 @@ func _ready():
 	multiplayer.peer_disconnected.connect(playerLeft)	#called on all clients
 	multiplayer.connected_to_server.connect(connectionEstablished)	#called only on newly connecting client
 	multiplayer.connection_failed.connect(connectionFailed)			#called only on newly connecting client
-	multiplayer.server_disconnected.connect(connectionFailed)
+#	multiplayer.server_disconnected.connect(connectionFailed)
 	
 	SignalBusScript._disconnectPlayer.connect(disconnectPlayer)
 	SignalBusScript._lobbyClientChangedState.connect(lobbyClientChangedState)
