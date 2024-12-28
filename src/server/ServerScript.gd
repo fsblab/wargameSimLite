@@ -38,6 +38,10 @@ func _process(_delta: float) -> void:
 			pingEveryone()
 
 
+func initChatBox() -> void:
+	chatBox = $MainMenu/CanvasLayer/SkirmishMenu/CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/ChatContainer/MarginContainer/VBoxContainer/TextEdit
+
+
 func initServer(port: int = 7000, maxClients: int = 1) -> bool:
 	if not port:
 		port = 7000
@@ -103,6 +107,9 @@ func sendChat(msg: String) -> void:
 
 @rpc("any_peer", "call_local", "reliable")
 func _sendChat(pName: String, msg: String) -> void:
+	if not is_instance_valid(chatBox):
+		initChatBox()
+
 	chatBox.text = chatBox.text + str("[", Time.get_time_string_from_system(), "] " , pName, ": ", msg, "\n")
 	chatBox.scroll_vertical = INF
 

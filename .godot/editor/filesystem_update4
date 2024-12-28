@@ -1,12 +1,16 @@
-res://src/menu/SkirmishMenuScript.gd
-res://src/UI/UIScript.gd
-res://src/autoload/GameMetaDataScript.gd
 res://src/server/ServerScript.gd
+res://src/menu/MainMenuCanvasScript.gd
 res://src/menu/PauseMenuCanvasScript.gd
-res://src/autoload/SignalBusScript.gd
-res://src/menu/PauseMenuScript.gd
-res://src/camera/ZoomInOutScript.gd
-res://src/camera/DrawSelectionRectangleScript.gd
-res://src/camera/RightClickToMoveUnitScript.gd
-res://src/units/GroundUnit.gd
-res://src/menu/MultiplayerMenuScript.gd
+res://src/menu/SkirmishMenuScript.gd
+res://scenes/start.tscn
+res://src/menu/SettingsScript.gd
+res://scenes/units/tank_unit.tscn
+res://scenes/maps/Functionality Test/functionalityTest.tscn
+res://scenes/pauseMenu.tscn
+res://scenes/mainMenu.tscn
+res://scenes/ui/ui.tscn
+res://scenes/skirmishMenu.tscn
+res://scenes/multiplayerMenu.tscn
+res://scenes/multiplayerPlayerInfo.tscn
+res://scenes/ui/uiPlayerInfoNode.tscn
+res://scenes/singleplayerPlayerInfo.tscn
