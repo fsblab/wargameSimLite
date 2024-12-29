@@ -1,16 +1,3 @@
 res://src/server/ServerScript.gd
-res://src/menu/MainMenuCanvasScript.gd
-res://src/menu/PauseMenuCanvasScript.gd
-res://src/menu/SkirmishMenuScript.gd
-res://scenes/start.tscn
-res://src/menu/SettingsScript.gd
-res://scenes/units/tank_unit.tscn
-res://scenes/maps/Functionality Test/functionalityTest.tscn
-res://scenes/pauseMenu.tscn
-res://scenes/mainMenu.tscn
-res://scenes/ui/ui.tscn
-res://scenes/skirmishMenu.tscn
-res://scenes/multiplayerMenu.tscn
-res://scenes/multiplayerPlayerInfo.tscn
-res://scenes/ui/uiPlayerInfoNode.tscn
-res://scenes/singleplayerPlayerInfo.tscn
+res://src/autoload/GameMetaDataScript.gd
+res://src/autoload/SignalBusScript.gd

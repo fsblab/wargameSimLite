@@ -1,10 +1,9 @@
 extends Control
 
 
-@onready var chatBox: TextEdit = $MainMenu/CanvasLayer/SkirmishMenu/CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/ChatContainer/MarginContainer/VBoxContainer/TextEdit
-
 signal _lobbyInfoFinished
 
+var chatBox: TextEdit
 var peer: ENetMultiplayerPeer
 const localhost: String = "127.0.0.1"
 var tickStamp: int
@@ -169,23 +168,21 @@ func _requestPlayerData(clients: Dictionary) -> void:
 		SignalBusScript.connectedClientsUpdated(player)
 		
 	rpc("_sendChat", SettingsConfigScript.currentPlayerInfo["name"], "joined")
-	rpc("_updateConnectedClients", GameMetaDataScript.client)
+	rpc_id(1, "_updateConnectedClients", GameMetaDataScript.client)
 
 
 @rpc("any_peer", "call_local", "reliable")
-func _updateConnectedClients(client: Dictionary) -> void:
-	if multiplayer.is_server():
+func _updateConnectedClients(client: Dictionary, onlyServer = true) -> void:
+	if multiplayer.is_server() and onlyServer:
 		var oldId: int = StdScript.filter(GameMetaDataScript.connectedClients.keys(), func(x): if x > 30000: return x)[0]
 		GameMetaDataScript.connectedClients.erase(oldId)
 		GameMetaDataScript.connectedClients[client.uid] = client
 
 		rpc("_changeNodeName", str(oldId), str(client.uid))
+		rpc("_updateConnectedClients", client, false)
+	elif multiplayer.is_server():
+		return
 	
-	# why is this necessary??? BUG in the engine???
-	# without the if statement the server and only the server first sends the signal and only afterwards awaits it
-	if not multiplayer.is_server():
-		await SignalBusScript._changeNodeNameCompleted
-
 	for data in ["Ready", "Faction", "Team", "PlayerName"]:
 		_changeDataOnConnectedClient(str(client.uid), data, client[data])
 	
