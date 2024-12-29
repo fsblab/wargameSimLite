@@ -1,3 +1,4 @@
 res://src/server/ServerScript.gd
 res://src/autoload/GameMetaDataScript.gd
 res://src/autoload/SignalBusScript.gd
+res://src/menu/SkirmishMenuScript.gd

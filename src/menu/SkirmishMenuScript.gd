@@ -256,18 +256,18 @@ func countdown() -> void:
 
 
 func toggleCountdown() -> void:
-	rpc("_toggleCountdown")
+	if multiplayer.get_unique_id() == 1:
+		if GameMetaDataScript.currentPlayMode == GameMetaDataScript.playMode.MULTIPLAYER:
+			for client in GameMetaDataScript.connectedClients:
+				if GameMetaDataScript.connectedClients[client].Ready == false:
+					chatMessage('', "EVERYONE IS REQUIRED TO BE READY FOR THE GAME TO START")
+					return
+		rpc("_toggleCountdown")
 
 
 @rpc("any_peer", "call_local", "reliable")
 func _toggleCountdown() -> void:
 	if timer.is_stopped():
-		if multiplayer.get_unique_id() == 1:
-			if GameMetaDataScript.currentPlayMode == GameMetaDataScript.playMode.MULTIPLAYER:
-				for client in GameMetaDataScript.connectedClients:
-					if GameMetaDataScript.connectedClients[client].Ready == false:
-						chatMessage('', "EVERYONE IS REQUIRED TO BE READY FOR THE GAME TO START")
-						return
 		readyButton.text = "CANCEL"
 		timer.start()
 	else:
