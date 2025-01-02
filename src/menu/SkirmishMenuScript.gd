@@ -262,6 +262,7 @@ func toggleCountdown() -> void:
 				if GameMetaDataScript.connectedClients[client].Ready == false:
 					chatMessage('', "EVERYONE IS REQUIRED TO BE READY FOR THE GAME TO START")
 					return
+		StdScript.enableDisableLeaves(mapAndSettingsSplittingPoint, 0)
 		rpc("_toggleCountdown")
 
 
@@ -271,6 +272,8 @@ func _toggleCountdown() -> void:
 		readyButton.text = "CANCEL"
 		timer.start()
 	else:
+		if multiplayer.is_server():
+			StdScript.enableDisableLeaves(mapAndSettingsSplittingPoint, 1)
 		rpc("_stopCountdown")
 
 

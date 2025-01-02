@@ -173,7 +173,7 @@ theme_override_constants/separation = 8
 [node name="GridContainer" type="GridContainer" parent="CenterContainer/MarginContainer/VBoxContainer/MapSettingsContainer/HBoxContainer/SettingsContainer/MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_constants/h_separation = 8
+theme_override_constants/h_separation = 16
 theme_override_constants/v_separation = 8
 columns = 4
 
@@ -187,6 +187,41 @@ layout_mode = 2
 min_value = 1.0
 max_value = 4095.0
 value = 1.0
+
+[node name="FogOfWarLabel" type="Label" parent="CenterContainer/MarginContainer/VBoxContainer/MapSettingsContainer/HBoxContainer/SettingsContainer/MarginContainer/VBoxContainer/HBoxContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "FOG OF WAR:"
+
+[node name="OptionButton" type="OptionButton" parent="CenterContainer/MarginContainer/VBoxContainer/MapSettingsContainer/HBoxContainer/SettingsContainer/MarginContainer/VBoxContainer/HBoxContainer/GridContainer"]
+layout_mode = 2
+selected = 2
+item_count = 3
+popup/item_0/text = "NONE"
+popup/item_1/text = "SOLO"
+popup/item_1/id = 1
+popup/item_2/text = "TEAM"
+popup/item_2/id = 2
+
+[node name="InfTimeLabel" type="Label" parent="CenterContainer/MarginContainer/VBoxContainer/MapSettingsContainer/HBoxContainer/SettingsContainer/MarginContainer/VBoxContainer/HBoxContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "MATCH TIME LIMITED:"
+
+[node name="InfTime" type="CheckButton" parent="CenterContainer/MarginContainer/VBoxContainer/MapSettingsContainer/HBoxContainer/SettingsContainer/MarginContainer/VBoxContainer/HBoxContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+button_pressed = true
+
+[node name="TimeLabel" type="Label" parent="CenterContainer/MarginContainer/VBoxContainer/MapSettingsContainer/HBoxContainer/SettingsContainer/MarginContainer/VBoxContainer/HBoxContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "MATCH TIME IN MINUTES:"
+
+[node name="Time" type="SpinBox" parent="CenterContainer/MarginContainer/VBoxContainer/MapSettingsContainer/HBoxContainer/SettingsContainer/MarginContainer/VBoxContainer/HBoxContainer/GridContainer"]
+layout_mode = 2
+min_value = 1.0
+value = 40.0
 
 [node name="PlayerInfoChatContainer" type="HBoxContainer" parent="CenterContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -408,6 +443,9 @@ replication_config = SubResource("SceneReplicationConfig_tfd00")
 
 [connection signal="item_selected" from="CenterContainer/MarginContainer/VBoxContainer/MapSettingsContainer/HBoxContainer/MapContainer/MarginContainer/VBoxContainer/HBoxContainer/GridContainer2/MapNameOptionButton" to="." method="setMapImage"]
 [connection signal="value_changed" from="CenterContainer/MarginContainer/VBoxContainer/MapSettingsContainer/HBoxContainer/SettingsContainer/MarginContainer/VBoxContainer/HBoxContainer/GridContainer/MaxPlayer" to="CenterContainer/MarginContainer/VBoxContainer/MapSettingsContainer" method="updateMaxPlayers"]
+[connection signal="item_selected" from="CenterContainer/MarginContainer/VBoxContainer/MapSettingsContainer/HBoxContainer/SettingsContainer/MarginContainer/VBoxContainer/HBoxContainer/GridContainer/OptionButton" to="CenterContainer/MarginContainer/VBoxContainer/MapSettingsContainer" method="fogOfWarSelected"]
+[connection signal="toggled" from="CenterContainer/MarginContainer/VBoxContainer/MapSettingsContainer/HBoxContainer/SettingsContainer/MarginContainer/VBoxContainer/HBoxContainer/GridContainer/InfTime" to="CenterContainer/MarginContainer/VBoxContainer/MapSettingsContainer" method="toggleMatchTimeLimited"]
+[connection signal="value_changed" from="CenterContainer/MarginContainer/VBoxContainer/MapSettingsContainer/HBoxContainer/SettingsContainer/MarginContainer/VBoxContainer/HBoxContainer/GridContainer/Time" to="CenterContainer/MarginContainer/VBoxContainer/MapSettingsContainer" method="setMatchTime"]
 [connection signal="pressed" from="CenterContainer/MarginContainer/VBoxContainer/BottomButtonsContainer/BackButton" to="." method="back"]
 [connection signal="pressed" from="CenterContainer/MarginContainer/VBoxContainer/BottomButtonsContainer/ReadyButton" to="." method="toggleCountdown"]
 [connection signal="timeout" from="CenterContainer/MarginContainer/VBoxContainer/BottomButtonsContainer/Timer" to="." method="countdown"]

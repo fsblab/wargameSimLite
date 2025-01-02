@@ -1,8 +1,6 @@
 extends Control
 
 
-signal _lobbyInfoFinished
-
 var chatBox: TextEdit
 var peer: ENetMultiplayerPeer
 const localhost: String = "127.0.0.1"
@@ -97,7 +95,7 @@ func _requestLobbyInfo(id: int) -> void:
 @rpc("authority", "call_remote", "reliable")
 func _sendLobbyInfo(lobbyInfo: Dictionary) -> void:
 	GameMetaDataScript.lobby.merge(lobbyInfo, true)
-	_lobbyInfoFinished.emit()
+	SignalBusScript.setupLobbySettings()
 
 
 func sendChat(msg: String) -> void:
@@ -125,7 +123,7 @@ func connectionEstablished() -> void:
 	rpc_id(1, "_requestLobbyInfo", multiplayer.get_unique_id())
 
 	#awaiting signal just to be safe, likely works without signal too
-	await _lobbyInfoFinished
+	await SignalBusScript._setupLobbySettings
 
 	GameMetaDataScript.currentGameState = GameMetaDataScript.gameState.LOBBY
 

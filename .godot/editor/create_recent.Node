@@ -1,3 +1,7 @@
+CheckButton
+Button
+SpinBox
+OptionButton
 Label
 CanvasLayer
 CanvasModulate
@@ -9,6 +13,3 @@ ScrollContainer
 VBoxContainer
 HSeparator
 Popup
-MultiplayerSynchronizer
-Timer
-SpinBox

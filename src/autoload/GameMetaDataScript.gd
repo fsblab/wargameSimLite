@@ -26,6 +26,11 @@ enum gameState {
 	LOADING,
 	MATCH
 }
+enum battlePhase {
+	UNITPLACEMENT,
+	BATTLE,
+	END
+}
 enum faction {
 	NONE,
 	BLACK,
@@ -43,6 +48,11 @@ enum playerType {
 enum aiType {
 	NONE,
 	EASY
+}
+enum fogOfWar {
+	NONE,
+	SOLO,
+	TEAM
 }
 
 const factionColor = {
@@ -69,12 +79,14 @@ var currentPlayMode: playMode
 var currentGameMode: gameMode
 var currentSkirmishMode: skirmishMode
 var currentGameState: gameState
+var currentBattlePhase: battlePhase
 var connectedClients: Dictionary
 var client: Dictionary
 var lobby: Dictionary
 var botId: int
 var noneId: int
 var playerPlaceholderId: int
+var tmpMatchTimeStorage: int
 
 
 func reset() -> void:
@@ -89,6 +101,7 @@ func reset() -> void:
 	currentPlayMode = playMode.NONE
 	currentGameMode = gameMode.NONE
 	currentGameState = gameState.MENUS
+	currentBattlePhase = battlePhase.UNITPLACEMENT
 
 
 func resetClient() -> void:
@@ -107,7 +120,9 @@ func resetLobby() -> void:
 		checksum = 0,
 		selectedMap = "",
 		maxClients = 0,
-		totalClients = 0
+		totalClients = 0,
+		fogOfWar = fogOfWar.TEAM,
+		matchTime = 40
 	}
 
 

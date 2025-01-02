@@ -17,7 +17,7 @@ signal _connectedClientsUpdated(client: Dictionary)
 #SkirmishMenu -> ServerScript
 #PauseMenuCanvasScript -> ServerScript
 signal _disconnectPlayer
-#Severscript -> SkirmishMenuScript
+#ServerScript -> SkirmishMenuScript
 signal _enableDisableInfoNode
 #PlayerInfoScript -> ServerScript
 signal _lobbyClientChangedState(client: Dictionary)
@@ -29,7 +29,10 @@ signal _removeClient(id: int)
 signal _requestPlayerListForUI
 #SkirmishMenuScript -> ServerScript
 signal _sendChat(msg: String)
+#
 signal _sendChatAsServer(msg: String)
+#ServerScript -> MapSettingsScript
+signal _setupLobbySettings
 #ServerScript -> MainMenuCanvasScript
 #SkirmishMenuScript -> MainMenuCanvasScript
 signal _toggleBetweenMuliplayerMenuAndSkirmishMenu
@@ -39,7 +42,7 @@ signal _toggleLoadingScreen
 #ServerScript -> PlayerInfoScript
 #ServerScript -> UIScript
 signal _updatePing(val: int, nodepath: String)
-#PlayerInfoScript -> SkirmishMenu
+#PlayerInfoScript -> SkirmishMenuScript
 signal _updatePlayer(id: String, what: String, toWhat)
 
 
@@ -96,6 +99,10 @@ func sendChat(msg: String) -> void:
 
 func sendChatAsServer(msg: String) -> void:
 	_sendChatAsServer.emit(msg)
+
+
+func setupLobbySettings() -> void:
+	_setupLobbySettings.emit()
 
 
 func toggleBetweenMultiplayerMenuAndSkirmishMenu() -> void:
