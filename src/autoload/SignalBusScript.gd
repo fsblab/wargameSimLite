@@ -32,6 +32,7 @@ signal _sendChat(msg: String)
 #
 signal _sendChatAsServer(msg: String)
 #ServerScript -> MapSettingsScript
+#awaited in ServerScript
 signal _setupLobbySettings
 #ServerScript -> MainMenuCanvasScript
 #SkirmishMenuScript -> MainMenuCanvasScript

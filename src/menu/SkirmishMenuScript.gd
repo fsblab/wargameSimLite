@@ -108,7 +108,6 @@ func addPlayer(client: Dictionary) -> void:
 		infoNode.get_node("Player").set_item_disabled(2, false)
 		infoNode.get_node("Player").set_item_disabled(0, false)
 
-
 	infoNode.name = str(client.uid)
 	StdScript.enableDisableLeaves(mapAndSettingsSplittingPoint, multiplayer.get_unique_id())
 	clientContainer.add_child(infoNode)

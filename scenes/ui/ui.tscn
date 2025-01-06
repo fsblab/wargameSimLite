@@ -402,6 +402,150 @@ texture_normal = ExtResource("2_7ebp5")
 layout_mode = 2
 texture_normal = ExtResource("6_s6sn0")
 
+[node name="TimeReference" type="CenterContainer" parent="CanvasLayer"]
+modulate = Color(0, 1, 1, 1)
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -50.0
+offset_top = 8.0
+offset_right = 50.0
+offset_bottom = 72.0
+grow_horizontal = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/TimeReference"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/TimeReference/PanelContainer"]
+custom_minimum_size = Vector2(100, 64)
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="MinutesLabel" type="Label" parent="CanvasLayer/TimeReference/PanelContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 1
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 32
+text = "40"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ColonLabel" type="Label" parent="CanvasLayer/TimeReference/PanelContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 1
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 32
+text = ":"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SecondsLabel" type="Label" parent="CanvasLayer/TimeReference/PanelContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 1
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 32
+text = "00"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ReadyCountdown" type="CenterContainer" parent="CanvasLayer"]
+modulate = Color(0, 1, 1, 1)
+offset_left = 600.0
+offset_top = 8.0
+offset_right = 839.0
+offset_bottom = 72.0
+
+[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/ReadyCountdown"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/ReadyCountdown/PanelContainer"]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/ReadyCountdown/PanelContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/ReadyCountdown/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="ReadyButton" type="Button" parent="CanvasLayer/ReadyCountdown/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 28
+
+[node name="ReadyLabel" type="Label" parent="CanvasLayer/ReadyCountdown/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/ReadyButton"]
+layout_mode = 2
+offset_right = 128.0
+offset_bottom = 47.0
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 28
+text = "READY"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MinutesLabel" type="Label" parent="CanvasLayer/ReadyCountdown/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 32
+text = "01"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Colon" type="Label" parent="CanvasLayer/ReadyCountdown/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 32
+text = ":"
+vertical_alignment = 1
+
+[node name="SecondsLabel" type="Label" parent="CanvasLayer/ReadyCountdown/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 32
+text = "30"
+vertical_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="CanvasLayer/ReadyCountdown/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="CanvasLayer/ReadyCountdown/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="CanvasLayer/ReadyCountdown/PanelContainer/MarginContainer/VBoxContainer/CenterContainer"]
+layout_mode = 2
+
+[node name="HowManyLabel" type="Label" parent="CanvasLayer/ReadyCountdown/PanelContainer/MarginContainer/VBoxContainer/CenterContainer/HBoxContainer2"]
+layout_mode = 2
+theme_override_constants/outline_size = 8
+text = "0"
+
+[node name="OutOfConstantTextLabel" type="Label" parent="CanvasLayer/ReadyCountdown/PanelContainer/MarginContainer/VBoxContainer/CenterContainer/HBoxContainer2"]
+layout_mode = 2
+theme_override_constants/outline_size = 8
+text = "out of "
+
+[node name="TotalNumberLabel" type="Label" parent="CanvasLayer/ReadyCountdown/PanelContainer/MarginContainer/VBoxContainer/CenterContainer/HBoxContainer2"]
+layout_mode = 2
+theme_override_constants/outline_size = 8
+text = "2"
+
+[node name="AreReadyConstantTextLabel" type="Label" parent="CanvasLayer/ReadyCountdown/PanelContainer/MarginContainer/VBoxContainer/CenterContainer/HBoxContainer2"]
+layout_mode = 2
+theme_override_constants/outline_size = 8
+text = "are ready"
+
 [node name="MiniMap" type="CenterContainer" parent="CanvasLayer"]
 modulate = Color(0, 1, 1, 1)
 custom_minimum_size = Vector2(400, 400)
@@ -462,6 +606,7 @@ theme_override_constants/separation = 2
 modulate = Color(0, 1, 1, 1)
 layout_mode = 2
 size_flags_vertical = 0
+theme_override_constants/outline_size = 8
 text = "Players"
 horizontal_alignment = 1
 
@@ -546,6 +691,8 @@ layout_mode = 2
 [node name="Timer" type="Timer" parent="CanvasLayer/FPS/PanelContainer"]
 autostart = true
 
+[node name="Countdown" type="Timer" parent="."]
+
 [connection signal="pressed" from="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer/Logistics" to="." method="toggleLogUnits"]
 [connection signal="pressed" from="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer/Infantry" to="." method="toggleInfUnits"]
 [connection signal="pressed" from="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer/AntiAir" to="." method="toggleAAUnits"]
@@ -555,4 +702,6 @@ autostart = true
 [connection signal="pressed" from="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer/Engineer" to="." method="toggleEngUnits"]
 [connection signal="pressed" from="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer/Helicopter" to="." method="toggleHelUnits"]
 [connection signal="pressed" from="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer/Plane" to="." method="togglePlnUnits"]
+[connection signal="pressed" from="CanvasLayer/ReadyCountdown/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/ReadyButton" to="." method="readyButtonPressed"]
 [connection signal="timeout" from="CanvasLayer/FPS/PanelContainer/Timer" to="." method="drawFPS"]
+[connection signal="timeout" from="Countdown" to="." method="countdownTriggered"]

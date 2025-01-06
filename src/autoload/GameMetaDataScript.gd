@@ -86,7 +86,6 @@ var lobby: Dictionary
 var botId: int
 var noneId: int
 var playerPlaceholderId: int
-var tmpMatchTimeStorage: int
 
 
 func reset() -> void:

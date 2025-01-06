@@ -16,14 +16,29 @@ extends Control
 @onready var helUnits: CenterContainer = $CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer/Helicopter/HelicopterUnits
 @onready var plnUnits: CenterContainer = $CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer/Plane/PlaneUnits
 
+@onready var openUnitGroup: CenterContainer = logUnits
+
+@onready var minutesLabel: Label = $CanvasLayer/TimeReference/PanelContainer/MarginContainer/MinutesLabel
+@onready var secondsLabel: Label = $CanvasLayer/TimeReference/PanelContainer/MarginContainer/SecondsLabel
+@onready var minutesCountdown: Label = $CanvasLayer/ReadyCountdown/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/MinutesLabel
+@onready var secondsCountdown: Label = $CanvasLayer/ReadyCountdown/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/SecondsLabel
+@onready var readyPlayersLabel: Label = $CanvasLayer/ReadyCountdown/PanelContainer/MarginContainer/VBoxContainer/CenterContainer/HBoxContainer2/HowManyLabel
+@onready var totalPlayersLabel: Label = $CanvasLayer/ReadyCountdown/PanelContainer/MarginContainer/VBoxContainer/CenterContainer/HBoxContainer2/TotalNumberLabel
+@onready var readyButtonLabel: Label = $CanvasLayer/ReadyCountdown/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/ReadyButton/ReadyLabel
+@onready var countdownTimer: Timer = $Countdown
+@onready var readyCountdownContainer: CenterContainer = $CanvasLayer/ReadyCountdown
+
 @onready var playerList: VBoxContainer = $CanvasLayer/Players/PanelContainer/MarginContainer/CanvasLayer/ScrollContainer/PlayerList
 
 @onready var connectedIcon: Texture2D = ResourceLoader.load("res://assets/sprites/connection/connected.png", "Texture2D")
 @onready var disconnectedIcon: Texture2D = ResourceLoader.load("res://assets/sprites/connection/disconnected.png", "Texture2D")
 
-@onready var openUnitGroup: CenterContainer = logUnits
+var readyPlayers: int = 0
+var totalPlayers: int
 
 var unitGroups: Dictionary
+var minutes: int
+var seconds: int
 
 
 func _ready() -> void:
@@ -45,7 +60,11 @@ func _ready() -> void:
 	if len(multiplayer.get_peers()):
 		await SignalBusScript._playerListReceived
 	
+	totalPlayers = GameMetaDataScript.lobby.totalClients
+
 	setupPlayerList()
+	setupMatchTime()
+	setupCountdown()
 
 	SignalBusScript._updatePing.connect(updatePing)
 
@@ -68,6 +87,95 @@ func setFPS(pressed: int) -> void:
 
 func requestPlayerList() ->  void:
 	SignalBusScript.requestPlayerListForUI()
+
+
+func setupMatchTime() -> void:
+	minutes = GameMetaDataScript.lobby.matchTime
+	seconds = 0
+
+	minutesLabel.text = str(minutes) if minutes > 9 else str('0', minutes)
+	secondsLabel.text = "00"
+
+
+func setupCountdown() -> void:
+	minutes = 1
+	seconds = 30
+
+	readyPlayersLabel.text = "0"
+	totalPlayersLabel.text = str(totalPlayers)
+
+
+func updateCountdown() -> void:
+	var mm: String
+	var ss: String
+
+	mm = str(minutes) if minutes > 9 else str('0', minutes)
+	ss = "00" if seconds == 60 else str(seconds) if seconds > 9 else str('0', seconds)
+
+	if GameMetaDataScript.currentBattlePhase == GameMetaDataScript.battlePhase.BATTLE:
+		minutesLabel.text = mm
+		secondsLabel.text = ss
+	elif GameMetaDataScript.currentBattlePhase == GameMetaDataScript.battlePhase.UNITPLACEMENT:
+		minutesCountdown.text = mm
+		secondsCountdown.text = ss
+
+
+func countdownTriggered() -> void:
+	if readyPlayers == totalPlayers and multiplayer.is_server() and GameMetaDataScript.currentBattlePhase == GameMetaDataScript.battlePhase.UNITPLACEMENT:
+		rpc("_startBattle")
+
+	if seconds == 0:
+		if minutes == 0:
+			if GameMetaDataScript.currentBattlePhase == GameMetaDataScript.battlePhase.BATTLE and multiplayer.is_server():
+				rpc("_endBattle")
+			elif GameMetaDataScript.currentBattlePhase == GameMetaDataScript.battlePhase.UNITPLACEMENT and multiplayer.is_server():
+				rpc("_startBattle")
+			return
+		minutes -= 1
+		seconds = 60
+
+	seconds -= 1
+	updateCountdown()
+
+
+func readyButtonPressed() -> void:
+	if readyButtonLabel.text == "READY":
+		readyButtonLabel.text = "CANCEL"
+		readyPlayers += 1
+	else:
+		readyButtonLabel.text = "READY"
+		readyPlayers -= 1
+
+	rpc("_toggleCountdown", readyPlayers)
+
+
+@rpc("any_peer", "call_local", "reliable")
+func _toggleCountdown(rdyp: int) -> void:
+	readyPlayers = rdyp
+	readyPlayersLabel.text = str(rdyp)
+
+	if readyPlayers == 0 and minutes == 0 and seconds < 30:
+		seconds = 30
+		updateCountdown()
+
+	if readyPlayers > 0:
+		countdownTimer.start()
+	else:
+		countdownTimer.stop()
+
+
+@rpc("any_peer", "call_local", "reliable")
+func _startBattle() -> void:
+	GameMetaDataScript.currentBattlePhase = GameMetaDataScript.battlePhase.BATTLE
+	readyCountdownContainer.visible = false
+
+	setupMatchTime()
+
+
+@rpc("any_peer", "call_local", "reliable")
+func _endBattle() -> void:
+	countdownTimer.stop()
+	GameMetaDataScript.currentBattlePhase = GameMetaDataScript.battlePhase.END
 
 
 func setupPlayerList() -> void:

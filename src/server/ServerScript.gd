@@ -95,6 +95,7 @@ func _requestLobbyInfo(id: int) -> void:
 @rpc("authority", "call_remote", "reliable")
 func _sendLobbyInfo(lobbyInfo: Dictionary) -> void:
 	GameMetaDataScript.lobby.merge(lobbyInfo, true)
+	GameMetaDataScript.lobby.totalClients = 0	#HACK
 	SignalBusScript.setupLobbySettings()
 
 

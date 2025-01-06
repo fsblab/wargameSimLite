@@ -1,4 +1,4 @@
+res://src/UI/UIScript.gd
 res://src/menu/MapSettingsScript.gd
+res://src/server/ServerScript.gd
 res://src/autoload/GameMetaDataScript.gd
-res://src/menu/SkirmishMenuScript.gd
-res://src/libraries/StdScript.gd

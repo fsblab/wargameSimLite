@@ -83,4 +83,4 @@ func _updateMatchTime(num: int):
 	if not multiplayer.is_server():
 		matchTimeSpinBox.get_line_edit().text = str(num if num != 0 else GameMetaDataScript.lobby.matchTime)
 		matchTimeSpinBox.apply()
-		GameMetaDataScript.lobby.matchTime = num
+	GameMetaDataScript.lobby.matchTime = num
