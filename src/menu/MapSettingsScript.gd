@@ -23,8 +23,15 @@ func setupLobbySettings() -> void:
 func updateMaxPlayers(num: float) -> void:
 	while GameMetaDataScript.lobby.maxClients != num and multiplayer.is_server():
 		if num < GameMetaDataScript.lobby.maxClients:
-			var filtered = StdScript.filter(GameMetaDataScript.connectedClients.keys(), func(x): if x < 50000 and x > 1: return x)
+			#prioritize removing NONE clients
+			var filtered = StdScript.filter(GameMetaDataScript.connectedClients.keys(), func(x): if x < 20000 and x > 1: return x)
 			var id: int
+			#if there is no NONE client remove PLAYERPLACEHOLDER instead
+			if not filtered:
+				filtered = StdScript.filter(GameMetaDataScript.connectedClients.keys(), func(x): if x < 50000 and x > 30000: return x)
+			#at last remove AI
+			if not filtered:
+				filtered = StdScript.filter(GameMetaDataScript.connectedClients.keys(), func(x): if x < 50000 and x > 1: return x)
 			if filtered:
 				id = filtered[-1]
 			else:

@@ -34,7 +34,6 @@ extends Control
 @onready var disconnectedIcon: Texture2D = ResourceLoader.load("res://assets/sprites/connection/disconnected.png", "Texture2D")
 
 var readyPlayers: int = 0
-var totalPlayers: int
 
 var unitGroups: Dictionary
 var minutes: int
@@ -59,8 +58,6 @@ func _ready() -> void:
 	
 	if len(multiplayer.get_peers()):
 		await SignalBusScript._playerListReceived
-	
-	totalPlayers = GameMetaDataScript.lobby.totalClients
 
 	setupPlayerList()
 	setupMatchTime()
@@ -102,7 +99,7 @@ func setupCountdown() -> void:
 	seconds = 30
 
 	readyPlayersLabel.text = "0"
-	totalPlayersLabel.text = str(totalPlayers)
+	totalPlayersLabel.text = str(len(multiplayer.get_peers()) + 1)
 
 
 func updateCountdown() -> void:
@@ -121,7 +118,7 @@ func updateCountdown() -> void:
 
 
 func countdownTriggered() -> void:
-	if readyPlayers == totalPlayers and multiplayer.is_server() and GameMetaDataScript.currentBattlePhase == GameMetaDataScript.battlePhase.UNITPLACEMENT:
+	if readyPlayers == len(multiplayer.get_peers()) + 1 and multiplayer.is_server() and GameMetaDataScript.currentBattlePhase == GameMetaDataScript.battlePhase.UNITPLACEMENT:
 		rpc("_startBattle")
 
 	if seconds == 0:
@@ -179,7 +176,8 @@ func _endBattle() -> void:
 
 
 func setupPlayerList() -> void:
-	var clients: Array = StdScript.map(GameMetaDataScript.connectedClients.values(), func(client): return {"Faction": client.Faction, "PlayerName": client.PlayerName, "Team": client.Team, "uid": client.uid})
+	var _clients: Array = StdScript.map(GameMetaDataScript.connectedClients.values(), func(client): return {"Faction": client.Faction, "PlayerName": client.PlayerName, "Team": client.Team, "uid": client.uid})
+	var clients: Array = StdScript.filter(_clients, func(client): if client.uid == 1 or client.uid >= 40000 or client.uid in range(20000, 30000): return client)
 	GameMetaDataScript.connectedClients.clear()
 
 	for player in clients:

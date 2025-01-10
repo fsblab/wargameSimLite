@@ -1,5 +1,5 @@
 ea4bc82a6ad023ab7ee23ee620429895
-::res://::1736175217
+::res://::1736515824
 icon.svg::CompressedTexture2D::2810422450029965997::1699562430::1730550922::1::::<><>::
 ::res://assets/::1699562430
 ::res://assets/materials/::1710878330
@@ -82,12 +82,12 @@ ZoomInOutScript.gd::GDScript::-1::1734008947::0::1::::<>Node3D<>::
 StdScript.gd::GDScript::-1::1735210544::0::1::::StdScript<>Object<>::
 ::res://src/menu/::1736011398
 MainMenuCanvasScript.gd::GDScript::-1::1733585768::0::1::::<>CanvasLayer<>::
-MapSettingsScript.gd::GDScript::-1::1736023398::0::1::::<>MarginContainer<>::
+MapSettingsScript.gd::GDScript::-1::1736461061::0::1::::<>MarginContainer<>::
 MultiplayerMenuScript.gd::GDScript::-1::1733748380::0::1::::<>Control<>::
 PauseMenuCanvasScript.gd::GDScript::-1::1729362844::0::1::::<>CanvasLayer<>::
 PauseMenuScript.gd::GDScript::-1::1728756730::0::1::::<>Control<>::
 SettingsScript.gd::GDScript::-1::1736011398::0::1::::<>Control<>::
-SkirmishMenuScript.gd::GDScript::-1::1735939221::0::1::::<>Control<>::
+SkirmishMenuScript.gd::GDScript::-1::1736462716::0::1::::<>Control<>::
 VolumeBoxScript.gd::GDScript::-1::1707677784::0::1::::<>SpinBox<>::
 VolumeSliderScript.gd::GDScript::-1::1707677786::0::1::::<>HSlider<>::
 ::res://src/misc/::1711726984
@@ -96,7 +96,7 @@ LightsScript.gd::GDScript::-1::1707732254::0::1::::<>DirectionalLight3D<>::
 PlayerInfoScript.gd::GDScript::-1::1735217882::0::1::::<>HBoxContainer<>::
 ServerScript.gd::GDScript::-1::1736024606::0::1::::<>Control<>::
 ::res://src/UI/::1736022988
-UIScript.gd::GDScript::-1::1736024760::0::1::::<>Control<>::
+UIScript.gd::GDScript::-1::1736462669::0::1::::<>Control<>::
 ::res://src/units/::1728756731
 GroundUnit.gd::GDScript::-1::1728756729::0::1::::GroundUnit<>Unit<>::
 MarkerScript.gd::GDScript::-1::1728756730::0::1::::<>Decal<>::

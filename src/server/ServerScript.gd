@@ -234,6 +234,9 @@ func requestPlayerListForUI() -> void:
 
 @rpc("any_peer", "call_local", "reliable")
 func _requestPlayerList() -> void:
+	for client in GameMetaDataScript.connectedClients.values():
+		if client.uid in range(10000, 40000):
+			SignalBusScript.removeClient(client.uid)
 	var clients: Dictionary =  StdScript.dmap(GameMetaDataScript.connectedClients, func(client): return {"Faction": client.Faction, "PlayerName": client.PlayerName, "Team": client.Team, "uid": client.uid})
 	rpc("_sendPlayerList", clients)
 
