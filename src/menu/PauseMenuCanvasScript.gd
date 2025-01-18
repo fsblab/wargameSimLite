@@ -39,8 +39,6 @@ func backToMainMenu() -> void:
 	root.add_child(current)
 	
 	GameMetaDataScript.reset()
-	
-	get_tree().set_current_scene(root)
 
 
 func quitToDesktop() -> void:

@@ -67,7 +67,7 @@ static func getFileNameByExtension(mapDir: String, ext: String) -> String:
 	if dir.get_files().is_empty():
 		return ""
 	
-	#get name of first file that ends in ext
+	#get name of first file that ends in given extension
 	for file in dir.get_files():
 		if (re.search(file)):
 			return file

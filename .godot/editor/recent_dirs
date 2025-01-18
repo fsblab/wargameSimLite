@@ -1,7 +1,9 @@
 res://scenes
+N:/godotProjects/wargameLikeRTSGame/scenes/maps/Functionality Test
+res://assets/materials
+res://scenes/units
+res://src/misc
 res://scenes/ui
 res://src/autoload
 res://src
-N:/godotProjects/wargameLikeRTSGame/scenes/maps/Non Empty Test
-res://assets/materials
 res://assets/sprites/unitsymbols

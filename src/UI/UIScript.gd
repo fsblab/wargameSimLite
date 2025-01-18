@@ -1,9 +1,16 @@
 extends Control
 
 
+@onready var canvasLayer = $CanvasLayer
+
 @onready var fps: CenterContainer = $CanvasLayer/FPS
 @onready var fpsLabel: Label = $CanvasLayer/FPS/PanelContainer/FPSLabel
 
+@onready var units: CenterContainer = $CanvasLayer/Units
+@onready var timeReference: CenterContainer = $CanvasLayer/TimeReference
+@onready var readyCountdown: CenterContainer = $CanvasLayer/ReadyCountdown
+@onready var miniMap: CenterContainer = $CanvasLayer/MiniMap
+@onready var players: CenterContainer = $CanvasLayer/Players
 @onready var unitButtons: CenterContainer = $CanvasLayer/UnitButtons
 
 @onready var logUnits: CenterContainer = $CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer/Logistics/LogisticsUnits
@@ -26,19 +33,21 @@ extends Control
 @onready var totalPlayersLabel: Label = $CanvasLayer/ReadyCountdown/PanelContainer/MarginContainer/VBoxContainer/CenterContainer/HBoxContainer2/TotalNumberLabel
 @onready var readyButtonLabel: Label = $CanvasLayer/ReadyCountdown/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/ReadyButton/ReadyLabel
 @onready var countdownTimer: Timer = $Countdown
-@onready var readyCountdownContainer: CenterContainer = $CanvasLayer/ReadyCountdown
 
-@onready var playerList: VBoxContainer = $CanvasLayer/Players/PanelContainer/MarginContainer/CanvasLayer/ScrollContainer/PlayerList
+@onready var playerList: VBoxContainer = $CanvasLayer/Players/PanelContainer/MarginContainer/ScrollContainer/PlayerList
 
 @onready var connectedIcon: Texture2D = ResourceLoader.load("res://assets/sprites/connection/connected.png", "Texture2D")
 @onready var disconnectedIcon: Texture2D = ResourceLoader.load("res://assets/sprites/connection/disconnected.png", "Texture2D")
+
+@onready var audioPlayer: AudioStreamPlayer = $AudioStreamPlayer
+@onready var hornSound: AudioStreamMP3 = ResourceLoader.load("res://assets/sounds/misc/relaxing-music-original-viking-attacking-battle-horn-116623.mp3")
+@onready var mainBattleMusic: AudioStreamMP3 = ResourceLoader.load("res://assets/sounds/music/80s-retro-beat-001-17882.mp3")
 
 var readyPlayers: int = 0
 
 var unitGroups: Dictionary
 var minutes: int
 var seconds: int
-
 
 func _ready() -> void:
 	unitGroups = {
@@ -59,11 +68,16 @@ func _ready() -> void:
 	if len(multiplayer.get_peers()):
 		await SignalBusScript._playerListReceived
 
+	for container: CenterContainer in [units, timeReference, readyCountdown, miniMap, players, unitButtons]:
+		if not GameMetaDataScript.client.Faction == GameMetaDataScript.faction.GREY:
+			container.modulate = GameMetaDataScript.factionColor.get(int(GameMetaDataScript.client.Faction))
+
 	setupPlayerList()
 	setupMatchTime()
 	setupCountdown()
 
 	SignalBusScript._updatePing.connect(updatePing)
+	audioPlayer.finished.connect(playMainMusic)
 
 	GameMetaDataScript.currentGameState = GameMetaDataScript.gameState.MATCH
 
@@ -76,6 +90,16 @@ func _process(_delta) -> void:
 		unitButtons.visible = false
 	else:
 		unitButtons.visible = true
+
+
+func _unhandled_key_input(_event: InputEvent) -> void:
+	if Input.is_key_pressed(KEY_F11):
+		canvasLayer.visible = not canvasLayer.visible
+
+
+func playMainMusic() -> void:
+	audioPlayer.stream = mainBattleMusic
+	audioPlayer.play()
 
 
 func setFPS(pressed: int) -> void:
@@ -164,8 +188,11 @@ func _toggleCountdown(rdyp: int) -> void:
 @rpc("any_peer", "call_local", "reliable")
 func _startBattle() -> void:
 	GameMetaDataScript.currentBattlePhase = GameMetaDataScript.battlePhase.BATTLE
-	readyCountdownContainer.visible = false
+	readyCountdown.visible = false
 
+	SignalBusScript.startBattle()
+	audioPlayer.stream = hornSound
+	audioPlayer.play()
 	setupMatchTime()
 
 
@@ -186,6 +213,7 @@ func setupPlayerList() -> void:
 		
 		lSettings.font_color = GameMetaDataScript.factionColor.get(int(player.Faction))
 		lSettings.outline_color = Color(0, 0, 0, 1)
+		lSettings.outline_size = 4
 		lSettings.font_size = 16
 
 		infoNode.name = str(player.uid)
@@ -272,3 +300,12 @@ func toggleShowUnits(ug: String) -> void:
 		openUnitGroup.visible = false
 		currentUnitGroup.visible = true
 		openUnitGroup = currentUnitGroup
+
+
+func placeMbt() -> void:
+	placeUnit(GameMetaDataScript.unitName.MBT)
+
+
+func placeUnit(unitName: GameMetaDataScript.unitName) -> void:
+	SignalBusScript.addUnitToMap(unitName, GameMetaDataScript.client.Faction)
+	UnitSelectionScript.deselectAll()

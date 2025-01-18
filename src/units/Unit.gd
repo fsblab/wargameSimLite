@@ -5,17 +5,25 @@ class_name Unit extends Node3D
 @onready var model: VehicleBody3D = $Model
 @onready var wheel: VehicleWheel3D = $Model/VehicleWheel3D
 @onready var marker: Marker3D = $MoveToMarker
-@onready var meshNode: MeshInstance3D = model.get_child(0)
+@onready var meshNode: MeshInstance3D = $Model/Cube
 @onready var taskHandler: TaskHandler
 
 var engineForce: float
 var engineForceReverse: float
 var rotationVelocity: int
+var invisibility: int
 
 var team: int
+var playerUid: int
+var unitName: GameMetaDataScript.unitName
+var faction: GameMetaDataScript.faction
 
 
-func setup(F: float, oppositeF: float, omega: int) -> void:
+func _ready() -> void:
+	SignalBusScript._startBattle.connect(startBattle)
+
+
+func setup(F: float, oppositeF: float, omega: int, uname: GameMetaDataScript.unitName, inv: int) -> void:
 	add_to_group("units")
 	meshNode.set_surface_override_material(0, UnitSelectionScript.unitNotSelectedMaterial)
 	
@@ -24,11 +32,21 @@ func setup(F: float, oppositeF: float, omega: int) -> void:
 	engineForce = F
 	engineForceReverse = oppositeF
 	rotationVelocity = omega
+	invisibility = inv
 	
 	marker.global_position = model.global_position
 
+	playerUid = GameMetaDataScript.client.uid
+	unitName = uname
+
+
+func startBattle() -> void:
+	meshNode.set_surface_override_material(0, UnitSelectionScript.loadNotSelectedMaterial(faction))
+
 
 func checkIfSelected() -> bool:
+	if GameMetaDataScript.currentBattlePhase == GameMetaDataScript.battlePhase.UNITPLACEMENT or not playerUid == multiplayer.get_unique_id():
+		return false
 	if self in UnitSelectionScript.selectedUnits:
 		meshNode.set_surface_override_material(0, UnitSelectionScript.unitSelectedMaterial)
 		return true

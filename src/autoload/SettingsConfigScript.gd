@@ -37,47 +37,41 @@ var windowOptions = [
 	DisplayServer.WINDOW_MODE_FULLSCREEN
 ]
 
-
 var defaultSettings = {
-		"aa": msaaOptions[0],
-		"fps": false,
-		"resolution": DisplayServer.screen_get_size(),
-		"resolutionScale": resolutionScaleOptions[2],
-		"shadow": true,
-		"shadowMode": shadowOptions[2],
-		"volume": 100,
-		"vsync": vsyncOptions[0],
-		"windowMode": windowOptions[1]
-	}
-
+	"aa": msaaOptions[0],
+	"fps": false,
+	"resolution": DisplayServer.screen_get_size(),
+	"resolutionScale": resolutionScaleOptions[2],
+	"shadow": true,
+	"shadowMode": shadowOptions[2],
+	"volume": 100,
+	"vsync": vsyncOptions[0],
+	"windowMode": windowOptions[1]
+}
 
 var currentSettings = {
-		"aa": msaaOptions[0],
-		"fps": false,
-		"resolution": DisplayServer.screen_get_size(),
-		"resolutionScale": resolutionScaleOptions[2],
-		"shadow": true,
-		"shadowMode": shadowOptions[2],
-		"volume": 100,
-		"vsync": vsyncOptions[0],
-		"windowMode": windowOptions[1]
-	}
-
+	"aa": msaaOptions[0],
+	"fps": false,
+	"resolution": DisplayServer.screen_get_size(),
+	"resolutionScale": resolutionScaleOptions[2],
+	"shadow": true,
+	"shadowMode": shadowOptions[2],
+	"volume": 100,
+	"vsync": vsyncOptions[0],
+	"windowMode": windowOptions[1]
+}
 
 var changedSettings = {}
 
-
 var defaultPlayerInfo = {
-	"faction": GameMetaDataScript.faction.NONE,
-	"name": ""
+	"Faction": GameMetaDataScript.faction.NONE,
+	"PlayerName": ""
 }
-
 
 var currentPlayerInfo = {
-	"faction": GameMetaDataScript.faction.NONE,
-	"name": ""
+	"Faction": GameMetaDataScript.faction.NONE,
+	"PlayerName": ""
 }
-
 
 var changedPlayerInfo = {}
 
@@ -136,7 +130,7 @@ func setSettings() -> void:
 		AudioServer.set_bus_mute(0, true)
 	else:
 		AudioServer.set_bus_mute(0, false)
-		AudioServer.set_bus_volume_db(0, linear_to_db(currentSettings["volume"] / 100.))
+		AudioServer.set_bus_volume_db(0, linear_to_db(currentSettings["volume"]) / 100.)
 	DisplayServer.window_set_vsync_mode(vsyncOptions[currentSettings["vsync"]])
 	
 	changedSettings.clear()
@@ -151,8 +145,8 @@ func setPlayerInfo() -> void:
 	for info in changedPlayerInfo:
 		currentPlayerInfo[info] = changedPlayerInfo[info]
 	
-	GameMetaDataScript.client.Faction = currentPlayerInfo["faction"]
-	GameMetaDataScript.client.PlayerName = currentPlayerInfo["name"]
+	GameMetaDataScript.client.Faction = currentPlayerInfo["Faction"]
+	GameMetaDataScript.client.PlayerName = currentPlayerInfo["PlayerName"]
 	
 	changedPlayerInfo.clear()
 	

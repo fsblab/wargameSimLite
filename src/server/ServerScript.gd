@@ -2,7 +2,7 @@ extends Control
 
 
 var chatBox: TextEdit
-var peer: ENetMultiplayerPeer
+var peer: Variant	#ENetMultiplayerPeer | OfflineMultiplayerPeer
 const localhost: String = "127.0.0.1"
 var tickStamp: int
 var tickCurrent: int
@@ -42,9 +42,12 @@ func initChatBox() -> void:
 func initServer(port: int = 7000, maxClients: int = 1) -> bool:
 	if not port:
 		port = 7000
-		
-	peer = ENetMultiplayerPeer.new()
-	peer.create_server(port, maxClients)
+
+	if GameMetaDataScript.currentPlayMode == GameMetaDataScript.playMode.SINGLEPLAYER:
+		peer = OfflineMultiplayerPeer.new()
+	else:
+		peer = ENetMultiplayerPeer.new()
+		peer.create_server(port, maxClients)
 	
 	if peer.get_connection_status() == MultiplayerPeer.CONNECTION_DISCONNECTED:
 		OS.alert("Server failed to start.")
@@ -54,11 +57,6 @@ func initServer(port: int = 7000, maxClients: int = 1) -> bool:
 	GameMetaDataScript.client.uid = multiplayer.get_unique_id()
 	GameMetaDataScript.connectedClients[GameMetaDataScript.client.uid] = GameMetaDataScript.client
 	set_multiplayer_authority(GameMetaDataScript.client.uid)
-
-	if GameMetaDataScript.currentPlayMode == GameMetaDataScript.playMode.SINGLEPLAYER:
-		peer.refuse_new_connections = true
-	else:
-		peer.refuse_new_connections = false
 	
 	sendChat("Lobby created")
 	return true
@@ -95,7 +93,6 @@ func _requestLobbyInfo(id: int) -> void:
 @rpc("authority", "call_remote", "reliable")
 func _sendLobbyInfo(lobbyInfo: Dictionary) -> void:
 	GameMetaDataScript.lobby.merge(lobbyInfo, true)
-	GameMetaDataScript.lobby.totalClients = 0	#HACK
 	SignalBusScript.setupLobbySettings()
 
 
@@ -128,18 +125,10 @@ func connectionEstablished() -> void:
 
 	GameMetaDataScript.currentGameState = GameMetaDataScript.gameState.LOBBY
 
-	rpc("playerJoined", multiplayer.get_unique_id())
-
-
-func kickPlayer() -> void:
-	rpc("_kickPlayer")
-
-
-@rpc("any_peer", "call_remote", "reliable")
-func _kickPlayer() -> void:
-	if GameMetaDataScript.currentGameMode == GameMetaDataScript.gameMode.SKIRMISH:
-		SignalBusScript.cannotConnectToLobby("lobby is full. Max Clients: " + str(GameMetaDataScript.lobby.maxClients))
-	closeConnection()
+	if not GameMetaDataScript.lobby.maxClients == GameMetaDataScript.lobby.totalClients:
+		rpc_id(1, "playerJoined", multiplayer.get_unique_id())
+	else:
+		SignalBusScript.cannotConnectToLobby("Lobby is full. Max Clients" + str(GameMetaDataScript.lobby.maxClients))
 
 
 func closeConnection() -> void:
@@ -152,11 +141,9 @@ func closeConnection() -> void:
 @rpc("any_peer", "call_local", "reliable")
 func playerJoined(id: int) -> void:
 	if GameMetaDataScript.lobby.maxClients == GameMetaDataScript.lobby.totalClients and multiplayer.get_unique_id() != id:
-		if multiplayer.is_server():
-			rpc_id(id, "_kickPlayer")
+		multiplayer.multiplayer_peer.disconnect_peer(id)
 		return
-	if multiplayer.is_server():
-		rpc_id(id, "_requestPlayerData", GameMetaDataScript.connectedClients)
+	rpc_id(id, "_requestPlayerData", GameMetaDataScript.connectedClients)
 
 
 #only newly connected client executes this
@@ -205,13 +192,13 @@ func _changeDataOnConnectedClient(id: String, what: String, toWhat) -> void:
 func disconnectPlayer() -> void:
 	if GameMetaDataScript.currentGameState == GameMetaDataScript.gameState.MATCH:
 		rpc("_updatePing", -1, GameMetaDataScript.client.uid)
+	
+	GameMetaDataScript.resetClient()
+	GameMetaDataScript.resetLobby()
 
-	multiplayer.multiplayer_peer.close()
-
-
-@rpc("any_peer", "call_local", "reliable")
-func _disconnectPlayer(id: int) -> void:
-	rpc_id(id, "_kickPlayer")
+	multiplayer.multiplayer_peer.close()	#sets multiplayer.get_unique_id() to 0
+	peer = OfflineMultiplayerPeer.new()		#HACK to set multiplayer.get_unique_id() to 1 (as is default at game start)
+	multiplayer.multiplayer_peer = peer
 
 
 func playerLeft(id: int) -> void:
@@ -220,7 +207,8 @@ func playerLeft(id: int) -> void:
 		if GameMetaDataScript.currentGameState == GameMetaDataScript.gameState.MATCH:
 			rpc("_updatePing", -1, id)
 	
-	SignalBusScript.clientDisconnected(id)
+	if GameMetaDataScript.connectedClients.has(id):
+		SignalBusScript.clientDisconnected(id)
 
 
 func connectionFailed() -> void:

@@ -1,0 +1,304 @@
+[gd_scene load_steps=2 format=3 uid="uid://ck4xevwaqh303"]
+
+[ext_resource type="Script" path="res://src/menu/CreditsScript.gd" id="1_qptb3"]
+
+[node name="Credits" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_qptb3")
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer"]
+custom_minimum_size = Vector2(1920, 1080)
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="MarginContainer2" type="MarginContainer" parent="CenterContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_bottom = 4
+
+[node name="PanelContainer" type="PanelContainer" parent="CenterContainer/MarginContainer/VBoxContainer/MarginContainer2"]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="CreditsLabel" type="Label" parent="CenterContainer/MarginContainer/VBoxContainer/MarginContainer2/PanelContainer"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 32
+text = "CREDITS"
+horizontal_alignment = 1
+
+[node name="ScrollContainer" type="ScrollContainer" parent="CenterContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/MarginContainer/VBoxContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 8
+
+[node name="row1" type="HBoxContainer" parent="CenterContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Creator" type="VBoxContainer" parent="CenterContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/row1"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="PanelContainer" type="PanelContainer" parent="CenterContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/row1/Creator"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/row1/Creator/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="CreatedBy" type="VBoxContainer" parent="CenterContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/row1/Creator/PanelContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="RichTextLabel" type="RichTextLabel" parent="CenterContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/row1/Creator/PanelContainer/MarginContainer/CreatedBy"]
+layout_mode = 2
+text = "Creator, Developer
+Alex Schmidtke
+"
+fit_content = true
+
+[node name="LinkButton" type="LinkButton" parent="CenterContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/row1/Creator/PanelContainer/MarginContainer/CreatedBy"]
+layout_mode = 2
+text = "GitHub"
+uri = "https://github.com/fsblab"
+
+[node name="MainMenuMusic" type="VBoxContainer" parent="CenterContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/row1"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="PanelContainer" type="PanelContainer" parent="CenterContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/row1/MainMenuMusic"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/row1/MainMenuMusic/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="CreatedBy" type="VBoxContainer" parent="CenterContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/row1/MainMenuMusic/PanelContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="RichTextLabel" type="RichTextLabel" parent="CenterContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/row1/MainMenuMusic/PanelContainer/MarginContainer/CreatedBy"]
+layout_mode = 2
+text = "Main Menu Music
+Freesound Community"
+fit_content = true
+
+[node name="LinkButton" type="LinkButton" parent="CenterContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/row1/MainMenuMusic/PanelContainer/MarginContainer/CreatedBy"]
+layout_mode = 2
+text = "pixabay"
+uri = "https://pixabay.com/sound-effects/014842-2018-04-18-2wav-56923/"
+
+[node name="PreBattleMusic" type="VBoxContainer" parent="CenterContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/row1"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="PanelContainer" type="PanelContainer" parent="CenterContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/row1/PreBattleMusic"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/row1/PreBattleMusic/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="CreatedBy" type="VBoxContainer" parent="CenterContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/row1/PreBattleMusic/PanelContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="RichTextLabel" type="RichTextLabel" parent="CenterContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/row1/PreBattleMusic/PanelContainer/MarginContainer/CreatedBy"]
+layout_mode = 2
+text = "Pre Battle Music
+brudelarge (Freesound)"
+fit_content = true
+
+[node name="LinkButton" type="LinkButton" parent="CenterContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/row1/PreBattleMusic/PanelContainer/MarginContainer/CreatedBy"]
+layout_mode = 2
+text = "pixabay"
+uri = "https://pixabay.com/sound-effects/116-bpm-oldschool-electronica-18063/"
+
+[node name="BattleStartHorn" type="VBoxContainer" parent="CenterContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/row1"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="PanelContainer" type="PanelContainer" parent="CenterContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/row1/BattleStartHorn"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/row1/BattleStartHorn/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="CreatedBy" type="VBoxContainer" parent="CenterContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/row1/BattleStartHorn/PanelContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="RichTextLabel" type="RichTextLabel" parent="CenterContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/row1/BattleStartHorn/PanelContainer/MarginContainer/CreatedBy"]
+layout_mode = 2
+text = "Battle Start Horn
+rlxmusic24"
+fit_content = true
+
+[node name="LinkButton" type="LinkButton" parent="CenterContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/row1/BattleStartHorn/PanelContainer/MarginContainer/CreatedBy"]
+layout_mode = 2
+text = "pixabay"
+uri = "https://pixabay.com/sound-effects/relaxing-music-original-viking-attacking-battle-horn-116623/"
+
+[node name="row2" type="HBoxContainer" parent="CenterContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="MainBattleMusic" type="VBoxContainer" parent="CenterContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/row2"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="PanelContainer" type="PanelContainer" parent="CenterContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/row2/MainBattleMusic"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/row2/MainBattleMusic/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="CreatedBy" type="VBoxContainer" parent="CenterContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/row2/MainBattleMusic/PanelContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="RichTextLabel" type="RichTextLabel" parent="CenterContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/row2/MainBattleMusic/PanelContainer/MarginContainer/CreatedBy"]
+layout_mode = 2
+text = "Main Battle Music
+Iirakaz (Freesound)"
+fit_content = true
+
+[node name="LinkButton" type="LinkButton" parent="CenterContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/row2/MainBattleMusic/PanelContainer/MarginContainer/CreatedBy"]
+layout_mode = 2
+text = "pixabay"
+uri = "https://pixabay.com/sound-effects/80s-retro-beat-001-17882/"
+
+[node name="MainMenuMusic" type="VBoxContainer" parent="CenterContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/row2"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="PanelContainer" type="PanelContainer" parent="CenterContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/row2/MainMenuMusic"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/row2/MainMenuMusic/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="CreatedBy" type="VBoxContainer" parent="CenterContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/row2/MainMenuMusic/PanelContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="RichTextLabel" type="RichTextLabel" parent="CenterContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/row2/MainMenuMusic/PanelContainer/MarginContainer/CreatedBy"]
+layout_mode = 2
+fit_content = true
+
+[node name="LinkButton" type="LinkButton" parent="CenterContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/row2/MainMenuMusic/PanelContainer/MarginContainer/CreatedBy"]
+layout_mode = 2
+
+[node name="PreBattleMusic" type="VBoxContainer" parent="CenterContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/row2"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="PanelContainer" type="PanelContainer" parent="CenterContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/row2/PreBattleMusic"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/row2/PreBattleMusic/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="CreatedBy" type="VBoxContainer" parent="CenterContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/row2/PreBattleMusic/PanelContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="RichTextLabel" type="RichTextLabel" parent="CenterContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/row2/PreBattleMusic/PanelContainer/MarginContainer/CreatedBy"]
+layout_mode = 2
+fit_content = true
+
+[node name="LinkButton" type="LinkButton" parent="CenterContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/row2/PreBattleMusic/PanelContainer/MarginContainer/CreatedBy"]
+layout_mode = 2
+
+[node name="VBoxContainer6" type="VBoxContainer" parent="CenterContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/row2"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="PanelContainer" type="PanelContainer" parent="CenterContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/row2/VBoxContainer6"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/row2/VBoxContainer6/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="CreatedBy" type="VBoxContainer" parent="CenterContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/row2/VBoxContainer6/PanelContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="RichTextLabel" type="RichTextLabel" parent="CenterContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/row2/VBoxContainer6/PanelContainer/MarginContainer/CreatedBy"]
+layout_mode = 2
+fit_content = true
+
+[node name="LinkButton" type="LinkButton" parent="CenterContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/row2/VBoxContainer6/PanelContainer/MarginContainer/CreatedBy"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = 4
+
+[node name="BackButton" type="Button" parent="CenterContainer/MarginContainer/VBoxContainer/MarginContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+text = "BACK TO MAIN MENU"
+
+[connection signal="pressed" from="CenterContainer/MarginContainer/VBoxContainer/MarginContainer/BackButton" to="." method="backToMainMenu"]

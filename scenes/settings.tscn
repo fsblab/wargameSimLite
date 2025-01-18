@@ -1,8 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://b63mipdhbgvn2"]
+[gd_scene load_steps=2 format=3 uid="uid://b63mipdhbgvn2"]
 
 [ext_resource type="Script" path="res://src/menu/SettingsScript.gd" id="1_7i3hp"]
-[ext_resource type="Script" path="res://src/menu/VolumeSliderScript.gd" id="2_6uplw"]
-[ext_resource type="Script" path="res://src/menu/VolumeBoxScript.gd" id="3_0mwcn"]
 
 [node name="Settings" type="Control"]
 layout_mode = 3
@@ -36,6 +34,7 @@ layout_mode = 2
 
 [node name="TabContainer" type="TabContainer" parent="CenterContainer/PanelContainer"]
 layout_mode = 2
+current_tab = 0
 
 [node name="PlayerInfo" type="MarginContainer" parent="CenterContainer/PanelContainer/TabContainer"]
 layout_mode = 2
@@ -43,6 +42,7 @@ theme_override_constants/margin_left = 16
 theme_override_constants/margin_top = 16
 theme_override_constants/margin_right = 16
 theme_override_constants/margin_bottom = 16
+metadata/_tab_index = 0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/PanelContainer/TabContainer/PlayerInfo"]
 layout_mode = 2
@@ -70,18 +70,18 @@ text = "Preferred Faction:"
 
 [node name="OptionButton" type="OptionButton" parent="CenterContainer/PanelContainer/TabContainer/PlayerInfo/VBoxContainer/GridContainer"]
 layout_mode = 2
-item_count = 6
 selected = 5
-popup/item_0/text = "BLACK"
-popup/item_0/id = 0
+item_count = 6
+popup/item_0/text = "GREY"
+popup/item_0/id = 1
 popup/item_1/text = "BLUE"
-popup/item_1/id = 1
+popup/item_1/id = 2
 popup/item_2/text = "GREEN"
-popup/item_2/id = 2
+popup/item_2/id = 3
 popup/item_3/text = "RED"
-popup/item_3/id = 3
+popup/item_3/id = 4
 popup/item_4/text = "YELLOW"
-popup/item_4/id = 4
+popup/item_4/id = 5
 popup/item_5/text = "NONE"
 popup/item_5/id = 5
 
@@ -112,6 +112,7 @@ theme_override_constants/margin_left = 16
 theme_override_constants/margin_top = 16
 theme_override_constants/margin_right = 16
 theme_override_constants/margin_bottom = 16
+metadata/_tab_index = 1
 
 [node name="ScrollContainer" type="ScrollContainer" parent="CenterContainer/PanelContainer/TabContainer/Settings"]
 layout_mode = 2
@@ -136,13 +137,11 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
 value = 100.0
-script = ExtResource("2_6uplw")
 
 [node name="VolumeBox" type="SpinBox" parent="CenterContainer/PanelContainer/TabContainer/Settings/ScrollContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 value = 100.0
 alignment = 1
-script = ExtResource("3_0mwcn")
 
 [node name="GridContainer" type="GridContainer" parent="CenterContainer/PanelContainer/TabContainer/Settings/ScrollContainer/VBoxContainer"]
 layout_mode = 2
@@ -159,7 +158,6 @@ text = "Anti-Aliasing: "
 layout_mode = 2
 item_count = 4
 popup/item_0/text = "Disabled"
-popup/item_0/id = 0
 popup/item_1/text = "2x MSAA"
 popup/item_1/id = 1
 popup/item_2/text = "4x MSAA"
@@ -183,7 +181,6 @@ text = "Window Mode:"
 layout_mode = 2
 item_count = 2
 popup/item_0/text = "Windowed"
-popup/item_0/id = 0
 popup/item_1/text = "Fullscreen"
 popup/item_1/id = 1
 
@@ -195,7 +192,6 @@ text = "Screen Resolution:"
 layout_mode = 2
 item_count = 8
 popup/item_0/text = "1280 x 720"
-popup/item_0/id = 0
 popup/item_1/text = "1600 x 900"
 popup/item_1/id = 1
 popup/item_2/text = "1920 x 1080"
@@ -227,7 +223,6 @@ text = "Resolution Scale:"
 layout_mode = 2
 item_count = 3
 popup/item_0/text = ".5"
-popup/item_0/id = 0
 popup/item_1/text = ".75"
 popup/item_1/id = 1
 popup/item_2/text = "1"
@@ -240,10 +235,9 @@ text = "Shadow Mode:"
 [node name="ShadowMode" type="OptionButton" parent="CenterContainer/PanelContainer/TabContainer/Settings/ScrollContainer/VBoxContainer/GridContainer"]
 layout_mode = 2
 clip_text = true
-item_count = 3
 fit_to_longest_item = false
+item_count = 3
 popup/item_0/text = "Orthogonal (fast)"
-popup/item_0/id = 0
 popup/item_1/text = "Parallel 2 Splits (Average)"
 popup/item_1/id = 1
 popup/item_2/text = "Parallel 4 Splits (Slow)"
@@ -257,7 +251,6 @@ text = "VSync: "
 layout_mode = 2
 item_count = 4
 popup/item_0/text = "Disabled"
-popup/item_0/id = 0
 popup/item_1/text = "Adaptive"
 popup/item_1/id = 1
 popup/item_2/text = "Enabled"
@@ -298,6 +291,7 @@ theme_override_constants/margin_left = 16
 theme_override_constants/margin_top = 16
 theme_override_constants/margin_right = 16
 theme_override_constants/margin_bottom = 16
+metadata/_tab_index = 2
 
 [node name="UnsavedChangesDialogWindow" type="CenterContainer" parent="."]
 visible = false
@@ -424,10 +418,8 @@ text = "Cancel"
 [connection signal="pressed" from="CenterContainer/PanelContainer/TabContainer/PlayerInfo/VBoxContainer/HBoxContainer/BackButton" to="." method="goBackFromSettings"]
 [connection signal="pressed" from="CenterContainer/PanelContainer/TabContainer/PlayerInfo/VBoxContainer/HBoxContainer/RevertButton" to="." method="revertChangedPlayerInfo"]
 [connection signal="pressed" from="CenterContainer/PanelContainer/TabContainer/PlayerInfo/VBoxContainer/HBoxContainer/SaveButton" to="." method="saveCurrentPlayerInfo"]
-[connection signal="drag_ended" from="CenterContainer/PanelContainer/TabContainer/Settings/ScrollContainer/VBoxContainer/HBoxContainer/VolumeSlider" to="." method="selectVolume"]
-[connection signal="value_changed" from="CenterContainer/PanelContainer/TabContainer/Settings/ScrollContainer/VBoxContainer/HBoxContainer/VolumeSlider" to="CenterContainer/PanelContainer/TabContainer/Settings/ScrollContainer/VBoxContainer/HBoxContainer/VolumeBox" method="selectVolume"]
+[connection signal="value_changed" from="CenterContainer/PanelContainer/TabContainer/Settings/ScrollContainer/VBoxContainer/HBoxContainer/VolumeSlider" to="." method="selectVolume"]
 [connection signal="value_changed" from="CenterContainer/PanelContainer/TabContainer/Settings/ScrollContainer/VBoxContainer/HBoxContainer/VolumeBox" to="." method="selectVolume"]
-[connection signal="value_changed" from="CenterContainer/PanelContainer/TabContainer/Settings/ScrollContainer/VBoxContainer/HBoxContainer/VolumeBox" to="CenterContainer/PanelContainer/TabContainer/Settings/ScrollContainer/VBoxContainer/HBoxContainer/VolumeSlider" method="selectVolume"]
 [connection signal="item_selected" from="CenterContainer/PanelContainer/TabContainer/Settings/ScrollContainer/VBoxContainer/GridContainer/AA" to="." method="selectAntiAliasing"]
 [connection signal="toggled" from="CenterContainer/PanelContainer/TabContainer/Settings/ScrollContainer/VBoxContainer/GridContainer/FPS" to="." method="selectFPS"]
 [connection signal="item_selected" from="CenterContainer/PanelContainer/TabContainer/Settings/ScrollContainer/VBoxContainer/GridContainer/WindowMode" to="." method="selectScreenMode"]

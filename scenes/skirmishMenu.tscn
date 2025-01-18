@@ -441,7 +441,7 @@ text = "GO"
 root_path = NodePath("../CenterContainer/MarginContainer/VBoxContainer/MapSettingsContainer")
 replication_config = SubResource("SceneReplicationConfig_tfd00")
 
-[connection signal="item_selected" from="CenterContainer/MarginContainer/VBoxContainer/MapSettingsContainer/HBoxContainer/MapContainer/MarginContainer/VBoxContainer/HBoxContainer/GridContainer2/MapNameOptionButton" to="." method="setMapImage"]
+[connection signal="item_selected" from="CenterContainer/MarginContainer/VBoxContainer/MapSettingsContainer/HBoxContainer/MapContainer/MarginContainer/VBoxContainer/HBoxContainer/GridContainer2/MapNameOptionButton" to="CenterContainer/MarginContainer/VBoxContainer/MapSettingsContainer" method="selectMap"]
 [connection signal="value_changed" from="CenterContainer/MarginContainer/VBoxContainer/MapSettingsContainer/HBoxContainer/SettingsContainer/MarginContainer/VBoxContainer/HBoxContainer/GridContainer/MaxPlayer" to="CenterContainer/MarginContainer/VBoxContainer/MapSettingsContainer" method="updateMaxPlayers"]
 [connection signal="item_selected" from="CenterContainer/MarginContainer/VBoxContainer/MapSettingsContainer/HBoxContainer/SettingsContainer/MarginContainer/VBoxContainer/HBoxContainer/GridContainer/OptionButton" to="CenterContainer/MarginContainer/VBoxContainer/MapSettingsContainer" method="fogOfWarSelected"]
 [connection signal="toggled" from="CenterContainer/MarginContainer/VBoxContainer/MapSettingsContainer/HBoxContainer/SettingsContainer/MarginContainer/VBoxContainer/HBoxContainer/GridContainer/InfTime" to="CenterContainer/MarginContainer/VBoxContainer/MapSettingsContainer" method="toggleMatchTimeLimited"]

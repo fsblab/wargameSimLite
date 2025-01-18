@@ -4,6 +4,9 @@ extends Control
 @onready var unsavedChangesdialogWindow: CenterContainer = $UnsavedChangesDialogWindow
 @onready var restoreDefaultDialogWindow: CenterContainer = $RestoreDefaultDialogWindow
 
+@onready var volumeSlider: HSlider = $CenterContainer/PanelContainer/TabContainer/Settings/ScrollContainer/VBoxContainer/HBoxContainer/VolumeSlider
+@onready var volumeSpinBox: SpinBox = $CenterContainer/PanelContainer/TabContainer/Settings/ScrollContainer/VBoxContainer/HBoxContainer/VolumeBox
+
 
 func saveCurrentSettings() -> void:
 	SettingsConfigScript.setSettings()
@@ -58,15 +61,17 @@ func selectShadowMode(index: int) -> void:
 
 
 func selectVolume(value: int) -> void:
+	volumeSlider.value = value
+	volumeSpinBox.value = value
 	SettingsConfigScript.changedSettings["volume"] = value
 
 
 func changePlayerFaction(value: int) -> void:
-	SettingsConfigScript.changedPlayerInfo["faction"] = value
+	SettingsConfigScript.changedPlayerInfo["Faction"] = value
 
 
 func changePlayerName(playerName: String) -> void:
-	SettingsConfigScript.changedPlayerInfo["name"] = playerName
+	SettingsConfigScript.changedPlayerInfo["PlayerName"] = playerName
 
 
 func goBackFromSettings() -> void:
@@ -106,8 +111,8 @@ func setComponentValues() -> void:
 	#without the following line of code changedSettings has { "shadow": 1 } randomly stored for some reason and I don't understand why
 	SettingsConfigScript.changedSettings.clear()
 	
-	$CenterContainer/PanelContainer/TabContainer/PlayerInfo/VBoxContainer/GridContainer/LineEdit.text = SettingsConfigScript.currentPlayerInfo["name"]
-	$CenterContainer/PanelContainer/TabContainer/PlayerInfo/VBoxContainer/GridContainer/OptionButton.select(SettingsConfigScript.currentPlayerInfo["faction"])
+	$CenterContainer/PanelContainer/TabContainer/PlayerInfo/VBoxContainer/GridContainer/LineEdit.text = SettingsConfigScript.currentPlayerInfo["PlayerName"]
+	$CenterContainer/PanelContainer/TabContainer/PlayerInfo/VBoxContainer/GridContainer/OptionButton.select(SettingsConfigScript.currentPlayerInfo["Faction"])
 
 	$CenterContainer/PanelContainer/TabContainer/Settings/ScrollContainer/VBoxContainer/GridContainer/WindowMode.select(0 if SettingsConfigScript.currentSettings["windowMode"] == 0 else 1)
 	$CenterContainer/PanelContainer/TabContainer/Settings/ScrollContainer/VBoxContainer/GridContainer/AA.select(SettingsConfigScript.currentSettings["aa"])

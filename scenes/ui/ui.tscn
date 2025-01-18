@@ -1,18 +1,22 @@
-[gd_scene load_steps=14 format=3 uid="uid://duqs6lco5hrwv"]
+[gd_scene load_steps=18 format=3 uid="uid://duqs6lco5hrwv"]
 
 [ext_resource type="Script" path="res://src/UI/UIScript.gd" id="1_0dwn8"]
-[ext_resource type="Texture2D" uid="uid://cq0832vfctcr3" path="res://assets/sprites/unitsymbols/logistics.png" id="2_7ebp5"]
-[ext_resource type="Texture2D" uid="uid://iqglvxby6mlu" path="res://assets/sprites/unitsymbols/supplyAndTransportation.png" id="3_jms1v"]
-[ext_resource type="Texture2D" uid="uid://b55jidk816j76" path="res://assets/sprites/unitsymbols/supplyHelicopter.png" id="4_b1lx0"]
-[ext_resource type="Texture2D" uid="uid://c7jxidbahit2" path="res://assets/sprites/unitsymbols/maintenance.png" id="5_q3557"]
-[ext_resource type="Texture2D" uid="uid://bodoalqdls7as" path="res://assets/sprites/unitsymbols/infantry.png" id="6_s6sn0"]
-[ext_resource type="Texture2D" uid="uid://rd1c1a6kdsvn" path="res://assets/sprites/unitsymbols/airdefence.png" id="7_5fjf6"]
-[ext_resource type="Texture2D" uid="uid://cmg1lbgff4yer" path="res://assets/sprites/unitsymbols/artillery.png" id="8_1slsm"]
-[ext_resource type="Texture2D" uid="uid://dg580l05f63wm" path="res://assets/sprites/unitsymbols/tank.png" id="9_3ubv2"]
-[ext_resource type="Texture2D" uid="uid://ci1bel28cd7tq" path="res://assets/sprites/unitsymbols/recon.png" id="10_qmc1i"]
-[ext_resource type="Texture2D" uid="uid://dqt3tmahriaju" path="res://assets/sprites/unitsymbols/engineer.png" id="11_brltc"]
-[ext_resource type="Texture2D" uid="uid://438tm1nx15u6" path="res://assets/sprites/unitsymbols/heli.png" id="12_82oy1"]
-[ext_resource type="Texture2D" uid="uid://clqtifdjbmt4t" path="res://assets/sprites/unitsymbols/plane.png" id="13_wge8m"]
+[ext_resource type="Texture2D" uid="uid://b4ihxi6uo5sib" path="res://assets/sprites/unitsymbols/logistics.png" id="2_7ebp5"]
+[ext_resource type="Texture2D" uid="uid://c8jyd6ye5ilno" path="res://assets/sprites/unitsymbols/supplytransport.png" id="3_xs5u2"]
+[ext_resource type="Texture2D" uid="uid://dnb8tf7cbkgxe" path="res://assets/sprites/unitsymbols/supplyheli.png" id="4_25gm6"]
+[ext_resource type="Texture2D" uid="uid://du1wdyonis03d" path="res://assets/sprites/unitsymbols/maintenance.png" id="5_2jnxu"]
+[ext_resource type="Texture2D" uid="uid://8wpqnk1r8m4g" path="res://assets/sprites/unitsymbols/infantry.png" id="6_s6sn0"]
+[ext_resource type="Texture2D" uid="uid://bs5mihfnlc8oe" path="res://assets/sprites/unitsymbols/airdefence.png" id="7_5fjf6"]
+[ext_resource type="Texture2D" uid="uid://bodoalqdls7as" path="res://assets/sprites/backup/unitsymbols/infantry.png" id="7_bgjfa"]
+[ext_resource type="Texture2D" uid="uid://b8vurbae8xith" path="res://assets/sprites/unitsymbols/artillery.png" id="8_1slsm"]
+[ext_resource type="Texture2D" uid="uid://cq0832vfctcr3" path="res://assets/sprites/backup/unitsymbols/logistics.png" id="8_atn0c"]
+[ext_resource type="Texture2D" uid="uid://blq04yq3ltsjl" path="res://assets/sprites/unitsymbols/tank.png" id="9_3ubv2"]
+[ext_resource type="Texture2D" uid="uid://cip3eh1oi6h30" path="res://assets/sprites/unitsymbols/recon.png" id="10_qmc1i"]
+[ext_resource type="Texture2D" uid="uid://b2efvqpvxq65t" path="res://assets/sprites/unitsymbols/mortar.png" id="11_761jk"]
+[ext_resource type="Texture2D" uid="uid://d1dusuflurv6t" path="res://assets/sprites/unitsymbols/engineer.png" id="11_brltc"]
+[ext_resource type="Texture2D" uid="uid://dhs06ei7d3gbp" path="res://assets/sprites/unitsymbols/heli.png" id="12_82oy1"]
+[ext_resource type="Texture2D" uid="uid://v4ga4pg0lvyc" path="res://assets/sprites/unitsymbols/plane.png" id="13_wge8m"]
+[ext_resource type="AudioStream" uid="uid://ko84qh8fch4q" path="res://assets/sounds/music/116-bpm-oldschool-electronica-18063.mp3" id="14_wrvwj"]
 
 [node name="UI" type="Control" groups=["UI"]]
 layout_mode = 3
@@ -26,7 +30,6 @@ script = ExtResource("1_0dwn8")
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="Units" type="CenterContainer" parent="CanvasLayer"]
-modulate = Color(0, 1, 1, 1)
 offset_left = 8.0
 offset_top = 8.0
 offset_right = 68.0
@@ -55,7 +58,6 @@ texture_normal = ExtResource("2_7ebp5")
 
 [node name="LogisticsUnits" type="CenterContainer" parent="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer/Logistics"]
 visible = false
-modulate = Color(0, 1, 1, 1)
 layout_mode = 0
 offset_left = -8.0
 offset_top = 39.0
@@ -81,15 +83,15 @@ theme_override_constants/separation = 8
 [node name="SupplyAndTransportation" type="TextureButton" parent="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer/Logistics/LogisticsUnits/PanelContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
-texture_normal = ExtResource("3_jms1v")
+texture_normal = ExtResource("3_xs5u2")
 
 [node name="SupplyHelicopter" type="TextureButton" parent="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer/Logistics/LogisticsUnits/PanelContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
-texture_normal = ExtResource("4_b1lx0")
+texture_normal = ExtResource("4_25gm6")
 
 [node name="Maintenance" type="TextureButton" parent="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer/Logistics/LogisticsUnits/PanelContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
-texture_normal = ExtResource("5_q3557")
+texture_normal = ExtResource("5_2jnxu")
 
 [node name="Infantry" type="TextureButton" parent="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
@@ -97,7 +99,6 @@ texture_normal = ExtResource("6_s6sn0")
 
 [node name="InfantryUnits" type="CenterContainer" parent="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer/Infantry"]
 visible = false
-modulate = Color(0, 1, 1, 1)
 layout_mode = 0
 offset_left = -8.0
 offset_top = 39.0
@@ -142,7 +143,6 @@ texture_normal = ExtResource("7_5fjf6")
 
 [node name="AntiAirUnits" type="CenterContainer" parent="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer/AntiAir"]
 visible = false
-modulate = Color(0, 1, 1, 1)
 layout_mode = 0
 offset_left = -8.0
 offset_top = 39.0
@@ -168,11 +168,11 @@ theme_override_constants/separation = 8
 [node name="Logistics" type="TextureButton" parent="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer/AntiAir/AntiAirUnits/PanelContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
-texture_normal = ExtResource("2_7ebp5")
+texture_normal = ExtResource("8_atn0c")
 
 [node name="Infantry" type="TextureButton" parent="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer/AntiAir/AntiAirUnits/PanelContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
-texture_normal = ExtResource("6_s6sn0")
+texture_normal = ExtResource("7_bgjfa")
 
 [node name="Artillery" type="TextureButton" parent="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
@@ -180,7 +180,6 @@ texture_normal = ExtResource("8_1slsm")
 
 [node name="ArtilleryUnits" type="CenterContainer" parent="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer/Artillery"]
 visible = false
-modulate = Color(0, 1, 1, 1)
 layout_mode = 0
 offset_left = -8.0
 offset_top = 39.0
@@ -203,14 +202,18 @@ theme_override_constants/margin_bottom = 8
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="Logistics" type="TextureButton" parent="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer/Artillery/ArtilleryUnits/PanelContainer/MarginContainer/HBoxContainer"]
+[node name="Howitzer" type="TextureButton" parent="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer/Artillery/ArtilleryUnits/PanelContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
-texture_normal = ExtResource("2_7ebp5")
+texture_normal = ExtResource("8_1slsm")
 
-[node name="Infantry" type="TextureButton" parent="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer/Artillery/ArtilleryUnits/PanelContainer/MarginContainer/HBoxContainer"]
+[node name="MLRS" type="TextureButton" parent="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer/Artillery/ArtilleryUnits/PanelContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
-texture_normal = ExtResource("6_s6sn0")
+texture_normal = ExtResource("7_bgjfa")
+
+[node name="Mortar" type="TextureButton" parent="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer/Artillery/ArtilleryUnits/PanelContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+texture_normal = ExtResource("11_761jk")
 
 [node name="Tank" type="TextureButton" parent="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
@@ -218,7 +221,6 @@ texture_normal = ExtResource("9_3ubv2")
 
 [node name="TankUnits" type="CenterContainer" parent="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer/Tank"]
 visible = false
-modulate = Color(0, 1, 1, 1)
 layout_mode = 0
 offset_left = -8.0
 offset_top = 39.0
@@ -241,14 +243,14 @@ theme_override_constants/margin_bottom = 8
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="Logistics" type="TextureButton" parent="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer/Tank/TankUnits/PanelContainer/MarginContainer/HBoxContainer"]
+[node name="MBT" type="TextureButton" parent="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer/Tank/TankUnits/PanelContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
-texture_normal = ExtResource("2_7ebp5")
+texture_normal = ExtResource("9_3ubv2")
 
 [node name="Infantry" type="TextureButton" parent="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer/Tank/TankUnits/PanelContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
-texture_normal = ExtResource("6_s6sn0")
+texture_normal = ExtResource("7_bgjfa")
 
 [node name="Reconnaissance" type="TextureButton" parent="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
@@ -256,7 +258,6 @@ texture_normal = ExtResource("10_qmc1i")
 
 [node name="ReconnaissanceUnits" type="CenterContainer" parent="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer/Reconnaissance"]
 visible = false
-modulate = Color(0, 1, 1, 1)
 layout_mode = 0
 offset_left = -8.0
 offset_top = 39.0
@@ -282,11 +283,11 @@ theme_override_constants/separation = 8
 [node name="Logistics" type="TextureButton" parent="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer/Reconnaissance/ReconnaissanceUnits/PanelContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
-texture_normal = ExtResource("2_7ebp5")
+texture_normal = ExtResource("8_atn0c")
 
 [node name="Infantry" type="TextureButton" parent="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer/Reconnaissance/ReconnaissanceUnits/PanelContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
-texture_normal = ExtResource("6_s6sn0")
+texture_normal = ExtResource("7_bgjfa")
 
 [node name="Engineer" type="TextureButton" parent="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
@@ -294,7 +295,6 @@ texture_normal = ExtResource("11_brltc")
 
 [node name="EngineerUnits" type="CenterContainer" parent="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer/Engineer"]
 visible = false
-modulate = Color(0, 1, 1, 1)
 layout_mode = 0
 offset_left = -8.0
 offset_top = 39.0
@@ -320,11 +320,11 @@ theme_override_constants/separation = 8
 [node name="Logistics" type="TextureButton" parent="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer/Engineer/EngineerUnits/PanelContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
-texture_normal = ExtResource("2_7ebp5")
+texture_normal = ExtResource("8_atn0c")
 
 [node name="Infantry" type="TextureButton" parent="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer/Engineer/EngineerUnits/PanelContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
-texture_normal = ExtResource("6_s6sn0")
+texture_normal = ExtResource("7_bgjfa")
 
 [node name="Helicopter" type="TextureButton" parent="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
@@ -332,7 +332,6 @@ texture_normal = ExtResource("12_82oy1")
 
 [node name="HelicopterUnits" type="CenterContainer" parent="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer/Helicopter"]
 visible = false
-modulate = Color(0, 1, 1, 1)
 layout_mode = 0
 offset_left = -8.0
 offset_top = 39.0
@@ -358,11 +357,11 @@ theme_override_constants/separation = 8
 [node name="Logistics" type="TextureButton" parent="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer/Helicopter/HelicopterUnits/PanelContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
-texture_normal = ExtResource("2_7ebp5")
+texture_normal = ExtResource("8_atn0c")
 
 [node name="Infantry" type="TextureButton" parent="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer/Helicopter/HelicopterUnits/PanelContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
-texture_normal = ExtResource("6_s6sn0")
+texture_normal = ExtResource("7_bgjfa")
 
 [node name="Plane" type="TextureButton" parent="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
@@ -370,7 +369,6 @@ texture_normal = ExtResource("13_wge8m")
 
 [node name="PlaneUnits" type="CenterContainer" parent="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer/Plane"]
 visible = false
-modulate = Color(0, 1, 1, 1)
 layout_mode = 0
 offset_left = -8.0
 offset_top = 39.0
@@ -396,14 +394,13 @@ theme_override_constants/separation = 8
 [node name="Logistics" type="TextureButton" parent="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer/Plane/PlaneUnits/PanelContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
-texture_normal = ExtResource("2_7ebp5")
+texture_normal = ExtResource("8_atn0c")
 
 [node name="Infantry" type="TextureButton" parent="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer/Plane/PlaneUnits/PanelContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
-texture_normal = ExtResource("6_s6sn0")
+texture_normal = ExtResource("7_bgjfa")
 
 [node name="TimeReference" type="CenterContainer" parent="CanvasLayer"]
-modulate = Color(0, 1, 1, 1)
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
@@ -455,7 +452,6 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="ReadyCountdown" type="CenterContainer" parent="CanvasLayer"]
-modulate = Color(0, 1, 1, 1)
 offset_left = 600.0
 offset_top = 8.0
 offset_right = 839.0
@@ -547,7 +543,6 @@ theme_override_constants/outline_size = 8
 text = "are ready"
 
 [node name="MiniMap" type="CenterContainer" parent="CanvasLayer"]
-modulate = Color(0, 1, 1, 1)
 custom_minimum_size = Vector2(400, 400)
 anchors_preset = 1
 anchor_left = 1.0
@@ -567,7 +562,6 @@ custom_minimum_size = Vector2(5, 5)
 layout_mode = 2
 
 [node name="Players" type="CenterContainer" parent="CanvasLayer"]
-modulate = Color(0, 1, 1, 1)
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
@@ -588,35 +582,27 @@ theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 
-[node name="CanvasLayer" type="CanvasLayer" parent="CanvasLayer/Players/PanelContainer/MarginContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/Players/PanelContainer/MarginContainer"]
+layout_mode = 2
 
-[node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/Players/PanelContainer/MarginContainer/CanvasLayer"]
-offset_left = 1620.0
-offset_top = 424.0
-offset_right = 1904.0
-offset_bottom = 608.0
-
-[node name="PlayerList" type="VBoxContainer" parent="CanvasLayer/Players/PanelContainer/MarginContainer/CanvasLayer/ScrollContainer"]
+[node name="PlayerList" type="VBoxContainer" parent="CanvasLayer/Players/PanelContainer/MarginContainer/ScrollContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/separation = 2
 
-[node name="PlayerTitle" type="Label" parent="CanvasLayer/Players/PanelContainer/MarginContainer/CanvasLayer/ScrollContainer/PlayerList"]
-modulate = Color(0, 1, 1, 1)
+[node name="PlayerTitle" type="Label" parent="CanvasLayer/Players/PanelContainer/MarginContainer/ScrollContainer/PlayerList"]
 layout_mode = 2
 size_flags_vertical = 0
 theme_override_constants/outline_size = 8
 text = "Players"
 horizontal_alignment = 1
 
-[node name="HSeparator" type="HSeparator" parent="CanvasLayer/Players/PanelContainer/MarginContainer/CanvasLayer/ScrollContainer/PlayerList"]
-modulate = Color(0, 1, 1, 1)
+[node name="HSeparator" type="HSeparator" parent="CanvasLayer/Players/PanelContainer/MarginContainer/ScrollContainer/PlayerList"]
 layout_mode = 2
 size_flags_vertical = 0
 
 [node name="UnitButtons" type="CenterContainer" parent="CanvasLayer"]
-modulate = Color(0, 1, 1, 1)
 anchors_preset = 3
 anchor_left = 1.0
 anchor_top = 1.0
@@ -693,11 +679,16 @@ autostart = true
 
 [node name="Countdown" type="Timer" parent="."]
 
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("14_wrvwj")
+autoplay = true
+
 [connection signal="pressed" from="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer/Logistics" to="." method="toggleLogUnits"]
 [connection signal="pressed" from="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer/Infantry" to="." method="toggleInfUnits"]
 [connection signal="pressed" from="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer/AntiAir" to="." method="toggleAAUnits"]
 [connection signal="pressed" from="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer/Artillery" to="." method="toggleArtUnits"]
 [connection signal="pressed" from="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer/Tank" to="." method="toggleTnkUnits"]
+[connection signal="pressed" from="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer/Tank/TankUnits/PanelContainer/MarginContainer/HBoxContainer/MBT" to="." method="placeMbt"]
 [connection signal="pressed" from="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer/Reconnaissance" to="." method="toggleRcnUnits"]
 [connection signal="pressed" from="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer/Engineer" to="." method="toggleEngUnits"]
 [connection signal="pressed" from="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer/Helicopter" to="." method="toggleHelUnits"]

@@ -1,10 +1,12 @@
-[gd_scene load_steps=7 format=3 uid="uid://bd6c0wssqj7ku"]
+[gd_scene load_steps=9 format=3 uid="uid://bd6c0wssqj7ku"]
 
 [ext_resource type="Script" path="res://src/menu/MainMenuCanvasScript.gd" id="1_uh67x"]
 [ext_resource type="PackedScene" uid="uid://dal3qfbn7tf7c" path="res://scenes/multiplayerMenu.tscn" id="2_31m8x"]
 [ext_resource type="PackedScene" uid="uid://b63mipdhbgvn2" path="res://scenes/settings.tscn" id="2_qs2n4"]
 [ext_resource type="PackedScene" uid="uid://xekxadsyo5pg" path="res://scenes/skirmishMenu.tscn" id="2_qyjwr"]
 [ext_resource type="PackedScene" uid="uid://cgl8uliahvrfk" path="res://scenes/loadingScreen.tscn" id="5_0nw08"]
+[ext_resource type="PackedScene" uid="uid://ck4xevwaqh303" path="res://scenes/credits.tscn" id="5_u7y8k"]
+[ext_resource type="AudioStream" uid="uid://boubl3vmd32rq" path="res://assets/sounds/music/014842_2018-04-18-2wav-56923.mp3" id="6_t55aw"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_tdlql"]
 
@@ -60,6 +62,11 @@ text = "MULTIPLAYER"
 custom_minimum_size = Vector2(200, 50)
 layout_mode = 2
 text = "SETTINGS"
+
+[node name="CreditsButton" type="Button" parent="CanvasLayer/MainMenu/CenterContainer/MarginContainer/VBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+text = "CREDITS"
 
 [node name="ExButton" type="Button" parent="CanvasLayer/MainMenu/CenterContainer/MarginContainer/VBoxContainer/VBoxContainer"]
 custom_minimum_size = Vector2(200, 50)
@@ -129,6 +136,9 @@ visible = false
 [node name="Settings" parent="CanvasLayer" instance=ExtResource("2_qs2n4")]
 visible = false
 
+[node name="Credits" parent="CanvasLayer" instance=ExtResource("5_u7y8k")]
+visible = false
+
 [node name="LoadingScreen" parent="CanvasLayer" instance=ExtResource("5_0nw08")]
 visible = false
 
@@ -151,9 +161,14 @@ size_flags_vertical = 6
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="CanvasLayer"]
+stream = ExtResource("6_t55aw")
+autoplay = true
+
 [connection signal="pressed" from="CanvasLayer/MainMenu/CenterContainer/MarginContainer/VBoxContainer/VBoxContainer/SPButton" to="CanvasLayer" method="sp"]
 [connection signal="pressed" from="CanvasLayer/MainMenu/CenterContainer/MarginContainer/VBoxContainer/VBoxContainer/MPButton" to="CanvasLayer" method="mp"]
 [connection signal="pressed" from="CanvasLayer/MainMenu/CenterContainer/MarginContainer/VBoxContainer/VBoxContainer/SettingsButton" to="CanvasLayer" method="toSettings"]
+[connection signal="pressed" from="CanvasLayer/MainMenu/CenterContainer/MarginContainer/VBoxContainer/VBoxContainer/CreditsButton" to="CanvasLayer" method="toCredits"]
 [connection signal="pressed" from="CanvasLayer/MainMenu/CenterContainer/MarginContainer/VBoxContainer/VBoxContainer/ExButton" to="CanvasLayer" method="quitToDesktop"]
 [connection signal="pressed" from="CanvasLayer/SinglePlayerMenu/CenterContainer/MarginContainer/VBoxContainer2/VBoxContainer/SkirmishButton" to="CanvasLayer" method="skirmish"]
 [connection signal="pressed" from="CanvasLayer/SinglePlayerMenu/CenterContainer/MarginContainer/VBoxContainer2/VBoxContainer/CampaignButton" to="CanvasLayer" method="campaign"]
@@ -165,3 +180,4 @@ vertical_alignment = 1
 [connection signal="goBack" from="CanvasLayer/SkirmishMenu" to="CanvasLayer" method="goBackFromSkirmish"]
 [connection signal="startSkirmish" from="CanvasLayer/SkirmishMenu" to="CanvasLayer" method="startSkirmish"]
 [connection signal="hidden" from="CanvasLayer/Settings" to="CanvasLayer" method="goBackFromSettings"]
+[connection signal="_backFromCredits" from="CanvasLayer/Credits" to="CanvasLayer" method="goBackFromCredits"]

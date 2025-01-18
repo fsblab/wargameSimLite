@@ -33,7 +33,7 @@ enum battlePhase {
 }
 enum faction {
 	NONE,
-	BLACK,
+	GREY,
 	BLUE,
 	GREEN,
 	RED,
@@ -54,23 +54,43 @@ enum fogOfWar {
 	SOLO,
 	TEAM
 }
+enum unitName {
+	NONE,
+	INF,
+	SPAAG,
+	MBT,
+	ASF
+}
 
-const factionColor = {
+const unitDirectories: Dictionary = {
+	unitName.MBT: "res://scenes/units/tank_unit.tscn",
+}
+
+const teamMaterials: Dictionary = {
+	faction.NONE: ["res://assets/materials/noneUnit.tres", "res://assets/materials/noneUnit.tres", "res://assets/materials/noneUnit.tres"],
+	faction.GREY: ["res://assets/materials/greyUnitPlacement.tres", "res://assets/materials/greyUnitNotSelected.tres", "res://assets/materials/greyUnitSelected.tres"],
+	faction.BLUE: ["res://assets/materials/blueUnitPlacement.tres", "res://assets/materials/blueUnitNotSelected.tres", "res://assets/materials/blueUnitSelected.tres"],
+	faction.GREEN: ["res://assets/materials/greenUnitPlacement.tres", "res://assets/materials/greenUnitNotSelected.tres", "res://assets/materials/greenUnitSelected.tres"],
+	faction.RED: ["res://assets/materials/redUnitPlacement.tres", "res://assets/materials/redUnitNotSelected.tres", "res://assets/materials/redUnitSelected.tres"],
+	faction.YELLOW: ["res://assets/materials/yellowUnitPlacement.tres", "res://assets/materials/yellowUnitNotSelected.tres", "res://assets/materials/yellowUnitSelected.tres"]
+}
+
+const factionColor: Dictionary = {
 	faction.NONE: Color8(255, 255, 255),
-	faction.BLACK: Color8(0, 0, 0),
+	faction.GREY: Color8(80, 80, 80),
 	faction.BLUE: Color8(0, 255, 255),
 	faction.GREEN: Color8(0, 255, 0),
 	faction.RED: Color8(255, 0, 0),
 	faction.YELLOW: Color8(255, 255, 0)
 }
 
-const pingRating = {
+const pingRating: Dictionary = {
 	0: Color8(0, 255, 0),
 	100: Color8(255, 255, 0),
 	400: Color8(255, 0, 0)
 }
 
-const aiNames = {
+const aiNames: Dictionary = {
 	aiType.NONE: "",
 	aiType.EASY: "EASY AI"
 }
@@ -81,6 +101,7 @@ var currentSkirmishMode: skirmishMode
 var currentGameState: gameState
 var currentBattlePhase: battlePhase
 var connectedClients: Dictionary
+var mapInfo: Dictionary
 var client: Dictionary
 var lobby: Dictionary
 var botId: int
@@ -105,10 +126,10 @@ func reset() -> void:
 
 func resetClient() -> void:
 	client = {
-		Faction = SettingsConfigScript.currentPlayerInfo["faction"],
+		Faction = SettingsConfigScript.currentPlayerInfo["Faction"] if SettingsConfigScript.currentPlayerInfo.has("Faction") else 0,
 		Ready = false,
 		Ping = 0,
-		PlayerName = SettingsConfigScript.currentPlayerInfo["name"],
+		PlayerName = SettingsConfigScript.currentPlayerInfo["PlayerName"] if SettingsConfigScript.currentPlayerInfo.has("PlayerName") else "",
 		Team = 1,
 		uid = 0
 	}
@@ -117,7 +138,7 @@ func resetClient() -> void:
 func resetLobby() -> void:
 	lobby = {
 		checksum = 0,
-		selectedMap = "",
+		selectedMap = 0,
 		maxClients = 0,
 		totalClients = 0,
 		fogOfWar = fogOfWar.TEAM,

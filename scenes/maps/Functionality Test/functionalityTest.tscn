@@ -1,7 +1,7 @@
 [gd_scene load_steps=24 format=3 uid="uid://du1okd6qb4ckx"]
 
+[ext_resource type="Script" path="res://src/misc/MapScript.gd" id="1_dljem"]
 [ext_resource type="Script" path="res://src/misc/LightsScript.gd" id="1_jt3t6"]
-[ext_resource type="PackedScene" uid="uid://c5uu0vftn204q" path="res://scenes/units/tank_unit.tscn" id="2_2bcyq"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_a7q1h"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -73,6 +73,7 @@ points = PackedVector3Array(0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, -0.5, 0.5, 0.5,
 points = PackedVector3Array(0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, -0.5, -0.5)
 
 [node name="FunctionalityTest" type="Node3D"]
+script = ExtResource("1_dljem")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_edudr")
@@ -81,12 +82,6 @@ environment = SubResource("Environment_edudr")
 transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
 shadow_enabled = true
 script = ExtResource("1_jt3t6")
-
-[node name="TankUnit" parent="." instance=ExtResource("2_2bcyq")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.066673, 0)
-
-[node name="TankUnit2" parent="." instance=ExtResource("2_2bcyq")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.226, -0.066673, 0)
 
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
 navigation_mesh = SubResource("NavigationMesh_qvub5")

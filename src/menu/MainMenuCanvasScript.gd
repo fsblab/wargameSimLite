@@ -5,6 +5,7 @@ extends CanvasLayer
 @onready var spMenu: Control = $SinglePlayerMenu
 @onready var mpMenu: Control = $MultiplayerMenu
 @onready var settingsMenu: Control = $Settings
+@onready var credits: Control = $Credits
 @onready var skirmishMenu: Control = $SkirmishMenu
 @onready var loadingScreen: Control = $LoadingScreen
 @onready var popup: PopupPanel = $PopupPanel
@@ -149,6 +150,16 @@ func toSettings() -> void:
 
 
 func goBackFromSettings() -> void:
+	main.visible = true
+
+
+func toCredits() -> void:
+	main.visible = false
+	credits.visible = true
+
+
+func goBackFromCredits() -> void:
+	credits.visible = false
 	main.visible = true
 
 

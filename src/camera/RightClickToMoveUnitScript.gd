@@ -35,6 +35,7 @@ func _physics_process(_delta):
 		result = spaceState.intersect_ray(query)
 		
 		for unit in UnitSelectionScript.selectedUnits:
-			var tSetTarget = Task.new(Callable(unit, "setTarget"), [result.position], false)
-			var tRotateAndMove = Task.new(Callable(unit, "rotateAndMove"), [unit.engineForce], true)
-			unit.taskHandler.pushMultipleTasks([tSetTarget, tRotateAndMove])
+			if result:
+				var tSetTarget = Task.new(Callable(unit, "setTarget"), [result.position], false)
+				var tRotateAndMove = Task.new(Callable(unit, "rotateAndMove"), [unit.engineForce], true)
+				unit.taskHandler.pushMultipleTasks([tSetTarget, tRotateAndMove])

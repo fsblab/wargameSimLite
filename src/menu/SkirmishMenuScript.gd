@@ -4,21 +4,18 @@ extends Control
 signal startSkirmish(folder: String)
 signal goBack
 
-@onready var mapFolder: DirAccess = DirAccess.open("res://scenes/maps")
-@onready var defaultMaps: PackedStringArray = mapFolder.get_directories()
-@onready var mapAndSettingsSplittingPoint: HBoxContainer = $CenterContainer/MarginContainer/VBoxContainer/MapSettingsContainer/HBoxContainer
 @onready var mapNameOptionButton: OptionButton = $CenterContainer/MarginContainer/VBoxContainer/MapSettingsContainer/HBoxContainer/MapContainer/MarginContainer/VBoxContainer/HBoxContainer/GridContainer2/MapNameOptionButton
+
+@onready var mapAndSettingsSplittingPoint: HBoxContainer = $CenterContainer/MarginContainer/VBoxContainer/MapSettingsContainer/HBoxContainer
 @onready var mpClientContainer: VBoxContainer = $CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/MultiplayerScrollContainer/Multiplayer
 @onready var spClientContainer: VBoxContainer = $CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/PlayerInfoContainer/MarginContainer/SingleplayerScrollContainer/Singleplayer
 @onready var message: LineEdit = $CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/ChatContainer/MarginContainer/VBoxContainer/HBoxContainer/LineEdit
 @onready var chatBox: TextEdit = $CenterContainer/MarginContainer/VBoxContainer/PlayerInfoChatContainer/ChatContainer/MarginContainer/VBoxContainer/TextEdit
-@onready var mapImageButton: TextureButton = $CenterContainer/MarginContainer/VBoxContainer/MapSettingsContainer/HBoxContainer/MapContainer/MarginContainer/VBoxContainer/HBoxContainer/mapImage
 @onready var maxPlayerBox: SpinBox = $CenterContainer/MarginContainer/VBoxContainer/MapSettingsContainer/HBoxContainer/SettingsContainer/MarginContainer/VBoxContainer/HBoxContainer/GridContainer/MaxPlayer
 @onready var readyButton: Button = $CenterContainer/MarginContainer/VBoxContainer/BottomButtonsContainer/ReadyButton
 @onready var timer: Timer = $CenterContainer/MarginContainer/VBoxContainer/BottomButtonsContainer/Timer
 @onready var goButton: Button = $CenterContainer/MarginContainer/VBoxContainer/BottomButtonsContainer/ReadyButton
 
-@onready var defaultMapImage: Resource = ResourceLoader.load("res://assets/sprites/imageNotFound.png")
 @onready var mpInfoNode: Resource = ResourceLoader.load("res://scenes/multiplayerPlayerInfo.tscn")
 @onready var spInfoNode: Resource = ResourceLoader.load("res://scenes/singleplayerPlayerInfo.tscn")
 
@@ -34,14 +31,8 @@ func _ready():
 	SignalBusScript._enableDisableInfoNode.connect(enableDisableInfoNode)
 	SignalBusScript._removeClient.connect(removePlayer)
 	SignalBusScript._updatePlayer.connect(updatePlayer)
-	
-	for mapName in defaultMaps:
-		mapNameOptionButton.add_item(mapName)
-	
+		
 	timerCounter = 5
-	
-	mapNameOptionButton.select(0)
-	setMapImage(0)
 
 
 func _process(_delta):
@@ -65,13 +56,16 @@ func initSkirmishMenu() -> void:
 	if multiplayer.get_unique_id() == 1:
 		addPlayer(GameMetaDataScript.client)
 		maxPlayerBox.get_line_edit().text = str(GameMetaDataScript.lobby.maxClients)
-		GameMetaDataScript.lobby.maxClients = 1 #HACK: might require rework
+		var maxClients = GameMetaDataScript.lobby.maxClients
+		GameMetaDataScript.lobby.maxClients = 1
 		maxPlayerBox.apply()
+		SignalBusScript.updateMaxPlayers(maxClients)
 	goButton.disabled = multiplayer.get_unique_id() != 1
 
 
 func addPlayer(client: Dictionary) -> void:
 	var infoNode: HBoxContainer
+	client.Faction = client.Faction if not client.Faction == GameMetaDataScript.faction.NONE else GameMetaDataScript.faction.GREY
 
 	if GameMetaDataScript.currentPlayMode == GameMetaDataScript.playMode.SINGLEPLAYER:
 		infoNode = spInfoNode.instantiate()
@@ -204,8 +198,7 @@ func resetClientContainer(disconnecting = true) -> void:
 		clientContainer.get_child(index).queue_free()
 	if disconnecting:
 		GameMetaDataScript.resetClient()
-		GameMetaDataScript.lobby.maxClients = 0
-		GameMetaDataScript.lobby.totalClients = 0
+		GameMetaDataScript.resetLobby()
 
 
 func go() -> void:
@@ -215,6 +208,7 @@ func go() -> void:
 	message.text = ""
 	chatBox.text = ""
 	readyButton.text = "GO"
+	SignalBusScript.loadMaterial()
 	startSkirmish.emit(mapNameOptionButton.get_item_text(mapNameOptionButton.selected))
 
 
@@ -229,16 +223,6 @@ func back(msg: String = '') -> void:
 	message.text = ""
 	SignalBusScript.disconnectPlayer()
 	goBack.emit()
-
-
-func setMapImage(_index: int) -> void:
-	var dir: String = mapFolder.get_current_dir() + "/" + mapNameOptionButton.get_item_text(mapNameOptionButton.selected)
-	var imgName: String = StdScript.getFileNameByExtension(dir, "jpg|jpeg|png|svg|webp")
-	
-	if imgName:
-		mapImageButton.texture_normal = ResourceLoader.load(dir + imgName)
-	else:
-		mapImageButton.texture_normal = defaultMapImage
 
 
 func chatMessage(pName: String, msg: String) -> void:
