@@ -228,3 +228,5 @@ skeleton = NodePath("../..")
 [node name="RB1CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/RBStaticBody"]
 transform = Transform3D(-2.18557e-07, 0, 5, 0, 1, 0, -5, 0, -2.18557e-07, -25, 0.5, 0)
 shape = SubResource("ConvexPolygonShape3D_rhm8b")
+
+[node name="insideSpawnzoneChecker" type="StaticBody2D" parent="."]

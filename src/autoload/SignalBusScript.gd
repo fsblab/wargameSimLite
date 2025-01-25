@@ -31,6 +31,8 @@ signal _playerListReceived()
 signal _removeClient(id: int)
 #UIScript -> ServerScript
 signal _requestPlayerListForUI
+#UnitSelectionScript -> MapScript
+signal _selectPlacedUnit(u: Unit)
 #SkirmishMenuScript -> ServerScript
 signal _sendChat(msg: String)
 #
@@ -112,6 +114,10 @@ func removeClient(id: int) -> void:
 
 func requestPlayerListForUI() -> void:
 	_requestPlayerListForUI.emit()
+
+
+func selectPlacedUnit(u: Unit) -> void:
+	_selectPlacedUnit.emit(u)
 
 
 func sendChat(msg: String) -> void:

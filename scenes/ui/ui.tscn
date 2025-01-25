@@ -7,9 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://du1wdyonis03d" path="res://assets/sprites/unitsymbols/maintenance.png" id="5_2jnxu"]
 [ext_resource type="Texture2D" uid="uid://8wpqnk1r8m4g" path="res://assets/sprites/unitsymbols/infantry.png" id="6_s6sn0"]
 [ext_resource type="Texture2D" uid="uid://bs5mihfnlc8oe" path="res://assets/sprites/unitsymbols/airdefence.png" id="7_5fjf6"]
-[ext_resource type="Texture2D" uid="uid://bodoalqdls7as" path="res://assets/sprites/backup/unitsymbols/infantry.png" id="7_bgjfa"]
 [ext_resource type="Texture2D" uid="uid://b8vurbae8xith" path="res://assets/sprites/unitsymbols/artillery.png" id="8_1slsm"]
-[ext_resource type="Texture2D" uid="uid://cq0832vfctcr3" path="res://assets/sprites/backup/unitsymbols/logistics.png" id="8_atn0c"]
 [ext_resource type="Texture2D" uid="uid://blq04yq3ltsjl" path="res://assets/sprites/unitsymbols/tank.png" id="9_3ubv2"]
 [ext_resource type="Texture2D" uid="uid://cip3eh1oi6h30" path="res://assets/sprites/unitsymbols/recon.png" id="10_qmc1i"]
 [ext_resource type="Texture2D" uid="uid://b2efvqpvxq65t" path="res://assets/sprites/unitsymbols/mortar.png" id="11_761jk"]
@@ -17,6 +15,12 @@
 [ext_resource type="Texture2D" uid="uid://dhs06ei7d3gbp" path="res://assets/sprites/unitsymbols/heli.png" id="12_82oy1"]
 [ext_resource type="Texture2D" uid="uid://v4ga4pg0lvyc" path="res://assets/sprites/unitsymbols/plane.png" id="13_wge8m"]
 [ext_resource type="AudioStream" uid="uid://ko84qh8fch4q" path="res://assets/sounds/music/116-bpm-oldschool-electronica-18063.mp3" id="14_wrvwj"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_04n1n"]
+load_path = "res://.godot/imported/logistics.png-02d5752de26f5423f3ede80540534407.ctex"
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_2umbt"]
+load_path = "res://.godot/imported/infantry.png-6696460612572edcae861b1f303f0fe3.s3tc.ctex"
 
 [node name="UI" type="Control" groups=["UI"]]
 layout_mode = 3
@@ -168,11 +172,11 @@ theme_override_constants/separation = 8
 [node name="Logistics" type="TextureButton" parent="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer/AntiAir/AntiAirUnits/PanelContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
-texture_normal = ExtResource("8_atn0c")
+texture_normal = SubResource("CompressedTexture2D_04n1n")
 
 [node name="Infantry" type="TextureButton" parent="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer/AntiAir/AntiAirUnits/PanelContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
-texture_normal = ExtResource("7_bgjfa")
+texture_normal = SubResource("CompressedTexture2D_2umbt")
 
 [node name="Artillery" type="TextureButton" parent="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
@@ -209,7 +213,7 @@ texture_normal = ExtResource("8_1slsm")
 
 [node name="MLRS" type="TextureButton" parent="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer/Artillery/ArtilleryUnits/PanelContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
-texture_normal = ExtResource("7_bgjfa")
+texture_normal = SubResource("CompressedTexture2D_2umbt")
 
 [node name="Mortar" type="TextureButton" parent="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer/Artillery/ArtilleryUnits/PanelContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
@@ -250,7 +254,7 @@ texture_normal = ExtResource("9_3ubv2")
 
 [node name="Infantry" type="TextureButton" parent="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer/Tank/TankUnits/PanelContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
-texture_normal = ExtResource("7_bgjfa")
+texture_normal = SubResource("CompressedTexture2D_2umbt")
 
 [node name="Reconnaissance" type="TextureButton" parent="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
@@ -283,11 +287,11 @@ theme_override_constants/separation = 8
 [node name="Logistics" type="TextureButton" parent="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer/Reconnaissance/ReconnaissanceUnits/PanelContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
-texture_normal = ExtResource("8_atn0c")
+texture_normal = SubResource("CompressedTexture2D_04n1n")
 
 [node name="Infantry" type="TextureButton" parent="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer/Reconnaissance/ReconnaissanceUnits/PanelContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
-texture_normal = ExtResource("7_bgjfa")
+texture_normal = SubResource("CompressedTexture2D_2umbt")
 
 [node name="Engineer" type="TextureButton" parent="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
@@ -320,11 +324,11 @@ theme_override_constants/separation = 8
 [node name="Logistics" type="TextureButton" parent="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer/Engineer/EngineerUnits/PanelContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
-texture_normal = ExtResource("8_atn0c")
+texture_normal = SubResource("CompressedTexture2D_04n1n")
 
 [node name="Infantry" type="TextureButton" parent="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer/Engineer/EngineerUnits/PanelContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
-texture_normal = ExtResource("7_bgjfa")
+texture_normal = SubResource("CompressedTexture2D_2umbt")
 
 [node name="Helicopter" type="TextureButton" parent="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
@@ -357,11 +361,11 @@ theme_override_constants/separation = 8
 [node name="Logistics" type="TextureButton" parent="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer/Helicopter/HelicopterUnits/PanelContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
-texture_normal = ExtResource("8_atn0c")
+texture_normal = SubResource("CompressedTexture2D_04n1n")
 
 [node name="Infantry" type="TextureButton" parent="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer/Helicopter/HelicopterUnits/PanelContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
-texture_normal = ExtResource("7_bgjfa")
+texture_normal = SubResource("CompressedTexture2D_2umbt")
 
 [node name="Plane" type="TextureButton" parent="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
@@ -394,11 +398,11 @@ theme_override_constants/separation = 8
 [node name="Logistics" type="TextureButton" parent="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer/Plane/PlaneUnits/PanelContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
-texture_normal = ExtResource("8_atn0c")
+texture_normal = SubResource("CompressedTexture2D_04n1n")
 
 [node name="Infantry" type="TextureButton" parent="CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer/Plane/PlaneUnits/PanelContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
-texture_normal = ExtResource("7_bgjfa")
+texture_normal = SubResource("CompressedTexture2D_2umbt")
 
 [node name="TimeReference" type="CenterContainer" parent="CanvasLayer"]
 anchors_preset = 5

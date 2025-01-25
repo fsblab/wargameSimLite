@@ -4,6 +4,7 @@ extends HBoxContainer
 @onready var playerName: Label = $PlayerName
 @onready var readyButton: Button = $Ready
 @onready var kickButton: Button = $Kick
+@onready var teamSpinBox: SpinBox = $Team
 
 
 func toggleReady() -> void:
@@ -37,6 +38,10 @@ func selectFaction(index: int) -> void:
 
 
 func setTeam(val: float) -> void:
+	if val > int(GameMetaDataScript.mapInfo.meta.MaxNoTeams):
+		teamSpinBox.get_line_edit().text = GameMetaDataScript.mapInfo.meta.MaxNoTeams
+		teamSpinBox.apply()
+		return
 	sendChangeToClients("Team", int(val))
 
 

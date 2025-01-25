@@ -143,8 +143,8 @@ func readMapInfo(dir: String) -> void:
 	GameMetaDataScript.mapInfo = JSON.parse_string(jsonString)
 
 	for label in [mapSize, maxNoTeams]:
-		if GameMetaDataScript.mapInfo.has(label.name):
-			label.text = str(GameMetaDataScript.mapInfo[label.name])
+		if GameMetaDataScript.mapInfo.meta.has(label.name):
+			label.text = str(GameMetaDataScript.mapInfo.meta[label.name])
 		else:
 			label.text = "ಠ╭╮ಠ"
 

@@ -35,7 +35,10 @@ func loadSelectedMaterial(faction: GameMetaDataScript.faction) -> StandardMateri
 
 
 func selectUnit(unit: Node3D) -> void:
-	selectedUnits.append(unit)
+	if unit.playerUid == multiplayer.get_unique_id() and unit.status == Unit.unitStatus.SPAWNED:
+		selectedUnits.append(unit)
+	elif unit.playerUid == multiplayer.get_unique_id() and unit.status == Unit.unitStatus.PLACED:
+		SignalBusScript.selectPlacedUnit(unit)
 
 
 func selectMultipleUnitsThroughRigidBody(unitsRB: Array) -> void:

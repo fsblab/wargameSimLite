@@ -214,6 +214,7 @@ func go() -> void:
 
 func back(msg: String = '') -> void:
 	SignalBusScript.toggleLoadingScreen()
+	stopCountdown()
 	GameMetaDataScript.currentGameState = GameMetaDataScript.gameState.LOADING
 	if msg:
 		#TODO: small info box/ popup displaying message

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cl2m7c3trq5xw"
-path="res://.godot/imported/tank.png-b28720eb10e902f28320de03be64e110.ctex"
+uid="uid://yoer3ybna8g"
+path="res://.godot/imported/movementmarking.png-64fa6dcd59c8df515be12fd7c6d635f4.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/materials/tank.png"
-dest_files=["res://.godot/imported/tank.png-b28720eb10e902f28320de03be64e110.ctex"]
+source_file="res://assets/sprites/movementmarking.png"
+dest_files=["res://.godot/imported/movementmarking.png-64fa6dcd59c8df515be12fd7c6d635f4.ctex"]
 
 [params]
 

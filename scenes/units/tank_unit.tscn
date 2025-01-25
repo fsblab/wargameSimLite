@@ -1,14 +1,20 @@
 [gd_scene load_steps=9 format=3 uid="uid://c5uu0vftn204q"]
 
 [ext_resource type="Script" path="res://src/units/TankBaseScript.gd" id="1_8aeab"]
-[ext_resource type="Texture2D" uid="uid://dcjhvaexk3ivd" path="res://assets/sprites/backup/unitsymbols/board.png" id="2_1dmes"]
 [ext_resource type="PackedScene" uid="uid://dytfodmumhva7" path="res://assets/models/tank.glb" id="2_qwhd3"]
-[ext_resource type="Texture2D" uid="uid://dg580l05f63wm" path="res://assets/sprites/backup/unitsymbols/tank.png" id="3_fa0bn"]
 [ext_resource type="Script" path="res://src/units/MarkerScript.gd" id="6_sao7d"]
-[ext_resource type="Texture2D" uid="uid://ccxrod55siap2" path="res://assets/sprites/backup/unitsymbols/marker.png" id="7_w2eke"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_ryllo"]
+load_path = "res://.godot/imported/board.png-2bace49ec062a4533c2a32bf78eedb33.s3tc.ctex"
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_kw2ng"]
+load_path = "res://.godot/imported/tank.png-71ca3d387f642280541848815fdbe591.s3tc.ctex"
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_hxlk4"]
 size = Vector3(2.00048, 1.35567, 5.77985)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_synk4"]
+load_path = "res://.godot/imported/marker.png-47d79c61b5020576b0d49246ef911910.s3tc.ctex"
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_q1e51"]
 properties/0/path = NodePath("Model:position")
@@ -39,7 +45,7 @@ transform = Transform3D(3, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 modulate = Color(1, 1, 1, 0.501961)
 billboard = 1
 render_priority = -3
-texture = ExtResource("2_1dmes")
+texture = SubResource("CompressedTexture2D_ryllo")
 
 [node name="Label" type="Label3D" parent="Model/Tag/Board"]
 transform = Transform3D(0.2, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
@@ -49,7 +55,7 @@ text = "TANK"
 [node name="Symbol" type="Sprite3D" parent="Model/Tag"]
 offset = Vector2(-56, 0)
 billboard = 1
-texture = ExtResource("3_fa0bn")
+texture = SubResource("CompressedTexture2D_kw2ng")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Model"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.744508, -0.114756)
@@ -67,9 +73,15 @@ use_as_traction = true
 
 [node name="Marker" type="Decal" parent="MoveToMarker"]
 size = Vector3(1, 1, 1)
-texture_albedo = ExtResource("7_w2eke")
+texture_albedo = SubResource("CompressedTexture2D_synk4")
 emission_energy = 35.0
 script = ExtResource("6_sao7d")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_q1e51")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
+
+[connection signal="timeout" from="Timer" to="." method="spawnUnitAtNearestSpawnpoint"]

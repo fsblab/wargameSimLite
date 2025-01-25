@@ -1,3 +1,10 @@
+Timer
+CollisionShape2D
+StaticBody2D
+MeshInstance3D
+MultiMeshInstance3D
+Node3D
+CollisionPolygon3D
 Area3D
 AudioStreamPlayer
 CenterContainer
@@ -6,10 +13,3 @@ LinkButton
 RichTextLabel
 Label
 PanelContainer
-VBoxContainer
-HBoxContainer
-HSeparator
-Button
-ScrollContainer
-Node3D
-MultiplayerSpawner

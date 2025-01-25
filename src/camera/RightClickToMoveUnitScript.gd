@@ -36,6 +36,6 @@ func _physics_process(_delta):
 		
 		for unit in UnitSelectionScript.selectedUnits:
 			if result:
-				var tSetTarget = Task.new(Callable(unit, "setTarget"), [result.position], false)
-				var tRotateAndMove = Task.new(Callable(unit, "rotateAndMove"), [unit.engineForce], true)
+				var tSetTarget: Task = Task.new(Callable(unit, "setTarget"), [result.position], false)
+				var tRotateAndMove: Task = Task.new(Callable(unit, "rotateAndMove"), [unit.engineForce], true)
 				unit.taskHandler.pushMultipleTasks([tSetTarget, tRotateAndMove])
