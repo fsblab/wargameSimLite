@@ -1,7 +1,0 @@
-res://src/misc/MapScript.gd
-res://src/units/Unit.gd
-res://src/autoload/UnitSelectionScript.gd
-res://src/UI/UIScript.gd
-res://src/autoload/GameMetaDataScript.gd
-res://src/menu/MapSettingsScript.gd
-res://src/camera/RightClickToMoveUnitScript.gd
