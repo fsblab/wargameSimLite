@@ -1,4 +1,0 @@
-VisualShader
-StandardMaterial3D
-Theme
-CanvasItemMaterial
