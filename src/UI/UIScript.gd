@@ -68,7 +68,7 @@ func _ready() -> void:
 	if len(multiplayer.get_peers()):
 		await SignalBusScript._playerListReceived
 
-	for container: CenterContainer in [units, timeReference, readyCountdown, miniMap, players, unitButtons]:
+	for container: CenterContainer in [units, timeReference, readyCountdown, miniMap, unitButtons]:
 		if not GameMetaDataScript.client.Faction == GameMetaDataScript.faction.GREY:
 			container.modulate = GameMetaDataScript.factionColor.get(int(GameMetaDataScript.client.Faction))
 

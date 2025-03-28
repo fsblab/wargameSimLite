@@ -1,59 +1,59 @@
 extends Node
 
-#PlayerInfoScript -> SkirmishMenuScript
-#ServerScript -> SkirmishMenuScript
+## PlayerInfoScript -> SkirmishMenuScript
+## ServerScript -> SkirmishMenuScript
 signal _abortStartOfMatch
-#UIScript -> MapScript
+## UIScript -> MapScript
 signal _addUnitToMap(u: String)
-#ServerScript -> SkirmishMenuScript
+## ServerScript -> SkirmishMenuScript
 signal _cannotConnectToLobby(msg: String)
-#ServerScript -> SkirmishMenuScript
+## ServerScript -> SkirmishMenuScript
 signal _changeNodeName(id: String, newId: String)
-#SkirmishMenuScript -> ServerScript
+## SkirmishMenuScript -> ServerScript
 signal _changeNodeNameCompleted
-#ServerScript -> SkirmishMenuScript
+## ServerScript -> SkirmishMenuScript
 signal _clientDisconnected(id: int)
-#ServerScript -> SkirmishMenuScript
-#MapSettingsScript -> SkirmishMenuScript
+## ServerScript -> SkirmishMenuScript
+## MapSettingsScript -> SkirmishMenuScript
 signal _connectedClientsUpdated(client: Dictionary)
-#SkirmishMenu -> ServerScript
-#PauseMenuCanvasScript -> ServerScript
+## SkirmishMenu -> ServerScript
+## PauseMenuCanvasScript -> ServerScript
 signal _disconnectPlayer
-#ServerScript -> SkirmishMenuScript
+## ServerScript -> SkirmishMenuScript
 signal _enableDisableInfoNode
-#SkirmishLobbyScript -> UnitSelectionScript
+## SkirmishLobbyScript -> UnitSelectionScript
 signal _loadMaterial
-#PlayerInfoScript -> ServerScript
+## PlayerInfoScript -> ServerScript
 signal _lobbyClientChangedState(client: Dictionary)
-#ServerScript -> UIScript
+## ServerScript -> UIScript
 signal _playerListReceived()
-#MapSettingsScript -> SkirmishMenuScript
+## MapSettingsScript -> SkirmishMenuScript
 signal _removeClient(id: int)
-#UIScript -> ServerScript
+## UIScript -> ServerScript
 signal _requestPlayerListForUI
-#UnitSelectionScript -> MapScript
+## UnitSelectionScript -> MapScript
 signal _selectPlacedUnit(u: Unit)
-#SkirmishMenuScript -> ServerScript
+## SkirmishMenuScript -> ServerScript
 signal _sendChat(msg: String)
-#
+##
 signal _sendChatAsServer(msg: String)
-#ServerScript -> MapSettingsScript
-#awaited in ServerScript
+## ServerScript -> MapSettingsScript
+## awaited in ServerScript
 signal _setupLobbySettings
-#UIScript -> Unit
+## UIScript -> Unit
 signal _startBattle
-#ServerScript -> MainMenuCanvasScript
-#SkirmishMenuScript -> MainMenuCanvasScript
+## ServerScript -> MainMenuCanvasScript
+## SkirmishMenuScript -> MainMenuCanvasScript
 signal _toggleBetweenMuliplayerMenuAndSkirmishMenu
-#ServerScript -> MainMenuCanvasScript
-#SkirmishMenuScript -> MainMenuCanvasScript
+## ServerScript -> MainMenuCanvasScript
+## SkirmishMenuScript -> MainMenuCanvasScript
 signal _toggleLoadingScreen
-#SkirmishMenuScript -> MapSettingsScript
+## SkirmishMenuScript -> MapSettingsScript
 signal _updateMaxPlayers(num: int)
-#ServerScript -> PlayerInfoScript
-#ServerScript -> UIScript
+## ServerScript -> PlayerInfoScript
+## ServerScript -> UIScript
 signal _updatePing(val: int, nodepath: String)
-#PlayerInfoScript -> SkirmishMenuScript
+## PlayerInfoScript -> SkirmishMenuScript
 signal _updatePlayer(id: String, what: String, toWhat)
 
 

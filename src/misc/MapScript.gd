@@ -219,6 +219,9 @@ func _setUnit(udata: Dictionary) -> void:
 	instance.name = udata.iid
 	instance.set_multiplayer_authority(udata.id)
 
+	if instance.team != GameMetaDataScript.client.Team:
+		instance.visible = false
+
 	if GameMetaDataScript.currentBattlePhase == GameMetaDataScript.battlePhase.BATTLE:
 		instance.startTimer()
 

@@ -178,7 +178,7 @@ func getBotData() -> Dictionary:
 	while botId in connectedClients:
 		botId = botId + 1 if botId < 30000 else 20000
 	var data = {
-		Faction = SettingsConfigScript.currentPlayerInfo["faction"],
+		Faction = SettingsConfigScript.currentPlayerInfo["Faction"],
 		Ready = true,
 		Ping = 0,
 		PlayerName = aiNames[aiType.EASY],

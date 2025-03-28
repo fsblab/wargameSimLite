@@ -1,7 +1,8 @@
-[gd_scene load_steps=9 format=3 uid="uid://c5uu0vftn204q"]
+[gd_scene load_steps=15 format=3 uid="uid://c5uu0vftn204q"]
 
 [ext_resource type="Script" path="res://src/units/TankBaseScript.gd" id="1_8aeab"]
 [ext_resource type="PackedScene" uid="uid://dytfodmumhva7" path="res://assets/models/tank.glb" id="2_qwhd3"]
+[ext_resource type="Shader" path="res://assets/shaders/unitSlection.gdshader" id="3_3ijij"]
 [ext_resource type="Script" path="res://src/units/MarkerScript.gd" id="6_sao7d"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_ryllo"]
@@ -12,6 +13,25 @@ load_path = "res://.godot/imported/tank.png-71ca3d387f642280541848815fdbe591.s3t
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_hxlk4"]
 size = Vector3(2.00048, 1.35567, 5.77985)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_37hyx"]
+render_priority = 0
+shader = ExtResource("3_3ijij")
+shader_parameter/size = 6.0
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_na55t"]
+material = SubResource("ShaderMaterial_37hyx")
+size = Vector2(5, 5)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mtcx0"]
+transparency = 1
+albedo_color = Color(0.25098, 0.25098, 0.25098, 0.501961)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_5ata3"]
+material = SubResource("StandardMaterial3D_mtcx0")
+height = 0.1
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_a5ia5"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_synk4"]
 load_path = "res://.godot/imported/marker.png-47d79c61b5020576b0d49246ef911910.s3tc.ctex"
@@ -69,6 +89,22 @@ avoidance_mask = 3
 [node name="VehicleWheel3D" type="VehicleWheel3D" parent="Model"]
 use_as_traction = true
 
+[node name="Selected" type="MeshInstance3D" parent="Model"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
+visible = false
+mesh = SubResource("PlaneMesh_na55t")
+
+[node name="Range" type="MeshInstance3D" parent="Model"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
+visible = false
+mesh = SubResource("CylinderMesh_5ata3")
+skeleton = NodePath("../..")
+
+[node name="FoV" type="Area3D" parent="Model"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Model/FoV"]
+shape = SubResource("SphereShape3D_a5ia5")
+
 [node name="MoveToMarker" type="Marker3D" parent="."]
 
 [node name="Marker" type="Decal" parent="MoveToMarker"]
@@ -84,4 +120,6 @@ replication_config = SubResource("SceneReplicationConfig_q1e51")
 wait_time = 5.0
 one_shot = true
 
+[connection signal="body_entered" from="Model/FoV" to="." method="unitEnteredFoV"]
+[connection signal="body_exited" from="Model/FoV" to="." method="unitExitedFoV"]
 [connection signal="timeout" from="Timer" to="." method="spawnUnitAtNearestSpawnpoint"]

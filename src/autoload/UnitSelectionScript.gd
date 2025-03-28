@@ -49,8 +49,14 @@ func selectMultipleUnitsThroughRigidBody(unitsRB: Array) -> void:
 
 
 func deselectUnit(unit: Node3D) -> void:
+	unit.rangeMesh.visible = false
+	unit.shootAtMode = false
 	selectedUnits.erase(unit)
 
 
 func deselectAll() -> void:
+	for unit: Node3D in selectedUnits:
+		unit.rangeMesh.visible = false
+		unit.shootAtMode = false
+		
 	selectedUnits.clear()
