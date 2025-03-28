@@ -53,7 +53,7 @@ func _ready() -> void:
 
 
 func _physics_process(delta):
-	if playerUid == multiplayer.get_unique_id():
+	if playerUid == multiplayer.get_unique_id() and status == unitStatus.SPAWNED:
 		checkVisibilityOfUnits()
 	
 	if taskHandler.taskFinished:
@@ -217,13 +217,13 @@ func getReachablePosition() -> bool:
 func unitEnteredFoV(unit: CollisionObject3D) -> void:
 	var enemyUnit = unit.get_parent()
 	
-	if enemyUnit.team != team and enemyUnit.team != 0 and enemyUnit != self and playerUid == multiplayer.get_unique_id():
+	if enemyUnit.team != team and enemyUnit.team != 0 and enemyUnit != self and playerUid == multiplayer.get_unique_id() and status == unitStatus.SPAWNED:
 		VisibilityScript.seeEnemyUnit(enemyUnit, self)
 		enemyUnitsWithinViewDistance.add(unit)
 
 
 func unitExitedFoV(unit: CollisionObject3D) -> void: 
-	if enemyUnitsWithinViewDistance.has(unit) and playerUid == multiplayer.get_unique_id():
+	if enemyUnitsWithinViewDistance.has(unit) and playerUid == multiplayer.get_unique_id() and status == unitStatus.SPAWNED:
 		VisibilityScript.unseeEnemyUnit(unit.get_parent(), self)
 		enemyUnitsWithinViewDistance.remove(unit)
 
