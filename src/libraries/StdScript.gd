@@ -75,6 +75,15 @@ static func getFileNameByExtension(mapDir: String, ext: String) -> String:
 	return ""
 
 
+static func sum(arr: Array) -> float:
+	var val: float = 0.
+
+	for i in arr:
+		val += i
+	
+	return val
+
+
 @warning_ignore("confusable_local_declaration")
 static func enableDisableLeaves(node: Node, id: int) -> void:
 	if id != 1:

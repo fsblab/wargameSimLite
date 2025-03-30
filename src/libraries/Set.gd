@@ -27,6 +27,10 @@ func remove(v: Variant) -> void:
     _data.erase(v)
 
 
+func clear() -> void:
+    _data = {}
+
+
 func getData() -> Array:
     return _data.keys()
 

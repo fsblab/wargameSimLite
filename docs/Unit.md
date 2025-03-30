@@ -4,6 +4,8 @@ classDiagram
     Unit <|-- GroundUnit
     Node <|-- TaskHandler
     Unit o-- TaskHandler
+    Unit o-- Weapon
+    Weapon o-- Ammunition
     class Unit {
         NavigationAgent3D nav
         VehicleBody3D model

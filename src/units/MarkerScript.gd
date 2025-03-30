@@ -8,7 +8,7 @@ extends Decal
 func _process(_delta):
 	if (position - model.position).length_squared() < 16:
 		visible = false
-	elif unit in UnitSelectionScript.selectedUnits:
+	elif unit in UnitSelectionScript.selectedUnits.getData():
 		visible = true
 	else:
 		visible = false

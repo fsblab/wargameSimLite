@@ -33,6 +33,8 @@ signal _removeClient(id: int)
 signal _requestPlayerListForUI
 ## UnitSelectionScript -> MapScript
 signal _selectPlacedUnit(u: Unit)
+## UnitSelectionScript -> UIScript
+signal _selectedUnitChanged(u: Unit, visible: bool)
 ## SkirmishMenuScript -> ServerScript
 signal _sendChat(msg: String)
 ##
@@ -48,6 +50,8 @@ signal _toggleBetweenMuliplayerMenuAndSkirmishMenu
 ## ServerScript -> MainMenuCanvasScript
 ## SkirmishMenuScript -> MainMenuCanvasScript
 signal _toggleLoadingScreen
+## UnitSelectionScript -> UIScript
+signal _unitSelected(u: Unit, remove: bool)
 ## SkirmishMenuScript -> MapSettingsScript
 signal _updateMaxPlayers(num: int)
 ## ServerScript -> PlayerInfoScript
@@ -120,6 +124,10 @@ func selectPlacedUnit(u: Unit) -> void:
 	_selectPlacedUnit.emit(u)
 
 
+func selectedUnitChanged(u: Unit, visible: bool) -> void:
+	_selectedUnitChanged.emit(u, visible)
+
+
 func sendChat(msg: String) -> void:
 	_sendChat.emit(msg)
 
@@ -142,6 +150,10 @@ func toggleBetweenMultiplayerMenuAndSkirmishMenu() -> void:
 
 func toggleLoadingScreen() -> void:
 	_toggleLoadingScreen.emit()
+
+
+func unitSelected(u: Unit, remove: bool = false) -> void:
+	_unitSelected.emit(u, remove)
 
 
 func updateMaxPlayers(num: int) -> void:

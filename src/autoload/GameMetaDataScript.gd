@@ -62,6 +62,14 @@ enum unitName {
 	ASF
 }
 
+const unitString: Dictionary = {
+	unitName.NONE: "",
+	unitName.INF: "Infantry",
+	unitName.SPAAG: "SPAAG",
+	unitName.MBT: "Main Battle Tank",
+	unitName.ASF: "AS Fighter",
+}
+
 const unitDirectories: Dictionary = {
 	unitName.MBT: "res://scenes/units/tank_unit.tscn",
 }

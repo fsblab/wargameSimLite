@@ -11,6 +11,8 @@ class_name Unit extends Node3D
 @onready var timer: Timer = $Timer
 @onready var taskHandler: TaskHandler
 
+@onready var crosshair: Resource = load("res://assets/sprites/cursor/crosshair.png")
+
 var engineForce: float
 var engineForceReverse: float
 var rotationVelocity: int
@@ -27,19 +29,29 @@ var playerUid: int
 var unitName: GameMetaDataScript.unitName
 var faction: GameMetaDataScript.faction
 
-enum unitStatus {
-	PLACED,
-	SPAWNED,
-	DESTROYED
+var weapons: Dictionary = {
+	UnitAttributesScript.weaponTypes.MAINWEAPON: null,
+	UnitAttributesScript.weaponTypes.ARMORPENETRATION: null,
+	UnitAttributesScript.weaponTypes.HIGHEXPLOSIVE: null,
+	UnitAttributesScript.weaponTypes.SMALLCALIBER: null
 }
 
-var status: unitStatus
+var armor: Dictionary = {
+	"BACK" = 0,
+	"FRONT" = 0,
+	"SIDES" = 0,
+	"TOP" = 0
+}
+
+var status: UnitAttributesScript.unitStatus
+var panicValue: int
 
 
 func _ready() -> void:
 	add_to_group("units")
 	meshNode.set_surface_override_material(0, UnitSelectionScript.unitPlacementMaterial)
-	status = unitStatus.PLACED
+	status = UnitAttributesScript.unitStatus.PLACED
+	panicValue = 100
 
 	taskHandler = TaskHandler.new()
 	marker.global_position = model.global_position
@@ -53,7 +65,7 @@ func _ready() -> void:
 
 
 func _physics_process(delta):
-	if playerUid == multiplayer.get_unique_id() and status == unitStatus.SPAWNED:
+	if playerUid == multiplayer.get_unique_id() and status == UnitAttributesScript.unitStatus.SPAWNED:
 		checkVisibilityOfUnits()
 	
 	if taskHandler.taskFinished:
@@ -65,20 +77,31 @@ func _physics_process(delta):
 
 
 func _unhandled_key_input(_event: InputEvent) -> void:
-	if self in UnitSelectionScript.selectedUnits and Input.is_key_pressed(KEY_E):
+	if UnitSelectionScript.selectedUnits.has(self) and Input.is_key_pressed(KEY_E):
 		taskHandler.clearTaskQueue()
 		marker.global_position = model.global_position
 
-	if self in UnitSelectionScript.selectedUnits and Input.is_key_pressed(KEY_C):
+	if UnitSelectionScript.selectedUnits.has(self) and Input.is_key_pressed(KEY_C):
 		rangeMesh.visible = not rangeMesh.visible
 	
-	if self in UnitSelectionScript.selectedUnits and Input.is_key_pressed(KEY_T):
+	if UnitSelectionScript.selectedUnits.has(self) and Input.is_key_pressed(KEY_T):
 		shootAtMode = not shootAtMode
+		[func(): Input.set_custom_mouse_cursor(null), func(): Input.set_custom_mouse_cursor(crosshair)][int(shootAtMode)].call()
 
-	if self in UnitSelectionScript.selectedUnits and Input.is_action_just_pressed("left_mouse_button") and shootAtMode:
+	if UnitSelectionScript.selectedUnits.has(self) and Input.is_action_just_pressed("left_mouse_button") and shootAtMode:
+		Input.set_custom_mouse_cursor(null)
 		shootAt()
 
 
+## F = Force, engine force for vehicles and flying objects, running speed for infantry
+## oppositeF = -Force, engine force for vehicular reverse
+## omega = rotational velocity, speed at which a unit rotates
+## uName = unit name, intuitive string identifier
+## inv = invisibility, value for stealth or how hard it is to see a unit
+## vis = vision, ability of unit to see
+## view = view distance, distance a unit is able to see - outside of that completely blind
+## srange = shooting range, maximal distance a unit is able to shoot at
+## hp = health points
 func setup(F: float, oppositeF: float, omega: int, uname: GameMetaDataScript.unitName, inv: int, vis: int, view: int, hp: int) -> void:
 	engineForce = F
 	engineForceReverse = oppositeF
@@ -97,7 +120,7 @@ func setup(F: float, oppositeF: float, omega: int, uname: GameMetaDataScript.uni
 
 func spawnUnit(pos: Vector3 = position, to: Vector3 = position) -> void:
 	meshNode.set_surface_override_material(0, UnitSelectionScript.loadNotSelectedMaterial(faction))
-	status = unitStatus.SPAWNED
+	status = UnitAttributesScript.unitStatus.SPAWNED
 	position = pos
 	marker.position = to
 
@@ -123,11 +146,19 @@ func startTimer() -> void:
 	timer.start()
 
 
+func setWeapons(weps: Array) -> void:
+	for i in range(4 - len(weps)):
+		weps.push_front(null)
+	
+	for key in weapons:
+		weapons[key] = weps.pop_back()
+
+
 func checkIfSelected() -> bool:
-	if GameMetaDataScript.currentBattlePhase == GameMetaDataScript.battlePhase.UNITPLACEMENT or not playerUid == multiplayer.get_unique_id() or status == unitStatus.PLACED:
+	if GameMetaDataScript.currentBattlePhase == GameMetaDataScript.battlePhase.UNITPLACEMENT or not playerUid == multiplayer.get_unique_id() or status == UnitAttributesScript.unitStatus.PLACED:
 		return false
 	
-	if self in UnitSelectionScript.selectedUnits:
+	if UnitSelectionScript.selectedUnits.has(self):
 		get_node("Model/Selected").visible = true
 		meshNode.set_surface_override_material(0, UnitSelectionScript.unitSelectedMaterial)
 		return true
@@ -137,6 +168,7 @@ func checkIfSelected() -> bool:
 		return false
 
 
+## drive towards target position until position is reached, may decrease in accuracy the faster the unit moves
 func driveToTarget(F: float) -> bool:
 	var distanceSquared = (marker.global_position - model.global_position).length_squared()
 	
@@ -149,8 +181,9 @@ func driveToTarget(F: float) -> bool:
 	return false
 
 
-func rotateToTarget(F: float, d) -> bool:
-	if model.position.x == marker.position.x and model.position.z == marker.position.z:
+## rotates to face next position defined by pathfinder (= NavigationAgent)
+func rotateToTarget(F: float, d, dist: int = 16) -> bool:
+	if (marker.global_position - model.global_position).length_squared() <= dist:
 		return true
 	
 	var direction = (nav.get_next_path_position() - model.global_position).normalized()
@@ -187,6 +220,26 @@ func rotateAndMove(F: float, d) -> bool:
 	return rtt and mtt
 
 
+## moves within shooting range of target position and then stops
+func approachTarget(F: float) -> bool:
+	var distanceSquared = (marker.global_position - model.global_position).length_squared()
+	
+	model.engine_force = F if model.engine_force == 0. else model.engine_force
+	
+	if distanceSquared <= viewDistanceSquared:
+		model.engine_force = 0.
+		return true
+	
+	return false
+
+
+func rotateAndApproach(F: float, srange: int, d) -> bool:
+	var rtt = rotateToTarget(F, d, srange)
+	var mtt = approachTarget(F)
+	return rtt and mtt
+
+
+## sets target position i.e. position that unit is expected to move towards
 func setTarget(pos: Vector3) -> bool:
 	marker.global_position = pos
 	nav.target_position = pos
@@ -197,6 +250,7 @@ func setTarget(pos: Vector3) -> bool:
 	return true
 
 
+## checks whether target position for unit is reachable, otherwise resets target position
 func getReachablePosition() -> bool:
 	var navPath: PackedVector3Array
 	
@@ -217,13 +271,13 @@ func getReachablePosition() -> bool:
 func unitEnteredFoV(unit: CollisionObject3D) -> void:
 	var enemyUnit = unit.get_parent()
 	
-	if enemyUnit.team != team and enemyUnit.team != 0 and enemyUnit != self and playerUid == multiplayer.get_unique_id() and status == unitStatus.SPAWNED:
+	if enemyUnit.team != team and enemyUnit.team != 0 and enemyUnit != self and playerUid == multiplayer.get_unique_id() and status == UnitAttributesScript.unitStatus.SPAWNED:
 		VisibilityScript.seeEnemyUnit(enemyUnit, self)
 		enemyUnitsWithinViewDistance.add(unit)
 
 
-func unitExitedFoV(unit: CollisionObject3D) -> void: 
-	if enemyUnitsWithinViewDistance.has(unit) and playerUid == multiplayer.get_unique_id() and status == unitStatus.SPAWNED:
+func unitExitedFoV(unit: CollisionObject3D) -> void:
+	if enemyUnitsWithinViewDistance.has(unit) and playerUid == multiplayer.get_unique_id() and status == UnitAttributesScript.unitStatus.SPAWNED:
 		VisibilityScript.unseeEnemyUnit(unit.get_parent(), self)
 		enemyUnitsWithinViewDistance.remove(unit)
 
@@ -251,7 +305,15 @@ func getVision(pos: Vector3) -> int:
 		return 0
 
 
-func shootAtUnit(_unit: Unit) -> bool:
+func shootAtUnit(unit: Unit) -> bool:
+	var epos: Vector3 = unit.get_node("Model").global_position
+	var shootingRangeSquared = weapons[UnitAttributesScript.weaponTypes.ARMORPENETRATION].shootingRangeSquared if int(StdScript.sum(unit.armor.keys())) > 0  else weapons[UnitAttributesScript.weaponTypes.HIGHEXPLOSIVE].shootingRangeSquared
+
+	if abs((model.global_position - epos).length_squared()) > shootingRangeSquared:
+		var tSetTarget: Task = Task.new(Callable(self, "setTarget"), [epos], false)
+		var trotateAndApproach: Task = Task.new(Callable(self, "rotateAndApproach"), [engineForce, shootingRangeSquared], true)
+		taskHandler.pushMultipleTasks([tSetTarget, trotateAndApproach])
+		
 	return true
 
 
@@ -263,15 +325,27 @@ func shootAt() -> void:
 	var query = PhysicsRayQueryParameters3D.create(origin, targetPosition, 2, [self])
 	var result = get_world_3d().direct_space_state.intersect_ray(query)
 
+	var shootingRangeSquared = weapons[UnitAttributesScript.weaponTypes.MAINWEAPON].shootingRangeSquared
+	
 	if result:
-		if abs((position - result.position).length_squared()) > viewDistanceSquared:
+		if abs((position - result.position).length_squared()) > shootingRangeSquared:
 			var tSetTarget: Task = Task.new(Callable(self, "setTarget"), [result.position], false)
-			var tRotateAndMove: Task = Task.new(Callable(self, "rotateAndMove"), [engineForce], true)
-			taskHandler.pushMultipleTasks([tSetTarget, tRotateAndMove])
+			var trotateAndApproach: Task = Task.new(Callable(self, "rotateAndApproach"), [engineForce, shootingRangeSquared], true)
+			taskHandler.pushMultipleTasks([tSetTarget, trotateAndApproach])
 		
 		var tShoot: Task = Task.new(Callable(self, "shootAtPosition"), [result.position], false)
 		taskHandler.pushTask(tShoot)
 
 
-func shootAtPosition() -> bool:
+func shootAtPosition(_pos: Vector3) -> bool:
 	return true
+
+
+func getPanicStatus() -> String:
+	var identifier: String
+
+	for key: String in UnitAttributesScript.panicStatus:
+		if UnitAttributesScript.panicStatus[key] < panicValue:
+			identifier = key
+	
+	return identifier

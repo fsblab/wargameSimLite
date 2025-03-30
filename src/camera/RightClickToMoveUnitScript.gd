@@ -34,7 +34,7 @@ func _physics_process(_delta):
 		query = PhysicsRayQueryParameters3D.create(origin, targetPosition, 2, [self])
 		result = spaceState.intersect_ray(query)
 		
-		for unit in UnitSelectionScript.selectedUnits:
+		for unit in UnitSelectionScript.selectedUnits.getData():
 			if result:
 				unit.shootAtMode = false
 				var tSetTarget: Task = Task.new(Callable(unit, "setTarget"), [result.position], false)

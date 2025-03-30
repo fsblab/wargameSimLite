@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://duqs6lco5hrwv"]
+[gd_scene load_steps=21 format=3 uid="uid://duqs6lco5hrwv"]
 
 [ext_resource type="Script" path="res://src/UI/UIScript.gd" id="1_0dwn8"]
 [ext_resource type="Texture2D" uid="uid://b4ihxi6uo5sib" path="res://assets/sprites/unitsymbols/logistics.png" id="2_7ebp5"]
@@ -21,6 +21,12 @@ load_path = "res://.godot/imported/logistics.png-02d5752de26f5423f3ede8054053440
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_2umbt"]
 load_path = "res://.godot/imported/infantry.png-6696460612572edcae861b1f303f0fe3.s3tc.ctex"
+
+[sub_resource type="ImageTexture" id="ImageTexture_gh8cu"]
+
+[sub_resource type="ImageTexture" id="ImageTexture_5olc4"]
+
+[sub_resource type="ImageTexture" id="ImageTexture_s1rbf"]
 
 [node name="UI" type="Control" groups=["UI"]]
 layout_mode = 3
@@ -666,6 +672,93 @@ text = "REVERSE"
 [node name="Undefined" type="Button" parent="CanvasLayer/UnitButtons/PanelContainer/MarginContainer/GridContainer"]
 custom_minimum_size = Vector2(120, 50)
 layout_mode = 2
+
+[node name="SelectedUnitsInfo" type="CenterContainer" parent="CanvasLayer"]
+visible = false
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -400.0
+offset_top = -182.0
+offset_right = 400.0
+offset_bottom = -8.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/SelectedUnitsInfo"]
+custom_minimum_size = Vector2(800, 174)
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/SelectedUnitsInfo/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/SelectedUnitsInfo/PanelContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/SelectedUnitsInfo/PanelContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+horizontal_scroll_mode = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/SelectedUnitsInfo/PanelContainer/MarginContainer/HBoxContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="VSeparator" type="VSeparator" parent="CanvasLayer/SelectedUnitsInfo/PanelContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="AP" type="VBoxContainer" parent="CanvasLayer/SelectedUnitsInfo/PanelContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="TextureButton" type="TextureButton" parent="CanvasLayer/SelectedUnitsInfo/PanelContainer/MarginContainer/HBoxContainer/AP"]
+layout_mode = 2
+size_flags_vertical = 3
+texture_normal = SubResource("ImageTexture_gh8cu")
+stretch_mode = 4
+
+[node name="Label" type="Label" parent="CanvasLayer/SelectedUnitsInfo/PanelContainer/MarginContainer/HBoxContainer/AP"]
+layout_mode = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HEAT" type="VBoxContainer" parent="CanvasLayer/SelectedUnitsInfo/PanelContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="TextureButton" type="TextureButton" parent="CanvasLayer/SelectedUnitsInfo/PanelContainer/MarginContainer/HBoxContainer/HEAT"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture_normal = SubResource("ImageTexture_5olc4")
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="CanvasLayer/SelectedUnitsInfo/PanelContainer/MarginContainer/HBoxContainer/HEAT"]
+layout_mode = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SMALLARMS" type="VBoxContainer" parent="CanvasLayer/SelectedUnitsInfo/PanelContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="TextureButton" type="TextureButton" parent="CanvasLayer/SelectedUnitsInfo/PanelContainer/MarginContainer/HBoxContainer/SMALLARMS"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture_normal = SubResource("ImageTexture_s1rbf")
+stretch_mode = 4
+
+[node name="Label" type="Label" parent="CanvasLayer/SelectedUnitsInfo/PanelContainer/MarginContainer/HBoxContainer/SMALLARMS"]
+layout_mode = 2
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="FPS" type="CenterContainer" parent="CanvasLayer"]
 visible = false

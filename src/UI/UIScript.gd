@@ -12,6 +12,7 @@ extends Control
 @onready var miniMap: CenterContainer = $CanvasLayer/MiniMap
 @onready var players: CenterContainer = $CanvasLayer/Players
 @onready var unitButtons: CenterContainer = $CanvasLayer/UnitButtons
+@onready var selectedUnits: CenterContainer = $CanvasLayer/SelectedUnitsInfo
 
 @onready var logUnits: CenterContainer = $CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer/Logistics/LogisticsUnits
 @onready var infUnits: CenterContainer = $CanvasLayer/Units/PanelContainer/MarginContainer/HBoxContainer/Infantry/InfantryUnits
@@ -40,8 +41,8 @@ extends Control
 @onready var disconnectedIcon: Texture2D = ResourceLoader.load("res://assets/sprites/connection/disconnected.png", "Texture2D")
 
 @onready var audioPlayer: AudioStreamPlayer = $AudioStreamPlayer
-@onready var hornSound: AudioStreamMP3 = ResourceLoader.load("res://assets/sounds/misc/relaxing-music-original-viking-attacking-battle-horn-116623.mp3")
-@onready var mainBattleMusic: AudioStreamMP3 = ResourceLoader.load("res://assets/sounds/music/80s-retro-beat-001-17882.mp3")
+@onready var hornSound: AudioStreamMP3 = ResourceLoader.load("res://assets/sounds/misc/relaxing-music-original-viking-attacking-battle-horn-116623.mp3", "AudioStreamMP3")
+@onready var mainBattleMusic: AudioStreamMP3 = ResourceLoader.load("res://assets/sounds/music/80s-retro-beat-001-17882.mp3", "AudioStreamMP3")
 
 var readyPlayers: int = 0
 
@@ -68,7 +69,7 @@ func _ready() -> void:
 	if len(multiplayer.get_peers()):
 		await SignalBusScript._playerListReceived
 
-	for container: CenterContainer in [units, timeReference, readyCountdown, miniMap, unitButtons]:
+	for container: CenterContainer in [units, timeReference, readyCountdown, miniMap, unitButtons, selectedUnits]:
 		if not GameMetaDataScript.client.Faction == GameMetaDataScript.faction.GREY:
 			container.modulate = GameMetaDataScript.factionColor.get(int(GameMetaDataScript.client.Faction))
 
@@ -77,6 +78,8 @@ func _ready() -> void:
 	setupCountdown()
 
 	SignalBusScript._updatePing.connect(updatePing)
+	SignalBusScript._selectedUnitChanged.connect(changeUnitInfo)
+	SignalBusScript._unitSelected.connect(changeSelectedUnits)
 	audioPlayer.finished.connect(playMainMusic)
 
 	GameMetaDataScript.currentGameState = GameMetaDataScript.gameState.MATCH
@@ -86,7 +89,7 @@ func _process(_delta) -> void:
 	if Input.is_action_just_released("TAB"):
 		openUnitGroup.visible = not openUnitGroup.visible
 	
-	if UnitSelectionScript.selectedUnits.is_empty():
+	if UnitSelectionScript.selectedUnits.isEmpty():
 		unitButtons.visible = false
 	else:
 		unitButtons.visible = true
@@ -234,6 +237,52 @@ func setupPlayerList() -> void:
 			playerList.add_child(teamBox)
 		
 		playerList.get_node(str(player.Team)).add_child(infoNode)
+
+
+func changeUnitInfo(unit: Unit, v: bool) -> void:
+	selectedUnits.visible = v
+
+	if not v:
+		deselectAllUnits()
+		return
+	
+	var ap: Weapon = unit.weapons[UnitAttributesScript.weaponTypes.ARMORPENETRATION]
+	var heat: Weapon = unit.weapons[UnitAttributesScript.weaponTypes.HIGHEXPLOSIVE]
+	var small: Weapon = unit.weapons[UnitAttributesScript.weaponTypes.SMALLCALIBER]
+
+	var apVbox: VBoxContainer = selectedUnits.get_node("PanelContainer/MarginContainer/HBoxContainer/AP")
+	var heatVbox: VBoxContainer = selectedUnits.get_node("PanelContainer/MarginContainer/HBoxContainer/HEAT")
+	var smallVbox: VBoxContainer = selectedUnits.get_node("PanelContainer/MarginContainer/HBoxContainer/SMALLARMS")
+
+	for index in range(3):
+		if [ap, heat, small][index]:
+			[apVbox, heatVbox, smallVbox][index].get_node("TextureButton").texture_normal = [ap, heat, small][index].weaponTexture
+			[apVbox, heatVbox, smallVbox][index].get_node("Label").text = [ap, heat, small][index].name
+
+
+func changeSelectedUnits(unit: Unit, remove = false) -> void:
+	var root: VBoxContainer = selectedUnits.get_node("PanelContainer/MarginContainer/HBoxContainer/ScrollContainer/VBoxContainer")
+
+	if remove:
+		root.remove_node(unit.name)
+	else:
+		if root.has_node(NodePath(unit.name)):
+			return
+		
+		var unitButton: Button = Button.new()
+		unitButton.name = unit.name
+		unitButton.text = str(GameMetaDataScript.unitString[unit.unitName]) + " | " + str(unit.healthpoints)
+
+		unitButton.pressed.emit(changeUnitInfo, unit, true)
+
+		root.add_child(unitButton)
+
+
+func deselectAllUnits() -> void:
+	var root: VBoxContainer = selectedUnits.get_node("PanelContainer/MarginContainer/HBoxContainer/ScrollContainer/VBoxContainer")
+
+	for node: Node in root.get_children():
+		root.remove_child(node)
 
 
 func updatePing(ping: int, nodepath: String) -> void:
