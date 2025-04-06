@@ -7,6 +7,7 @@ func _init() -> void:
         14,
         "Tank Cannon (AP)",
         70,
+        8,
         UnitAttributesScript.distance[UnitAttributesScript.typeOfDistance.MEDIUM],
         ResourceLoader.load("res://assets/sprites/weapons/apfsds.png", "Texture2D")
     )

@@ -8,9 +8,9 @@ class_name Unit extends Node3D
 @onready var meshNode: MeshInstance3D = $Model/Cube
 @onready var fov: CollisionShape3D = $Model/FoV/CollisionShape3D
 @onready var rangeMesh: MeshInstance3D = $Model/Range
-@onready var timer: Timer = $Timer
+@onready var timer: Timer = $SpawnTime
+@onready var reloadTimer: Timer = $ReloadTime
 @onready var taskHandler: TaskHandler
-
 @onready var crosshair: Resource = load("res://assets/sprites/cursor/crosshair.png")
 
 var engineForce: float
@@ -20,7 +20,7 @@ var stealth: int
 var vision: int
 var viewDistance: int
 var viewDistanceSquared: int
-var healthpoints: int
+@export var healthpoints: int
 var enemyUnitsWithinViewDistance: Set
 var shootAtMode: bool
 
@@ -76,6 +76,12 @@ func _physics_process(delta):
 	taskHandler.callTask(delta)
 
 
+func _input(_event: InputEvent) -> void:
+	if UnitSelectionScript.selectedUnits.has(self) and Input.is_action_just_pressed("left_mouse_button") and shootAtMode:
+		Input.set_custom_mouse_cursor(null)
+		shootAt()
+
+
 func _unhandled_key_input(_event: InputEvent) -> void:
 	if UnitSelectionScript.selectedUnits.has(self) and Input.is_key_pressed(KEY_E):
 		taskHandler.clearTaskQueue()
@@ -88,13 +94,9 @@ func _unhandled_key_input(_event: InputEvent) -> void:
 		shootAtMode = not shootAtMode
 		[func(): Input.set_custom_mouse_cursor(null), func(): Input.set_custom_mouse_cursor(crosshair)][int(shootAtMode)].call()
 
-	if UnitSelectionScript.selectedUnits.has(self) and Input.is_action_just_pressed("left_mouse_button") and shootAtMode:
-		Input.set_custom_mouse_cursor(null)
-		shootAt()
-
 
 ## F = Force, engine force for vehicles and flying objects, running speed for infantry
-## oppositeF = -Force, engine force for vehicular reverse
+## oppositeF = -Force, engine force for (vehicular) reverse
 ## omega = rotational velocity, speed at which a unit rotates
 ## uName = unit name, intuitive string identifier
 ## inv = invisibility, value for stealth or how hard it is to see a unit
@@ -182,9 +184,9 @@ func driveToTarget(F: float) -> bool:
 
 
 ## rotates to face next position defined by pathfinder (= NavigationAgent)
-func rotateToTarget(F: float, d, dist: int = 16) -> bool:
-	if (marker.global_position - model.global_position).length_squared() <= dist:
-		return true
+func rotateToTarget(F: float, d, _dist: int = 16) -> bool:
+	#if (marker.global_position - model.global_position).length_squared() <= dist:
+	#	return true
 	
 	var direction = (nav.get_next_path_position() - model.global_position).normalized()
 	var angle: float
@@ -269,7 +271,10 @@ func getReachablePosition() -> bool:
 
 
 func unitEnteredFoV(unit: CollisionObject3D) -> void:
-	var enemyUnit = unit.get_parent()
+	if not unit.get_parent() is Unit:
+		return
+
+	var enemyUnit: Unit = unit.get_parent()
 	
 	if enemyUnit.team != team and enemyUnit.team != 0 and enemyUnit != self and playerUid == multiplayer.get_unique_id() and status == UnitAttributesScript.unitStatus.SPAWNED:
 		VisibilityScript.seeEnemyUnit(enemyUnit, self)
@@ -305,39 +310,57 @@ func getVision(pos: Vector3) -> int:
 		return 0
 
 
+#TODO: major rework
 func shootAtUnit(unit: Unit) -> bool:
 	var epos: Vector3 = unit.get_node("Model").global_position
-	var shootingRangeSquared = weapons[UnitAttributesScript.weaponTypes.ARMORPENETRATION].shootingRangeSquared if int(StdScript.sum(unit.armor.keys())) > 0  else weapons[UnitAttributesScript.weaponTypes.HIGHEXPLOSIVE].shootingRangeSquared
+	var softTarget = false if int(StdScript.sum(unit.armor.values())) > 0 else true
+	var weapon: Weapon = weapons[UnitAttributesScript.weaponTypes.ARMORPENETRATION] if not softTarget and weapons[UnitAttributesScript.weaponTypes.ARMORPENETRATION] else weapons[UnitAttributesScript.weaponTypes.HIGHEXPLOSIVE] if weapons[UnitAttributesScript.weaponTypes.HIGHEXPLOSIVE] else weapons[UnitAttributesScript.weaponTypes.SMALLCALIBER]
+
+	if not weapon or not weapon.isActive:
+		return true
+
+	var shootingRangeSquared: int = weapon.shootingRangeSquared
 
 	if abs((model.global_position - epos).length_squared()) > shootingRangeSquared:
 		var tSetTarget: Task = Task.new(Callable(self, "setTarget"), [epos], false)
 		var trotateAndApproach: Task = Task.new(Callable(self, "rotateAndApproach"), [engineForce, shootingRangeSquared], true)
 		taskHandler.pushMultipleTasks([tSetTarget, trotateAndApproach])
+	
+	if self == UnitSelectionScript.singleSelectedUnit:
+		SignalBusScript.selectedUnitChanged(self, true)
 		
 	return true
 
 
 func shootAt() -> void:
-	var mousePosition = get_viewport().get_mouse_position()
-	var origin = get_viewport().get_camera_3d().project_ray_origin(mousePosition)
-	var targetPosition = get_viewport().get_camera_3d().project_position(mousePosition, 1000)
+	var mousePosition: Vector2 = get_viewport().get_mouse_position()
+	var origin: Vector3 = get_viewport().get_camera_3d().project_ray_origin(mousePosition)
+	var targetPosition: Vector3 = get_viewport().get_camera_3d().project_position(mousePosition, 1000)
 	
-	var query = PhysicsRayQueryParameters3D.create(origin, targetPosition, 2, [self])
-	var result = get_world_3d().direct_space_state.intersect_ray(query)
+	var query: PhysicsRayQueryParameters3D = PhysicsRayQueryParameters3D.create(origin, targetPosition, 2, [self])
+	var result: Dictionary = get_world_3d().direct_space_state.intersect_ray(query)
 
-	var shootingRangeSquared = weapons[UnitAttributesScript.weaponTypes.MAINWEAPON].shootingRangeSquared
+	var shootingRangeSquared: int = weapons[UnitAttributesScript.weaponTypes.MAINWEAPON].shootingRangeSquared
 	
 	if result:
-		if abs((position - result.position).length_squared()) > shootingRangeSquared:
-			var tSetTarget: Task = Task.new(Callable(self, "setTarget"), [result.position], false)
-			var trotateAndApproach: Task = Task.new(Callable(self, "rotateAndApproach"), [engineForce, shootingRangeSquared], true)
-			taskHandler.pushMultipleTasks([tSetTarget, trotateAndApproach])
-		
+		var tSetTarget: Task = Task.new(Callable(self, "setTarget"), [result.position], false)
+		var trotateAndApproach: Task = Task.new(Callable(self, "rotateAndApproach"), [engineForce, shootingRangeSquared], true)
 		var tShoot: Task = Task.new(Callable(self, "shootAtPosition"), [result.position], false)
-		taskHandler.pushTask(tShoot)
+		taskHandler.pushMultipleTasks([tSetTarget, trotateAndApproach, tShoot])
 
 
-func shootAtPosition(_pos: Vector3) -> bool:
+func shootAtPosition(pos: Vector3) -> bool:
+	var weapon: Weapon = weapons[UnitAttributesScript.weaponTypes.MAINWEAPON]
+
+	if not weapon or not weapon.isActive:
+		return true
+
+	weapon.shootAt(self, panicValue, pos)
+	reloadWeapon(weapon)
+
+	if self == UnitSelectionScript.singleSelectedUnit:
+		SignalBusScript.selectedUnitChanged(self, true)
+	
 	return true
 
 
@@ -345,7 +368,54 @@ func getPanicStatus() -> String:
 	var identifier: String
 
 	for key: String in UnitAttributesScript.panicStatus:
-		if UnitAttributesScript.panicStatus[key] < panicValue:
+		if UnitAttributesScript.panicStatus[key] <= panicValue:
 			identifier = key
 	
 	return identifier
+
+
+@rpc("any_peer", "call_local", "reliable")
+func receiveDamage(ammoSerialized: Dictionary, directHit: bool = false) -> void:
+	var dmg: int
+
+	if directHit:
+		dmg = max(ammoSerialized.armorDamage - int(StdScript.sum(armor.values())), 1) if int(StdScript.sum(armor.values())) > 0 else ammoSerialized.highExplosiveDamage
+	else:
+		dmg = 0 if int(StdScript.sum(armor.values())) > 1 else 2
+
+	healthpoints -= dmg
+
+	receivePanic(ammoSerialized.panicAddend)
+
+	if healthpoints <= 0:
+		UnitSelectionScript.deselectUnit(self)
+		unitGetsDestroyed.rpc()
+	elif self == UnitSelectionScript.singleSelectedUnit:
+		SignalBusScript.selectedUnitChanged(self, true)
+	
+	SignalBusScript.unitReceivedDamaged(self)
+
+
+func receivePanic(panic: int) -> void:
+	panicValue -= panic
+
+
+## destroyed unit gets spawned multiple times?
+@rpc("any_peer", "call_local", "reliable")
+func unitGetsDestroyed() -> void:
+	var destroyedUnit: Node3D = ResourceLoader.load("res://scenes/units/destroyed_tank.tscn").instantiate()
+	get_parent().add_child(destroyedUnit)
+	destroyedUnit.global_position = model.global_position
+	destroyedUnit.global_rotation = model.global_rotation
+	destroyedUnit.get_node("tank/Cube").set_surface_override_material(0, ResourceLoader.load("res://assets/materials/destroyedUnit.tres"))
+	queue_free()
+
+
+func reloadWeapon(weapon: Weapon) -> void:
+	weapon.isActive = false
+	reloadTimer.wait_time = weapon.reloadTime
+	reloadTimer.start()
+
+	await reloadTimer.timeout
+
+	weapon.isActive = true

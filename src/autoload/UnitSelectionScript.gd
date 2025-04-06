@@ -46,9 +46,13 @@ func selectUnit(unit: Node3D) -> void:
 
 func selectMultipleUnitsThroughRigidBody(unitsRB: Array) -> void:
 	for model: VehicleBody3D in unitsRB:
-		var unit: Node3D = model.get_parent()
+		if not model.get_parent() is Unit:
+			continue
+
+		var unit: Unit = model.get_parent()
 		if unit.playerUid == multiplayer.get_unique_id():
 			selectUnit(unit)
+	
 	if GameMetaDataScript.currentBattlePhase == GameMetaDataScript.battlePhase.BATTLE and not selectedUnits.isEmpty():
 		singleSelectedUnit = selectedUnits.getData()[0]
 		SignalBusScript.selectedUnitChanged(singleSelectedUnit, true)

@@ -77,9 +77,10 @@ func _ready() -> void:
 	setupMatchTime()
 	setupCountdown()
 
-	SignalBusScript._updatePing.connect(updatePing)
 	SignalBusScript._selectedUnitChanged.connect(changeUnitInfo)
+	SignalBusScript._unitReceivedDamaged.connect(changeUnitHealthpoints)
 	SignalBusScript._unitSelected.connect(changeSelectedUnits)
+	SignalBusScript._updatePing.connect(updatePing)
 	audioPlayer.finished.connect(playMainMusic)
 
 	GameMetaDataScript.currentGameState = GameMetaDataScript.gameState.MATCH
@@ -245,7 +246,7 @@ func changeUnitInfo(unit: Unit, v: bool) -> void:
 	if not v:
 		deselectAllUnits()
 		return
-	
+			
 	var ap: Weapon = unit.weapons[UnitAttributesScript.weaponTypes.ARMORPENETRATION]
 	var heat: Weapon = unit.weapons[UnitAttributesScript.weaponTypes.HIGHEXPLOSIVE]
 	var small: Weapon = unit.weapons[UnitAttributesScript.weaponTypes.SMALLCALIBER]
@@ -257,14 +258,29 @@ func changeUnitInfo(unit: Unit, v: bool) -> void:
 	for index in range(3):
 		if [ap, heat, small][index]:
 			[apVbox, heatVbox, smallVbox][index].get_node("TextureButton").texture_normal = [ap, heat, small][index].weaponTexture
-			[apVbox, heatVbox, smallVbox][index].get_node("Label").text = [ap, heat, small][index].name
+			[apVbox, heatVbox, smallVbox][index].get_node("Label").text = [ap, heat, small][index].name + " - " + str([ap, heat, small][index].ammoCapacity)
 
 
+## changes the health
+func changeUnitHealthpoints(unit: Unit) -> void:
+	var buttonContainer: VBoxContainer = selectedUnits.get_node("PanelContainer/MarginContainer/HBoxContainer/ScrollContainer/VBoxContainer")
+
+	for button: Button in buttonContainer.get_children():
+		if button.name == unit.name:
+			button.text = str(GameMetaDataScript.unitString[unit.unitName]) + " | " + str(unit.healthpoints)
+			return
+
+
+## either adds or removes units, nothing else
 func changeSelectedUnits(unit: Unit, remove = false) -> void:
 	var root: VBoxContainer = selectedUnits.get_node("PanelContainer/MarginContainer/HBoxContainer/ScrollContainer/VBoxContainer")
 
 	if remove:
-		root.remove_node(unit.name)
+		if root.has_node(NodePath(unit.name)):
+			root.remove_child(root.get_node(NodePath(unit.name)))
+			
+			if not root.get_child_count():
+				selectedUnits.visible = false
 	else:
 		if root.has_node(NodePath(unit.name)):
 			return
@@ -273,7 +289,7 @@ func changeSelectedUnits(unit: Unit, remove = false) -> void:
 		unitButton.name = unit.name
 		unitButton.text = str(GameMetaDataScript.unitString[unit.unitName]) + " | " + str(unit.healthpoints)
 
-		unitButton.pressed.emit(changeUnitInfo, unit, true)
+		#unitButton.pressed.emit(changeUnitInfo, unit, true)
 
 		root.add_child(unitButton)
 

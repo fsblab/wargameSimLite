@@ -46,6 +46,9 @@ properties/1/replication_mode = 2
 properties/2/path = NodePath("Model:engine_force")
 properties/2/spawn = true
 properties/2/replication_mode = 2
+properties/3/path = NodePath(".:healthpoints")
+properties/3/spawn = true
+properties/3/replication_mode = 2
 
 [node name="TankUnit" type="Node3D"]
 process_mode = 1
@@ -116,10 +119,13 @@ script = ExtResource("6_sao7d")
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_q1e51")
 
-[node name="Timer" type="Timer" parent="."]
+[node name="SpawnTime" type="Timer" parent="."]
 wait_time = 5.0
+one_shot = true
+
+[node name="ReloadTime" type="Timer" parent="."]
 one_shot = true
 
 [connection signal="body_entered" from="Model/FoV" to="." method="unitEnteredFoV"]
 [connection signal="body_exited" from="Model/FoV" to="." method="unitExitedFoV"]
-[connection signal="timeout" from="Timer" to="." method="spawnUnitAtNearestSpawnpoint"]
+[connection signal="timeout" from="SpawnTime" to="." method="spawnUnitAtNearestSpawnpoint"]

@@ -1,4 +1,4 @@
-class_name UnitAttributesScript extends Object
+class_name UnitAttributesScript
 
 
 enum typeOfDistance {

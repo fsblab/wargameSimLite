@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://dyvsor8rs03vd"]
+
+[ext_resource type="PackedScene" uid="uid://dytfodmumhva7" path="res://assets/models/tank.glb" id="1_3mnx6"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_n434d"]
+size = Vector3(1.99463, 1.33508, 5.60817)
+
+[node name="DestroyedTank" type="Node3D"]
+
+[node name="tank" parent="." instance=ExtResource("1_3mnx6")]
+collision_mask = 3
+input_ray_pickable = false
+mass = 1.0
+sleeping = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="tank"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00244141, 0.783386, -0.175767)
+shape = SubResource("BoxShape3D_n434d")

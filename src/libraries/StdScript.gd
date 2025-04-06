@@ -1,4 +1,4 @@
-class_name StdScript extends Object
+class_name StdScript
 
 
 static var editableNodes: Array[String] = ["LineEdit", "TextEdit", "SpinBox"]

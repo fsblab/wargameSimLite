@@ -1,0 +1,40 @@
+[gd_scene load_steps=5 format=3 uid="uid://djw6knm5md1qh"]
+
+[ext_resource type="Script" path="res://src/weapons/ProjectileScript.gd" id="1_07fcb"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_4pxlg"]
+radius = 0.1
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ldwsc"]
+emission_enabled = true
+emission = Color(1, 1, 0, 1)
+emission_energy_multiplier = 16.0
+
+[sub_resource type="SphereMesh" id="SphereMesh_4k72x"]
+material = SubResource("StandardMaterial3D_ldwsc")
+radius = 0.05
+height = 0.1
+radial_segments = 8
+rings = 8
+
+[node name="Projectile" type="Node3D"]
+script = ExtResource("1_07fcb")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+visible = false
+
+[node name="BlastArea" type="Area3D" parent="."]
+collision_layer = 3
+collision_mask = 3
+input_ray_pickable = false
+
+[node name="BlastRadius" type="CollisionShape3D" parent="BlastArea"]
+shape = SubResource("SphereShape3D_4pxlg")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("SphereMesh_4k72x")
+
+[node name="selfDestructIfNothingIsHit" type="Timer" parent="."]
+wait_time = 10.0
+one_shot = true
+autostart = true

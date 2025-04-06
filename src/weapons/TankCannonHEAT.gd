@@ -7,6 +7,7 @@ func _init() -> void:
         10,
         "Tank Cannon (HEAT)",
         70,
+        8,
         UnitAttributesScript.distance[UnitAttributesScript.typeOfDistance.MEDIUM],
         ResourceLoader.load("res://assets/sprites/weapons/heat.png", "Texture2D")
     )
