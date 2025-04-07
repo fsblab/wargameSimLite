@@ -3,7 +3,7 @@ class_name TankCannonHEAT extends Weapon
 
 func _init() -> void:
     super(
-        Ammunition.new(8, 2, 2, "HEAT", 10),
+        Ammunition.new(8, 1, 2, "HEAT", 10),
         10,
         "Tank Cannon (HEAT)",
         70,

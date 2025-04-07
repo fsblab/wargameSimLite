@@ -45,7 +45,7 @@ func shoot(unit: Unit, panic: int, enemyUnit: Unit) -> void:
     
     var position: Vector3 = determinePosition(enemyUnit.global_position, getPrecision(panic))
 
-    ammo.shoot(unit, position, unit)
+    ammo.shoot(unit, position)
 
     if position == enemyUnit.global_position:
         var hasArmor = true if int(StdScript.sum(enemyUnit.armor.values())) else false

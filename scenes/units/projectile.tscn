@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://djw6knm5md1qh"]
+[gd_scene load_steps=16 format=3 uid="uid://djw6knm5md1qh"]
 
 [ext_resource type="Script" path="res://src/weapons/ProjectileScript.gd" id="1_07fcb"]
 
@@ -17,11 +17,54 @@ height = 0.1
 radial_segments = 8
 rings = 8
 
+[sub_resource type="Gradient" id="Gradient_v3l7e"]
+offsets = PackedFloat32Array(0, 0.581818, 0.754545)
+colors = PackedColorArray(1, 1, 0, 1, 1, 0.678431, 0, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_xe8h8"]
+gradient = SubResource("Gradient_v3l7e")
+
+[sub_resource type="Curve" id="Curve_k6ppt"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveXYZTexture" id="CurveXYZTexture_hhvhm"]
+curve_y = SubResource("Curve_k6ppt")
+
+[sub_resource type="Curve" id="Curve_6u8jt"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_8ykxu"]
+curve = SubResource("Curve_6u8jt")
+
+[sub_resource type="Curve" id="Curve_oodxn"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.137681, 1), 0.0, 0.0, 0, 0, Vector2(0.311594, 1), 0.0, 0.0, 0, 0, Vector2(0.963768, 0), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_iaxs7"]
+curve = SubResource("Curve_oodxn")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_206eq"]
+directional_velocity_min = 1.99998
+directional_velocity_max = 1.99998
+directional_velocity_curve = SubResource("CurveXYZTexture_hhvhm")
+gravity = Vector3(0, 0, 0)
+scale_curve = SubResource("CurveTexture_iaxs7")
+color = Color(1, 0.290196, 0, 1)
+color_ramp = SubResource("GradientTexture1D_xe8h8")
+emission_curve = SubResource("CurveTexture_8ykxu")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_shjll"]
+vertex_color_use_as_albedo = true
+
+[sub_resource type="SphereMesh" id="SphereMesh_y3r7m"]
+material = SubResource("StandardMaterial3D_shjll")
+radial_segments = 32
+rings = 16
+
 [node name="Projectile" type="Node3D"]
 script = ExtResource("1_07fcb")
-
-[node name="OmniLight3D" type="OmniLight3D" parent="."]
-visible = false
 
 [node name="BlastArea" type="Area3D" parent="."]
 collision_layer = 3
@@ -38,3 +81,10 @@ mesh = SubResource("SphereMesh_4k72x")
 wait_time = 10.0
 one_shot = true
 autostart = true
+
+[node name="Particle" type="GPUParticles3D" parent="."]
+emitting = false
+amount = 1
+one_shot = true
+process_material = SubResource("ParticleProcessMaterial_206eq")
+draw_pass_1 = SubResource("SphereMesh_y3r7m")

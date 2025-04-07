@@ -235,10 +235,14 @@ size_flags_horizontal = 3
 
 [node name="RichTextLabel" type="RichTextLabel" parent="CenterContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/row2/MainMenuMusic/PanelContainer/MarginContainer/CreatedBy"]
 layout_mode = 2
+text = "Special Effect (Explosion)
+DavidDumaisAudio"
 fit_content = true
 
 [node name="LinkButton" type="LinkButton" parent="CenterContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/row2/MainMenuMusic/PanelContainer/MarginContainer/CreatedBy"]
 layout_mode = 2
+text = "pixabay"
+uri = "https://pixabay.com/sound-effects/large-underwater-explosion-190270/"
 
 [node name="PreBattleMusic" type="VBoxContainer" parent="CenterContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/row2"]
 layout_mode = 2

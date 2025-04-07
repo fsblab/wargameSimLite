@@ -23,6 +23,7 @@ var viewDistanceSquared: int
 @export var healthpoints: int
 var enemyUnitsWithinViewDistance: Set
 var shootAtMode: bool
+var shootFrom: Vector3
 
 var team: int
 var playerUid: int
@@ -52,6 +53,7 @@ func _ready() -> void:
 	meshNode.set_surface_override_material(0, UnitSelectionScript.unitPlacementMaterial)
 	status = UnitAttributesScript.unitStatus.PLACED
 	panicValue = 100
+	shootFrom = Vector3(0, 1, 0)
 
 	taskHandler = TaskHandler.new()
 	marker.global_position = model.global_position
@@ -400,7 +402,6 @@ func receivePanic(panic: int) -> void:
 	panicValue -= panic
 
 
-## destroyed unit gets spawned multiple times?
 @rpc("any_peer", "call_local", "reliable")
 func unitGetsDestroyed() -> void:
 	var destroyedUnit: Node3D = ResourceLoader.load("res://scenes/units/destroyed_tank.tscn").instantiate()
