@@ -1,6 +1,7 @@
 class_name Unit extends Node3D
 
 
+# onready variables
 @onready var nav: NavigationAgent3D = $Model/NavigationAgent3D
 @onready var model: VehicleBody3D = $Model
 @onready var wheel: VehicleWheel3D = $Model/VehicleWheel3D
@@ -11,8 +12,8 @@ class_name Unit extends Node3D
 @onready var timer: Timer = $SpawnTime
 @onready var reloadTimer: Timer = $ReloadTime
 @onready var taskHandler: TaskHandler
-@onready var crosshair: Resource = load("res://assets/sprites/cursor/crosshair.png")
 
+# setup variables
 var engineForce: float
 var engineForceReverse: float
 var rotationVelocity: int
@@ -23,13 +24,17 @@ var viewDistanceSquared: int
 @export var healthpoints: int
 var enemyUnitsWithinViewDistance: Set
 var shootAtMode: bool
-var shootFrom: Vector3
 
+# determined during spawn variables
 var team: int
 var playerUid: int
 var unitName: GameMetaDataScript.unitName
 var faction: GameMetaDataScript.faction
+var status: UnitAttributesScript.unitStatus
+var panicValue: int
+var shootFrom: Vector3
 
+# set in child classes
 var weapons: Dictionary = {
 	UnitAttributesScript.weaponTypes.MAINWEAPON: null,
 	UnitAttributesScript.weaponTypes.ARMORPENETRATION: null,
@@ -44,9 +49,6 @@ var armor: Dictionary = {
 	"TOP" = 0
 }
 
-var status: UnitAttributesScript.unitStatus
-var panicValue: int
-
 
 func _ready() -> void:
 	add_to_group("units")
@@ -54,12 +56,12 @@ func _ready() -> void:
 	status = UnitAttributesScript.unitStatus.PLACED
 	panicValue = 100
 	shootFrom = Vector3(0, 1, 0)
+	playerUid = GameMetaDataScript.client.uid
+	shootAtMode = false
+	marker.global_position = model.global_position
 
 	taskHandler = TaskHandler.new()
-	marker.global_position = model.global_position
-	playerUid = GameMetaDataScript.client.uid
 	enemyUnitsWithinViewDistance = Set.new()
-	shootAtMode = false
 
 	model.get_node("Selected").mesh.material.set("size", float(model.get_node("Selected").mesh.size.x))
 
@@ -81,20 +83,20 @@ func _physics_process(delta):
 func _input(_event: InputEvent) -> void:
 	if UnitSelectionScript.selectedUnits.has(self) and Input.is_action_just_pressed("left_mouse_button") and shootAtMode:
 		Input.set_custom_mouse_cursor(null)
-		shootAt()
+		loadShootAtPositionIntoTaskHandler()
 
 
 func _unhandled_key_input(_event: InputEvent) -> void:
-	if UnitSelectionScript.selectedUnits.has(self) and Input.is_key_pressed(KEY_E):
+	if UnitSelectionScript.selectedUnits.has(self) and Input.is_physical_key_pressed(KEY_E):
 		taskHandler.clearTaskQueue()
 		marker.global_position = model.global_position
 
-	if UnitSelectionScript.selectedUnits.has(self) and Input.is_key_pressed(KEY_C):
+	if UnitSelectionScript.selectedUnits.has(self) and Input.is_physical_key_pressed(KEY_C):
 		rangeMesh.visible = not rangeMesh.visible
 	
-	if UnitSelectionScript.selectedUnits.has(self) and Input.is_key_pressed(KEY_T):
+	if UnitSelectionScript.selectedUnits.has(self) and Input.is_physical_key_pressed(KEY_T):
 		shootAtMode = not shootAtMode
-		[func(): Input.set_custom_mouse_cursor(null), func(): Input.set_custom_mouse_cursor(crosshair)][int(shootAtMode)].call()
+		[func(): Input.set_custom_mouse_cursor(null), func(): Input.set_custom_mouse_cursor(StdScript.crosshair, Input.CursorShape.CURSOR_ARROW, Vector2(16, 16))][int(shootAtMode)].call()
 
 
 ## F = Force, engine force for vehicles and flying objects, running speed for infantry
@@ -218,6 +220,7 @@ func rotateToTarget(F: float, d, _dist: int = 16) -> bool:
 	return false
 
 
+## for right click on some surface to move towards
 func rotateAndMove(F: float, d) -> bool:
 	var rtt = rotateToTarget(F, d)
 	var mtt = driveToTarget(F)
@@ -237,16 +240,40 @@ func approachTarget(F: float) -> bool:
 	return false
 
 
+## for left click while in shooting at position mode
 func rotateAndApproach(F: float, srange: int, d) -> bool:
 	var rtt = rotateToTarget(F, d, srange)
 	var mtt = approachTarget(F)
 	return rtt and mtt
 
 
+## for right click on enemy unit
+func huntEnemy(F: float, srange: int, enemyUnit: Unit, d: float) -> bool:
+	var st = setTargetOnEnemy(enemyUnit)
+	var rtt = rotateToTarget(F, d, srange)
+	var mtt = approachTarget(F)
+	return st and rtt and mtt
+
+
+
 ## sets target position i.e. position that unit is expected to move towards
 func setTarget(pos: Vector3) -> bool:
 	marker.global_position = pos
 	nav.target_position = pos
+
+	if not getReachablePosition():
+		marker.global_position = model.global_position
+	
+	return true
+
+
+## sets target position on enemy position to hunt enemy in case it is moving, stops hunt when enemy outside of visible enemy units
+func setTargetOnEnemy(enemyUnit: Unit) -> bool:
+	if not VisibilityScript.visibleEmemyUnits.has(enemyUnit):
+		return true
+
+	marker.global_position = enemyUnit.model.global_position
+	nav.target_position = enemyUnit.model.global_position
 
 	if not getReachablePosition():
 		marker.global_position = model.global_position
@@ -312,29 +339,42 @@ func getVision(pos: Vector3) -> int:
 		return 0
 
 
-#TODO: major rework
-func shootAtUnit(unit: Unit) -> bool:
-	var epos: Vector3 = unit.get_node("Model").global_position
-	var softTarget = false if int(StdScript.sum(unit.armor.values())) > 0 else true
-	var weapon: Weapon = weapons[UnitAttributesScript.weaponTypes.ARMORPENETRATION] if not softTarget and weapons[UnitAttributesScript.weaponTypes.ARMORPENETRATION] else weapons[UnitAttributesScript.weaponTypes.HIGHEXPLOSIVE] if weapons[UnitAttributesScript.weaponTypes.HIGHEXPLOSIVE] else weapons[UnitAttributesScript.weaponTypes.SMALLCALIBER]
+func isWeaponUsable(weapon: Weapon) -> bool:
+	return weapon and weapon.ammoCapacity and weapon.isActive
 
-	if not weapon or not weapon.isActive:
-		return true
+
+func loadShootAtEnemyIntoTaskHandler(enemyUnit: Unit) -> void:
+	var softTarget = false if int(StdScript.sum(enemyUnit.armor.values())) > 0 else true
+	var weapon: Weapon = weapons[UnitAttributesScript.weaponTypes.ARMORPENETRATION] if not softTarget and isWeaponUsable(weapons[UnitAttributesScript.weaponTypes.ARMORPENETRATION]) else weapons[UnitAttributesScript.weaponTypes.SMALLCALIBER] if isWeaponUsable(weapons[UnitAttributesScript.weaponTypes.SMALLCALIBER]) else weapons[UnitAttributesScript.weaponTypes.HIGHEXPLOSIVE]
+
+	if not isWeaponUsable(weapon):
+		return
 
 	var shootingRangeSquared: int = weapon.shootingRangeSquared
 
-	if abs((model.global_position - epos).length_squared()) > shootingRangeSquared:
-		var tSetTarget: Task = Task.new(Callable(self, "setTarget"), [epos], false)
-		var trotateAndApproach: Task = Task.new(Callable(self, "rotateAndApproach"), [engineForce, shootingRangeSquared], true)
-		taskHandler.pushMultipleTasks([tSetTarget, trotateAndApproach])
-	
+	var trotateAndApproach: Task = Task.new(Callable(self, "huntEnemy"), [engineForce, shootingRangeSquared, enemyUnit], true)
+	var tShoot: Task = Task.new(Callable(self, "shootAtEnemy"), [weapon, enemyUnit], false)
+	taskHandler.pushMultipleTasks([trotateAndApproach, tShoot])
+
+
+func shootAtEnemy(weapon: Weapon, enemyUnit: Unit) -> bool:
+	if not VisibilityScript.visibleEmemyUnits.has(enemyUnit) or not enemyUnitsWithinViewDistance.has(enemyUnit.model):
+		return true
+	elif not weapon:
+		return true
+	elif not weapon.isActive:
+		return false
+
+	weapon.shootAtEnemy(self, panicValue, enemyUnit)
+	reloadWeapon(weapon)
+
 	if self == UnitSelectionScript.singleSelectedUnit:
 		SignalBusScript.selectedUnitChanged(self, true)
-		
+	
 	return true
 
 
-func shootAt() -> void:
+func loadShootAtPositionIntoTaskHandler() -> void:
 	var mousePosition: Vector2 = get_viewport().get_mouse_position()
 	var origin: Vector3 = get_viewport().get_camera_3d().project_ray_origin(mousePosition)
 	var targetPosition: Vector3 = get_viewport().get_camera_3d().project_position(mousePosition, 1000)
@@ -351,13 +391,13 @@ func shootAt() -> void:
 		taskHandler.pushMultipleTasks([tSetTarget, trotateAndApproach, tShoot])
 
 
-func shootAtPosition(pos: Vector3) -> bool:
-	var weapon: Weapon = weapons[UnitAttributesScript.weaponTypes.MAINWEAPON]
-
-	if not weapon or not weapon.isActive:
+func shootAtPosition(pos: Vector3, weapon = weapons[UnitAttributesScript.weaponTypes.MAINWEAPON]) -> bool:
+	if not weapon:
 		return true
+	elif not weapon.isActive:
+		return false
 
-	weapon.shootAt(self, panicValue, pos)
+	weapon.shootAtPosition(self, panicValue, pos)
 	reloadWeapon(weapon)
 
 	if self == UnitSelectionScript.singleSelectedUnit:
@@ -387,14 +427,13 @@ func receiveDamage(ammoSerialized: Dictionary, directHit: bool = false) -> void:
 
 	healthpoints -= dmg
 
-	receivePanic(ammoSerialized.panicAddend)
-
 	if healthpoints <= 0:
 		UnitSelectionScript.deselectUnit(self)
 		unitGetsDestroyed.rpc()
 	elif self == UnitSelectionScript.singleSelectedUnit:
 		SignalBusScript.selectedUnitChanged(self, true)
 	
+	receivePanic(ammoSerialized.panicAddend)
 	SignalBusScript.unitReceivedDamaged(self)
 
 

@@ -15,7 +15,7 @@ func _ready():
 	viewport = get_viewport()
 	cam = viewport.get_camera_3d()
 	
-	rootNode = get_node(get_meta("RootNode"))
+	rootNode = get_parent()
 
 
 func _physics_process(delta):

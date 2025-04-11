@@ -39,17 +39,16 @@ func getPrecision(panic: int) -> int:
     return int(precision * (panic / 100.))
 
 
-func shoot(unit: Unit, panic: int, enemyUnit: Unit) -> void:
+func shootAtEnemy(unit: Unit, panic: int, enemyUnit: Unit) -> void:
     if not isActive:
         return
     
-    var position: Vector3 = determinePosition(enemyUnit.global_position, getPrecision(panic))
+    var position: Vector3 = determinePosition(enemyUnit.model.global_position, getPrecision(panic))
 
-    ammo.shoot(unit, position)
-
-    if position == enemyUnit.global_position:
-        var hasArmor = true if int(StdScript.sum(enemyUnit.armor.values())) else false
-        enemyUnit.applyDamaged(ammo.armorDamage if hasArmor else ammo.highExplosiveDamage)
+    if position.is_equal_approx(enemyUnit.model.global_position):
+        ammo.shootEnemy(unit, enemyUnit)
+    else:
+        ammo.shootPos(unit, position)
     
     ammoCapacity -= 1
 
@@ -58,13 +57,13 @@ func shoot(unit: Unit, panic: int, enemyUnit: Unit) -> void:
         return
 
 
-func shootAt(unit: Unit, panic: int, pos: Vector3) -> void:
+func shootAtPosition(unit: Unit, panic: int, pos: Vector3) -> void:
     if not isActive:
         return
     
     var position: Vector3 = determinePosition(pos, getPrecision(panic))
 
-    ammo.shoot(unit, position)
+    ammo.shootPos(unit, position)
 
     ammoCapacity -= 1
 

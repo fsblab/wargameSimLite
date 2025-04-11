@@ -24,8 +24,13 @@ func serialize() -> Dictionary:
 ## startPos = Starting Position - point in space where the projectile is fired from
 ## destPos = Destination Position - point in space where the projectile is flying towards
 ## ignoreUnit = Ignore Unit - unit that is to be hit directly, thus not subject to additional explosive damage within the blast radius and to be ignored in that context
-func shoot(unit: Unit, destPos: Vector3) -> void:
+func shootPos(unit: Unit, destPos: Vector3) -> void:
     var direction = (destPos - (unit.model.global_position + unit.shootFrom)).normalized()
     projectile = ResourceLoader.load("res://scenes/units/projectile.tscn").instantiate()
-    projectile.setup(40, unit.model, direction, self)
-    projectile.fire()
+    projectile.fire(40, unit.model, direction, self)
+
+
+func shootEnemy(unit: Unit, enemy: Unit) -> void:
+    var direction = (enemy.model.global_position - (unit.model.global_position + unit.shootFrom)).normalized()
+    projectile = ResourceLoader.load("res://scenes/units/projectile.tscn").instantiate()
+    projectile.fire(40, unit.model, direction, self)

@@ -4,6 +4,8 @@ class_name StdScript
 static var editableNodes: Array[String] = ["LineEdit", "TextEdit", "SpinBox"]
 static var disableableNodes: Array[String] = ["BaseButton"]
 
+static var crosshair: Resource = load("res://assets/sprites/cursor/crosshair.png")
+
 
 static func any(arrayOfBool: Array) -> bool:
 	for i in arrayOfBool:

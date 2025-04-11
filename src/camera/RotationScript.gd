@@ -6,7 +6,7 @@ var rootNode: Node3D
 
 func _ready():
 	rotationScalar = 2
-	rootNode = get_node(get_meta("RootNode"))
+	rootNode = get_parent()
 
 
 func _process(delta):
