@@ -317,6 +317,9 @@ func unitExitedFoV(unit: CollisionObject3D) -> void:
 
 
 func checkVisibilityOfUnits() -> void:
+	if enemyUnitsWithinViewDistance.getData().is_empty():
+		return
+	
 	for enemy: CollisionObject3D in enemyUnitsWithinViewDistance.getData():
 		var enemyUnit = enemy.get_parent()
 		
@@ -324,6 +327,19 @@ func checkVisibilityOfUnits() -> void:
 			VisibilityScript.seeEnemyUnit(enemyUnit, self)
 		else:
 			VisibilityScript.unseeEnemyUnit(enemyUnit, self)
+	
+	var firstBestVisibleEnemyUnitWithinShootingRange: Unit
+
+	for enemy: PhysicsBody3D in enemyUnitsWithinViewDistance.getData():
+		if VisibilityScript.visibleEmemyUnits.has(enemy.get_parent()):
+			firstBestVisibleEnemyUnitWithinShootingRange = enemy.get_parent()
+			break
+	
+	if not firstBestVisibleEnemyUnitWithinShootingRange:
+		return
+
+	if taskHandler.isEmpty():
+		loadShootAtEnemyIntoTaskHandler(firstBestVisibleEnemyUnitWithinShootingRange)
 
 
 func getVision(pos: Vector3) -> int:
